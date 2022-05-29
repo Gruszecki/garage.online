@@ -11,12 +11,12 @@ def get_genres():
         (5, 'muzyka akustyczna'),
         (6, 'muzyka elektroniczna'),
         (7, 'rap'),
-        (8, 'jazz')
+        (8, 'jazz'),
     }
 
     return genres
 
 
 def get_countries():
-    countries = dict(countries_for_language('pl'))
+    countries = countries_for_language('pl')
     return countries

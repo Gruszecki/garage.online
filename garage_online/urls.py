@@ -13,14 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# garage_online/urls.py
 
-# garage_project/urls.py
-
-from django.contrib import admin
 from django.urls import path
+from garage_online import views
 from django.conf.urls import include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('garage_online.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('dashboard/', views.dashboard, name='dashboard')
 ]
