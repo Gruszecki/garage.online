@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% load bootstrap %}
-{% block title %}Garage | rejestracja{% endblock %}
+{% block title %}Garage | nowy zespół{% endblock %}
 
 {% block body %}
 
 <div align="center">
-    <div class="card" style="width: 18rem;" align="left">
+    <div class="card" style="width: 26rem;" align="left">
         <div class="card-body">
             <h5 class="card-title">Register</h5>
             <form method="post">
                 {% csrf_token %}
                 {{ form|bootstrap }}
                 <br>
-                <button type="submit" class="btn btn-outline-dark">Register</button>
+                <button type="submit" class="btn btn-outline-dark">Dodaj zespół</button>
             </form>
         </div>
     </div>
