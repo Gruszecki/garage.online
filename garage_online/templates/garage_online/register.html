@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Garage | register{% endblock %}
+
+{% block body %}
+
+<div align="center">
+    <div class="card" style="width: 18rem;" align="left">
+        <div class="card-body">
+            <h5 class="card-title">Register</h5>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <br>
+                <button type="submit" class="btn btn-outline-dark">Register</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <a href="{% url 'login' %}">Wróć na stronę logowania</a>
+</div>
+
+{% endblock %}
