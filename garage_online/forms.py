@@ -9,7 +9,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields + ('email',)
 
 
-class BandCreationForm(ModelForm):
+class BandForm(ModelForm):
     class Meta:
         model = Band
         fields = ['name', 'short_desc', 'long_desc', 'genre', 'image', 'country', 'city', 'is_active', 'tags']

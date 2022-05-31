@@ -1,13 +1,18 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
-from garage_online.forms import CustomUserCreationForm, BandCreationForm
+from .forms import BandForm
+
+from .models import Band
+
+from garage_online.forms import CustomUserCreationForm, BandForm
 
 
 # Create your views here.
 def dashboard(request):
-    return render(request, 'garage_online/dashboard.html')
+    bands = Band.objects.filter(user=request.user) if request.user.is_authenticated else None
+    return render(request, 'garage_online/dashboard.html', {'bands': bands})
 
 
 def register(request):
@@ -30,11 +35,11 @@ def new_band(request):
     if request.method == 'GET':
         return render(
             request,
-            'garage_online/new_band.html',
-            {'form': BandCreationForm}
+            'garage_online/band.html',
+            {'form': BandForm}
         )
     elif request.method == 'POST':
-        form = BandCreationForm(request.POST)
+        form = BandForm(request.POST, request.FILES)
         if form.is_valid():
             band = form.save()
             request.user.bands.add(band)
@@ -42,3 +47,19 @@ def new_band(request):
         else:
             print('Adding new band failed:', form.errors, sep='\n')
             return redirect(dashboard)
+
+
+@login_required()
+def edit_band(request, id):
+    band = get_object_or_404(Band, pk=id)
+    band_form = BandForm(request.POST or None, request.FILES or None, instance=band)
+
+    if request.method == 'POST':
+        if band_form.is_valid():
+            band_form.save()
+            return redirect(dashboard)
+        else:
+            print('Editing band failed:', band_form.errors, sep='\n')
+            return redirect(dashboard)
+
+    return render(request, 'garage_online/band.html', {'form': band_form})

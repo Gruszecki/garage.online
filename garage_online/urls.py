@@ -24,4 +24,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('register/', views.register, name='register'),
     path('new_band/', views.new_band, name='new_band'),
+    path('edit_band/<int:id>', views.edit_band, name='edit_band'),
+
 ]

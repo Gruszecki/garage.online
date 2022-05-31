@@ -133,8 +133,8 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'dashboard'
 
 # Media
-MEDIA_URL = 'media/'
-MEDIA_ROOT = 'my-media'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'garange_online_media'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
