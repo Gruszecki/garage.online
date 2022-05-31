@@ -36,7 +36,10 @@ def new_band(request):
         return render(
             request,
             'garage_online/band.html',
-            {'form': BandForm}
+            {
+                'form': BandForm,
+                'is_new': True
+            }
         )
     elif request.method == 'POST':
         form = BandForm(request.POST, request.FILES)
@@ -50,8 +53,8 @@ def new_band(request):
 
 
 @login_required()
-def edit_band(request, id):
-    band = get_object_or_404(Band, pk=id)
+def edit_band(request, name):
+    band = get_object_or_404(Band, pk=Band.objects.get(name=name).id)
     band_form = BandForm(request.POST or None, request.FILES or None, instance=band)
 
     if request.method == 'POST':
@@ -61,5 +64,17 @@ def edit_band(request, id):
         else:
             print('Editing band failed:', band_form.errors, sep='\n')
             return redirect(dashboard)
+    elif request.method == 'GET':
+        return render(
+            request,
+            'garage_online/band.html',
+            {
+                'form': band_form,
+                'is_new': False
+            }
+        )
 
-    return render(request, 'garage_online/band.html', {'form': band_form})
+
+def all_bands(request):
+    bands = Band.objects.all()
+    return render(request, 'garage_online/all_bands.html', {'bands': bands})

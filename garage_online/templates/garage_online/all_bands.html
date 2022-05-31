@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Garage | przegląd{% endblock %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">Przejdź na dashboard</a><br>
+        <a href="{% url 'logout' %}">Wyloguj</a><br>
+    {% else %}
+        <a href="{% url 'login' %}">Zaloguj</a><br>
+    {% endif %}
+    <br>
+
+
+    {% if bands|length == 0 %}
+        <p>Wygląda na to, że zespoły dopiero tworzą swój materiał i jeszcze nie mają się czym pochwalić. Ale trzymajmy za nich kciuki. W końcu to dla nas to robią.<br>DZIĘKUJEMY WAM, MŁODE ZESPOŁY!</p>
+    {% else %}
+       {% for band in bands %}
+            <div align="center">
+                <div class="card" style="width: 64rem" align="left">
+                    <div class="card-body">
+<!--Band name-->
+                        {{ band.name }}<br>
+<!--Band photo-->
+                        <div>
+                            <img src="/media/{{band.image}}" style="float: left" class="band-photo-small" data-bs-toggle="modal" data-bs-target="#image{{band.id}}">
+                        </div>
+                        <div class="modal fade" id="image{{band.id}}" tabindex="-1" aria-labelledby="image{{band.id}}Label" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="image{{band.id}}Label">{{ band.name }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="/media/{{band.image}}" class="band-photo" data-bs-toggle="modal" data-bs-target="#imagePreviewModal">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" data-bs-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+<!--Short description-->
+                        {{ band.short_desc }}<br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

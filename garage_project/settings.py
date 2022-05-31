@@ -129,12 +129,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom login
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'all_bands'
+LOGOUT_REDIRECT_URL = 'all_bands'
 
 # Media
 MEDIA_URL = '/media/'
-MEDIA_ROOT = 'garange_online_media'
+MEDIA_ROOT = '/garage_online_media'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

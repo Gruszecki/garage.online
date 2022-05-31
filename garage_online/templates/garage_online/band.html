@@ -1,23 +1,37 @@
 {% extends 'base.html' %}
 {% load bootstrap %}
-{% block title %}Garage | nowy zespół{% endblock %}
+
+{% block title %}Garage | no co tam?{% endblock %}
 
 {% block body %}
 
 <div align="center">
     <div class="card" style="width: 26rem;" align="left">
         <div class="card-body">
-            <h5 class="card-title">Register</h5>
-            <form method="post", enctype="multipart/form-data">
+            <h5 class="card-title">
+                {% if is_new %}
+                    Nowy zespół w Garażu! Cześć!
+                {% else %}
+                    Co poprawiamy, kierowniku?
+                {% endif %}
+            </h5>
+
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|bootstrap }}
                 <br>
-                <button type="submit" class="btn btn-outline-dark">Dodaj zespół</button>
+                <button type="submit" class="btn btn-outline-dark">
+                    {% if is_new %}
+                        Dodaj zespół
+                    {% else %}
+                        Poprawione
+                    {% endif %}
+                </button>
             </form>
         </div>
     </div>
     <br>
-    <a href="{% url 'login' %}">Wróć na stronę logowania</a>
+    <a href="{% url 'dashboard' %}">Wróć na dashboard</a>
 </div>
 
 {% endblock %}
