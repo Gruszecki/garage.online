@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Band(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
+    contact_email = models.EmailField(null=True, blank=True)
+    show_contact_email = models.BooleanField(default=True)
     short_desc = models.TextField(max_length=150, null=False, blank=False)
     long_desc = models.TextField(null=False, blank=False)
     genre = models.PositiveSmallIntegerField(choices=choices.get_genres(), default=0)
