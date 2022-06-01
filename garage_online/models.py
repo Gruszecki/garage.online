@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Band(models.Model):
-
     name = models.CharField(max_length=100, null=False, blank=False)
     short_desc = models.TextField(max_length=150, null=False, blank=False)
     long_desc = models.TextField(null=False, blank=False)
@@ -20,3 +19,4 @@ class Band(models.Model):
 
     def __str__(self):
         return self.name
+

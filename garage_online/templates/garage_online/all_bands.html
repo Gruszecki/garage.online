@@ -20,7 +20,9 @@
                 <div class="card" style="width: 64rem" align="left">
                     <div class="card-body">
 <!--Band name-->
-                        {{ band.name }}<br>
+                        <a href="{% url 'band_details' band.name %}">
+                            {{ band.name }}
+                        </a><br>
 <!--Band photo-->
                         <div>
                             <img src="/media/{{band.image}}" style="float: left" class="band-photo-small" data-bs-toggle="modal" data-bs-target="#image{{band.id}}">

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Garage | {{ band.name }}{% endblock %}
+
+{% block body %}
+    <a href="{% url 'all_bands' %}">Przegląd</a><br>
+    {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">Przejdź na dashboard</a><br>
+        <a href="{% url 'logout' %}">Wyloguj</a><br>
+    {% else %}
+        <a href="{% url 'login' %}">Zaloguj</a><br>
+    {% endif %}
+    <br>
+        <div align="center">
+            <div class="card" style="width: 64rem" align="left">
+                <div class="card-body">
+<!--Band photo-->
+                    <img src="/media/{{band.image}}" style="float: center" class="band-photo" data-bs-toggle="modal" data-bs-target="#image{{band.id}}">
+                    <br>
+<!--Band name-->
+                    <h5 style="text-align: center">{{ band.name }}</h5>
+                    <br>
+<!--Short description-->
+                    {{ band.long_desc }}<br>
+                    <br>
+                    Gatunek: {{ band.get_genre_display }}<br>
+                    Kraj: {{ band.get_country_display }}<br>
+                    Miejscowość: {{ band.city }}<br>
+                    Aktywny:
+                    {% if band.is_active %}
+                        tak
+                    {% else %}
+                        nie
+                    {% endif %}
+                    <br>
+                    W Garażu od: {{ band.add_2db_date }}<br>
+                    <br>
+                    tagi:<br>
+                    {{ band.tags }}
+                    <br>
+                </div>
+            </div>
+        </div>
+{% endblock %}

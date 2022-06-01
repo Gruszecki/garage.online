@@ -78,3 +78,8 @@ def edit_band(request, name):
 def all_bands(request):
     bands = Band.objects.all()
     return render(request, 'garage_online/all_bands.html', {'bands': bands})
+
+
+def band_details(request, name):
+    band = get_object_or_404(Band, pk=Band.objects.get(name=name).id)
+    return render(request, 'garage_online/band_details.html', {'band': band})
