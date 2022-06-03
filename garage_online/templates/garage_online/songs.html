@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block title %}Garage | dodaj piosenki{% endblock %}
+
+{% block body %}
+
+<div align="center">
+    <div class="card" style="width: 46rem;" align="left">
+        <div class="card-body">
+            <h5 class="card-title">
+                Nowe piosenki? Super! Będzie słuchane.
+            </h5>
+<!--Form: song-->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ songs_form|bootstrap }}
+                <br>
+<!--Button: save and continue-->
+                <button type="submit" class="btn btn-outline-dark">
+                        Dodajże te piosenki
+                </button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <a href="{% url 'dashboard' %}">Wróć na dashboard</a>
+</div>
+
+{% endblock %}

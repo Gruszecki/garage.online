@@ -24,12 +24,21 @@ class Band(models.Model):
         super().save()
 
         img = Image.open(self.image.path)
-
-        if img.width > 760:
-            new_size = (760, int(760*img.height/img.width))
-            img.thumbnail(new_size)
-            img.save(self.image.path)
+        new_size = (760, int(760*img.height/img.width))
+        img.thumbnail(new_size)
+        img.save(self.image.path)
 
     def __str__(self):
         return self.name
 
+
+class Song(models.Model):
+    title = models.CharField(max_length=100, null=False, blank=False)
+    file = models.FileField(upload_to='songs', null=False, blank=False)
+    has_lyrics = models.BooleanField(default=True)
+    language = models.CharField(max_length=2, choices=choices.get_languages(), default='pl')
+    lyrics = models.TextField(null=True, blank=True)
+    band = models.ForeignKey(Band, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.band} - {self.title}'

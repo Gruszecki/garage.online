@@ -6,7 +6,7 @@
 {% block body %}
 
 <div align="center">
-    <div class="card" style="width: 26rem;" align="left">
+    <div class="card" style="width: 46rem;" align="left">
         <div class="card-body">
             <h5 class="card-title">
                 {% if is_new %}
@@ -15,16 +15,25 @@
                     Co poprawiamy, kierowniku?
                 {% endif %}
             </h5>
-
+<!--Form: band-->
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form|bootstrap }}
+                {{ band_form|bootstrap }}
                 <br>
-                <button type="submit" class="btn btn-outline-dark">
+<!--Button: save and continue-->
+                <button type="submit" class="btn btn-outline-dark" name="go_to_songs">
                     {% if is_new %}
-                        Dodaj zespół
+                        Dodaj zespół i przejdź do dodawania piosenek
                     {% else %}
-                        Poprawione
+                        Poprawione, dawaj teraz mnie do piosenek
+                    {% endif %}
+                </button>
+<!--Button: save only-->
+                <button type="submit" class="btn btn-outline-dark" name="back_to_dashboard">
+                    {% if is_new %}
+                        Póki co dodaj tylko zespół, piosenki dodam później
+                    {% else %}
+                        Poprawione, ale weź mnie na dashboad
                     {% endif %}
                 </button>
             </form>
