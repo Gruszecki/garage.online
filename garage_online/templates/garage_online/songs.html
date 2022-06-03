@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap %}
+{% load static %}
 
 {% block title %}Garage | dodaj piosenki{% endblock %}
 
@@ -27,4 +28,5 @@
     <a href="{% url 'dashboard' %}">Wróć na dashboard</a>
 </div>
 
+<script src="{% static 'song_fields_unhide.js' %}"></script>
 {% endblock %}

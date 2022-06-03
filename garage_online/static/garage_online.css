@@ -2,8 +2,6 @@ body {
     padding: 2rem;
 }
 
-
-
 .band-photo-small {
     width: 150px;
     cursor: pointer
@@ -14,4 +12,12 @@ body {
     width: 760px;
     margin-left: auto;
     margin-right: auto;
+}
+
+#id_language {
+    display: block
+}
+
+#id_lyrics {
+    display: block
 }
