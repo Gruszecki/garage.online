@@ -1,13 +1,14 @@
-window.onload = function lyrics_toggle() {
-    if (this.checked) {
-    console.log('this.checked True')
-        document.getElementById("language").style.display = 'block';
-        document.getElementById("lyrics").style.display = 'block';
+function lyrics_toggle() {
+    console.log(has_lyrics)
+    if (has_lyrics.checked) {
+        document.getElementById("id_language").style.display = 'block';
+        document.getElementById("id_lyrics").style.display = 'block';
     } else {
-    console.log('this.checked False')
-        document.getElementById("language").style.display = 'none';
-        document.getElementById("lyrics").style.display = 'none';
+        document.getElementById("id_language").style.display = 'none';
+        document.getElementById("id_lyrics").style.display = 'none';
     }
 }
-console.log("Jestem w JavaScript. Wchodze do funkcji.")
-document.getElementById("has_lyrics").onclick = lyrics_toggle;
+
+const has_lyrics = document.getElementById("id_has_lyrics");
+has_lyrics.onclick = lyrics_toggle;
+

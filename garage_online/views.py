@@ -95,6 +95,10 @@ def songs(request, name):
         band = Band.objects.get(name=name)
         if form.is_valid():
             song = form.save(commit=False)
+
+            if not song.has_lyrics:
+                song.language = None
+
             song.band = band
             song.save()
             return redirect(songs, band.name)

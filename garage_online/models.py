@@ -20,6 +20,9 @@ class Band(models.Model):
     add_2db_date = models.DateField(auto_now_add=True)
     user = models.ManyToManyField(User, related_name='bands')
 
+    def __str__(self):
+        return self.name
+
     def save(self):
         super().save()
 
@@ -28,15 +31,12 @@ class Band(models.Model):
         img.thumbnail(new_size)
         img.save(self.image.path)
 
-    def __str__(self):
-        return self.name
-
 
 class Song(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False)
     file = models.FileField(upload_to='songs', null=False, blank=False)
     has_lyrics = models.BooleanField(default=True)
-    language = models.CharField(max_length=2, choices=choices.get_languages(), default='pl')
+    language = models.CharField(max_length=2, choices=choices.get_languages(), default='pl', null=True, blank=True)
     lyrics = models.TextField(null=True, blank=True)
     band = models.ForeignKey(Band, on_delete=models.CASCADE)
 
