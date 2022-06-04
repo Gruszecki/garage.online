@@ -35,6 +35,11 @@
                     <br>
                     W Garażu od: {{ band.add_2db_date }}<br>
                     <br>
+                    Piosenki w Garażu:<br>
+                    {% for song in songs %}
+                    <li>{{ song.title }}<br>
+                    {% endfor %}
+                    <br>
                     tagi:<br>
                     {{ band.tags }}
                     <br>

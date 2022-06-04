@@ -21,21 +21,21 @@
                 {{ band_form|bootstrap }}
                 <br>
 <!--Button: save and continue-->
-                <button type="submit" class="btn btn-outline-dark" name="go_to_songs">
-                    {% if is_new %}
+                {% if is_new %}
+                    <button type="submit" class="btn btn-outline-dark" name="go_to_songs">
                         Dodaj zespół i przejdź do dodawania piosenek
-                    {% else %}
-                        Poprawione, dawaj teraz mnie do piosenek
-                    {% endif %}
-                </button>
+                    </button>
+                {% endif %}
 <!--Button: save only-->
                 <button type="submit" class="btn btn-outline-dark" name="back_to_dashboard">
                     {% if is_new %}
                         Póki co dodaj tylko zespół, piosenki dodam później
                     {% else %}
-                        Poprawione, ale weź mnie na dashboad
+                        Poprawione, wróć na dashboad
                     {% endif %}
                 </button>
+<!--Button: songs edit-->
+                    ...
             </form>
         </div>
     </div>

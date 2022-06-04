@@ -15,7 +15,7 @@
 <!--Form: song-->
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ songs_form|bootstrap }}
+                {{ song_form|bootstrap }}
                 <br>
 <!--Button: save and continue-->
                 <button type="submit" class="btn btn-outline-dark">

@@ -17,7 +17,7 @@
         Nie dodałeś jeszcze żadnego zespołu
     {% else %}
         {% for band in bands %}
-            {{ band.name }} - <a href="{% url 'edit_band' band.name %}">edit</a> <br>
+            {{ band.name }} - <a href="{% url 'edit_band' band.id %}">edit</a> <br>
         {% endfor %}
     {% endif %}
 

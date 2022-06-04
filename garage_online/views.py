@@ -51,12 +51,12 @@ def new_band(request):
         if 'back_to_dashboard' in request.POST:
             return redirect(dashboard)
         elif 'go_to_songs' in request.POST:
-            return redirect(songs, band.name)
+            return redirect(song, band.id)
 
 
 @login_required()
-def edit_band(request, name):
-    band = get_object_or_404(Band, pk=Band.objects.get(name=name).id)
+def edit_band(request, id):
+    band = get_object_or_404(Band, pk=id)
     band_form = BandForm(request.POST or None, request.FILES or None, instance=band)
 
     if request.method == 'GET':
@@ -65,6 +65,7 @@ def edit_band(request, name):
             'garage_online/band.html',
             {
                 'band_form': band_form,
+                'band': band,
                 'is_new': False
             }
         )
@@ -77,33 +78,33 @@ def edit_band(request, name):
         if 'back_to_dashboard' in request.POST:
             return redirect(dashboard)
         elif 'go_to_songs' in request.POST:
-            return redirect(songs, band.name)
+            return redirect(song, band.id)
 
 
 @login_required()
-def songs(request, name):
+def song(request, id):
     if request.method == 'GET':
         return render(
             request,
-            'garage_online/songs.html',
+            'garage_online/song.html',
             {
-                'songs_form': SongForm
+                'song_form': SongForm
             }
         )
     elif request.method == 'POST':
         form = SongForm(request.POST, request.FILES)
-        band = Band.objects.get(name=name)
+        band = Band.objects.get(id=id)
         if form.is_valid():
-            song = form.save(commit=False)
+            song_form = form.save(commit=False)
 
-            if not song.has_lyrics:
-                song.language = None
+            if not song_form.has_lyrics:
+                song_form.language = None
 
-            song.band = band
-            song.save()
-            return redirect(songs, band.name)
+            song_form.band = band
+            song_form.save()
+            return redirect(song, band.id)
         else:
-            print('Adding new band failed:', form.errors, sep='\n')
+            print('Adding new song failed:', form.errors, sep='\n')
             return redirect(dashboard)
 
 
@@ -113,6 +114,7 @@ def all_bands(request):
     return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs})
 
 
-def band_details(request, name):
-    band = get_object_or_404(Band, pk=Band.objects.get(name=name).id)
-    return render(request, 'garage_online/band_details.html', {'band': band})
+def band_details(request, id):
+    band = get_object_or_404(Band, pk=id)
+    songs = Song.objects.filter(band=band)
+    return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs})
