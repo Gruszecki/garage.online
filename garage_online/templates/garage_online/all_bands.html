@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Garage | przegląd{% endblock %}
 
 {% block body %}
@@ -46,14 +46,28 @@
 <!--Short description-->
                         {{ band.short_desc }}<br>
                         <br>
+<!--Play button-->
+                        {% for song in songs %}
+                            {% if song.band.id == band.id %}
+                                <button onclick="play('/media/{{ song.file }}')">
+                                    {{song.title}}
+                                </button>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         {% endfor %}
     {% endif %}
 
+<!--Player-->
+<footer class="footer">
+    <audio controls seekable controlsList="nodownload" class="player" style="width: 80%;" id="player">
+        <source src="" type="audio/mpeg" id="playerSrc">
+        Your browser does not support the <code>audio</code> element.
+    </audio>
+</footer>
 
-
-
-
+<!--Scripts-->
+<script src="{% static 'player.js' %}"></script>
 {% endblock body %}

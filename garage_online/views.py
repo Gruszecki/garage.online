@@ -107,11 +107,10 @@ def songs(request, name):
             return redirect(dashboard)
 
 
-
-
 def all_bands(request):
     bands = Band.objects.all()
-    return render(request, 'garage_online/all_bands.html', {'bands': bands})
+    songs = Song.objects.all()
+    return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs})
 
 
 def band_details(request, name):
