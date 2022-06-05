@@ -17,16 +17,21 @@
         {% for song_form in songs_forms %}
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-
-
-                 <div class="card-body">
-                    {{ song_form.0|bootstrap }}
-                 </div>
-
+            <div class="card-body">
+                {{ song_form.0|bootstrap }}
+            </div>
             <button type="submit" class="btn btn-outline-dark" name="save_{{ song_form.1 }}">
                 Zapisz zmiany
             </button>
-         </form>
+<!--Button: delete song-->
+            <button type="submit" class="btn btn-danger" name="delete_{{ song_form.1 }}">
+                Usuń
+            </button>
+        </form>
+
+
+
+
         <br><hr>
         {% endfor %}
     </div>

@@ -151,6 +151,11 @@ def edit_songs(request, id):
                             song_form.band = band
                             song_form.save()
                             return redirect(edit_songs, band.id)
+            elif f'delete_{single_song.id}' in request.POST:
+                single_song.delete()
+                return redirect(edit_songs, band.id)
+
+    return redirect(edit_songs, band.id)
 
 
 def all_bands(request):
