@@ -51,7 +51,7 @@ def new_band(request):
         if 'back_to_dashboard' in request.POST:
             return redirect(dashboard)
         elif 'go_to_songs' in request.POST:
-            return redirect(song, band.id)
+            return redirect(new_song, band.id)
 
 
 @login_required()
@@ -78,34 +78,79 @@ def edit_band(request, id):
         if 'back_to_dashboard' in request.POST:
             return redirect(dashboard)
         elif 'go_to_songs' in request.POST:
-            return redirect(song, band.id)
+            return redirect(new_song, band.id)
+
+
+def lyrics_validation(form):
+    if not form.has_lyrics:
+        form.language = None
+        form.lyrics = None
+
+    return form
 
 
 @login_required()
-def song(request, id):
+def new_song(request, id):
+    band = Band.objects.get(id=id)
+
     if request.method == 'GET':
         return render(
             request,
             'garage_online/song.html',
             {
-                'song_form': SongForm
+                'song_form': SongForm,
+                'band': band,
+                'number_of_songs_already_in_database': len(Song.objects.filter(band=band))
             }
         )
     elif request.method == 'POST':
         form = SongForm(request.POST, request.FILES)
-        band = Band.objects.get(id=id)
         if form.is_valid():
             song_form = form.save(commit=False)
-
-            if not song_form.has_lyrics:
-                song_form.language = None
-
+            song_form = lyrics_validation(song_form)
             song_form.band = band
             song_form.save()
-            return redirect(song, band.id)
+
+            if len(Song.objects.filter(band=band)) < 3:
+                return redirect(new_song, band.id)
+            else:
+                return redirect(dashboard)
         else:
             print('Adding new song failed:', form.errors, sep='\n')
             return redirect(dashboard)
+
+
+@login_required()
+def edit_songs(request, id):
+    band = Band.objects.get(id=id)
+    songs = Song.objects.filter(band=band)
+
+    songs_forms = []
+    for single_song in songs:
+        songs_forms.append([SongForm(request.POST or None, request.FILES or None, instance=single_song), single_song.id])
+
+    if request.method == 'GET':
+        return render(
+            request,
+            'garage_online/edit_songs.html',
+            {
+                'songs': songs,
+                'songs_forms': songs_forms,
+                'band': band,
+                'is_new': False
+            }
+        )
+    elif request.method == 'POST':
+        for single_song in songs:
+            if f'save_{single_song.id}' in request.POST:
+                for form in songs_forms:
+                    if form[1] == single_song.id:
+                        if form[0].is_valid():
+                            song_form = form[0].save(commit=False)
+                            song_form = lyrics_validation(song_form)
+                            song_form.band = band
+                            song_form.save()
+                            return redirect(edit_songs, band.id)
 
 
 def all_bands(request):

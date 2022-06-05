@@ -27,5 +27,6 @@ urlpatterns = [
     path('band/edit/<int:id>', views.edit_band, name='edit_band'),
     path('all/', views.all_bands, name='all_bands'),
     path('band/<int:id>', views.band_details, name='band_details'),
-    path('band/<int:id>/add_song', views.song, name='add_song')
+    path('band/<int:id>/add_song', views.new_song, name='add_song'),
+    path('band/<int:id>/edit_songs', views.edit_songs, name='edit_songs')
 ]

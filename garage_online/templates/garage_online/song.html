@@ -12,6 +12,7 @@
             <h5 class="card-title">
                 Nowe piosenki? Super! Będzie słuchane.
             </h5>
+            Do tej pory w bazie: {{ number_of_songs_already_in_database }}/3
 <!--Form: song-->
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}

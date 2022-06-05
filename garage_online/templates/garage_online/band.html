@@ -35,7 +35,9 @@
                     {% endif %}
                 </button>
 <!--Button: songs edit-->
-                    ...
+                {% if not is_new %}
+                    <a href="{% url 'edit_songs' band.id %}">Edytuj piosenki</a>
+                {% endif %}
             </form>
         </div>
     </div>
