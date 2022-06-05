@@ -20,6 +20,7 @@
             <div class="card-body">
                 {{ song_form.0|bootstrap }}
             </div>
+<!--Button: save changes-->
             <button type="submit" class="btn btn-outline-dark" name="save_{{ song_form.1 }}">
                 Zapisz zmiany
             </button>
@@ -28,10 +29,6 @@
                 Usuń
             </button>
         </form>
-
-
-
-
         <br><hr>
         {% endfor %}
     </div>
@@ -40,6 +37,7 @@
         <a href="{% url 'add_song' band.id %}">Dodaj piosenkę</a>
     {% endif %}
     <br>
+    <a href="{% url 'edit_band' band.id %}">Wróć do edycji zespołu</a><br>
     <a href="{% url 'dashboard' %}">Wróć na dashboard</a>
 </div>
 

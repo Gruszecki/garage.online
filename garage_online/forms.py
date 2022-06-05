@@ -19,3 +19,7 @@ class SongForm(forms.ModelForm):
     class Meta:
         model = Song
         fields = ['title', 'file', 'has_lyrics', 'language', 'lyrics']
+
+
+class AdditionalUserForm(forms.Form):
+    email = forms.EmailField()

@@ -1,8 +1,10 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import BandForm, SongForm, CustomUserCreationForm
+from .forms import BandForm, SongForm, CustomUserCreationForm, AdditionalUserForm
 
 from .models import Band, Song
 
@@ -171,3 +173,41 @@ def band_details(request, id):
     band = get_object_or_404(Band, pk=id)
     songs = Song.objects.filter(band=band)
     return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs})
+
+
+@login_required()
+def manage_privileges(request, id):
+    band = Band.objects.get(id=id)
+    users = band.user.all()
+
+    if request.method == 'GET':
+        return render(
+            request,
+            'garage_online/manage_privileges.html',
+            {
+                'additional_user_form': AdditionalUserForm,
+                'band': band,
+                'users': users
+            }
+        )
+    elif request.method == 'POST':
+        form = AdditionalUserForm(request.POST)
+
+        if form.is_valid():
+            if 'give_privileges' in request.POST:
+                email = form.cleaned_data['email']
+                try:
+                    additional_user = User.objects.get(email=email)
+                    band.user.add(additional_user)
+                except ObjectDoesNotExist:
+                    pass
+                finally:
+                    return redirect(manage_privileges, band.id)
+        elif 'take_privileges' in request.POST:
+            selected_user = request.POST.get('users_to_privilege_take', False)
+            if selected_user:
+                user = User.objects.get(email=selected_user)
+                band.user.remove(user)
+            return redirect(manage_privileges, band.id)
+
+        return redirect(manage_privileges, band.id)     # In case of problems

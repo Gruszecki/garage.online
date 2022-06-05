@@ -44,6 +44,10 @@
                         Usuń
                     </button>
                 {% endif %}
+<!--Button: manage privileges-->
+                {% if not is_new %}
+                    <a href="{% url 'manage_privileges' band.id %}">Zarządzaj uprawnieniami</a>
+                {% endif %}
             </form>
         </div>
     </div>

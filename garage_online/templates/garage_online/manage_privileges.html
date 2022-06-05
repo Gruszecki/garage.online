@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block title %}Garage | Uprawnienia{% endblock %}
+
+{% block body %}
+
+Użytkownicy posiadający uprawnienia do zarządzania tym zespołem:
+{% for user in users %}
+    <li>{{ user.username }} ({{ user.email }})</li>
+{% endfor %}
+<br>
+
+<form method="post">
+    {% csrf_token %}
+    {{ additional_user_form }}
+<!--Section: give privileges-->
+    <button type="submit" name="give_privileges">
+        Dodaj uprawnienie dla tego użytkownika
+    </button>
+    <br>
+</form>
+<!--Section: take privileges-->
+<form method="post">
+    {% csrf_token %}
+    <select name="users_to_privilege_take">
+        <option selected="selected" disabled>Wybierz użytkownika</option>
+        {% for user in users %}
+            <option value="{{ user.email }}">{{ user.username }} ({{ user.email }})</option>
+        {% endfor %}
+    </select>
+    <button type="submit" name="take_privileges">
+        Odbierz uprawnienia dla tego użytkownika
+    </button>
+</form>
+<br>
+
+
+
+<a href="{% url 'edit_band' band.id %}">Wróć do edycji zespołu</a><br>
+<a href="{% url 'dashboard' %}">Wróć na dashboard</a>
+
+{% endblock %}

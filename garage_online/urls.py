@@ -28,5 +28,6 @@ urlpatterns = [
     path('all/', views.all_bands, name='all_bands'),
     path('band/<int:id>', views.band_details, name='band_details'),
     path('band/<int:id>/add_song', views.new_song, name='add_song'),
-    path('band/<int:id>/edit_songs', views.edit_songs, name='edit_songs')
+    path('band/<int:id>/edit_songs', views.edit_songs, name='edit_songs'),
+    path('band/<int:id>/manage_privileges', views.manage_privileges, name='manage_privileges')
 ]
