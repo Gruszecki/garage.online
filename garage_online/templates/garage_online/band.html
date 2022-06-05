@@ -1,58 +1,80 @@
 {% extends 'base.html' %}
 {% load bootstrap %}
-
+{% load static %}
 {% block title %}Garage | no co tam?{% endblock %}
 
 {% block body %}
 
-<div align="center">
-    <div class="card" style="width: 46rem;" align="left">
-        <div class="card-body">
-            <h5 class="card-title">
-                {% if is_new %}
-                    Nowy zespół w Garażu! Cześć!
-                {% else %}
-                    Co poprawiamy, kierowniku?
-                {% endif %}
-            </h5>
+<div class="container">
+    <h5 class="card-title">
+        {% if is_new %}
+            Nowy zespół w Garażu! Cześć!
+        {% else %}
+            Co poprawiamy, kierowniku?
+        {% endif %}
+    </h5>
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="card" style="width: 46rem;" align="left">
+                <div class="card-body">
 <!--Form: band-->
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ band_form|bootstrap }}
-                <br>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ band_form|bootstrap }}
+                        <br>
 <!--Button: save and continue-->
-                {% if is_new %}
-                    <button type="submit" class="btn btn-outline-dark" name="go_to_songs">
-                        Dodaj zespół i przejdź do dodawania piosenek
-                    </button>
-                {% endif %}
+                        {% if is_new %}
+                            <button type="submit" class="btn btn-outline-dark" name="go_to_songs">
+                                Dodaj zespół i przejdź do dodawania piosenek
+                            </button>
+                        {% endif %}
 <!--Button: save only-->
-                <button type="submit" class="btn btn-outline-dark" name="back_to_dashboard">
-                    {% if is_new %}
-                        Póki co dodaj tylko zespół, piosenki dodam później
-                    {% else %}
-                        Poprawione, wróć na dashboad
-                    {% endif %}
-                </button>
+                        <button type="submit" class="btn btn-outline-dark" name="back_to_dashboard">
+                            {% if is_new %}
+                                Póki co dodaj tylko zespół, piosenki dodam później
+                            {% else %}
+                                Poprawione, wróć na dashboad
+                            {% endif %}
+                        </button>
 <!--Button: songs edit-->
-                {% if not is_new %}
-                    <a href="{% url 'edit_songs' band.id %}">Edytuj piosenki</a>
-                {% endif %}
+                        {% if not is_new %}
+                            <a href="{% url 'edit_songs' band.id %}">Edytuj piosenki</a>
+                        {% endif %}
 <!--Button: delete band-->
-                {% if not is_new %}
-                    <button type="submit" class="btn btn-danger" name="delete_band" style="float: right">
-                        Usuń
-                    </button>
-                {% endif %}
+                        {% if not is_new %}
+                            <button type="submit" class="btn btn-danger" name="delete_band" style="float: right">
+                                Usuń
+                            </button>
+                        {% endif %}
 <!--Button: manage privileges-->
-                {% if not is_new %}
-                    <a href="{% url 'manage_privileges' band.id %}">Zarządzaj uprawnieniami</a>
-                {% endif %}
+                        {% if not is_new %}
+                            <a href="{% url 'manage_privileges' band.id %}">Zarządzaj uprawnieniami</a>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+<!--Section: social links-->
+        <div class="col">
+            <h6>Linki</h6>
+            {% for social in socials %}
+                {{ social.get_name_display }}: {{ social.link }}<br>
+            {% endfor %}
+
+            <form method="post">
+                {% csrf_token %}
+                {{ social_form }}<br>
+
+                <button type="submit" class="btn btn-outline-dark" name="add_social_links">
+                    Dodaj linki
+                </button>
             </form>
+
+
         </div>
     </div>
     <br>
     <a href="{% url 'dashboard' %}">Wróć na dashboard</a>
 </div>
-
 {% endblock %}

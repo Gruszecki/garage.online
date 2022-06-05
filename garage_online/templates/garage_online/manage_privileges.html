@@ -13,7 +13,7 @@ Użytkownicy posiadający uprawnienia do zarządzania tym zespołem:
 
 <form method="post">
     {% csrf_token %}
-    {{ additional_user_form }}
+    <input type="email" name="user_email" required/>
 <!--Section: give privileges-->
     <button type="submit" name="give_privileges">
         Dodaj uprawnienie dla tego użytkownika

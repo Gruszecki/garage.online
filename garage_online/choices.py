@@ -18,6 +18,21 @@ def get_genres():
     return genres
 
 
+def get_socials():
+    socials = {
+        (0, 'Facebook'),
+        (1, 'Bandcamp'),
+        (2, 'Spotify'),
+        (3, 'YouTube'),
+        (4, 'SoundCloud'),
+        (5, 'iTuens'),
+        (6, 'Instagram'),
+        (7, 'inne'),
+    }
+
+    return socials
+
+
 def get_countries():
     countries = countries_for_language('pl')
     return countries

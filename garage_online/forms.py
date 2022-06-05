@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Band, Song
+from .models import Band, Song, SocialLink
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -12,7 +12,7 @@ class CustomUserCreationForm(UserCreationForm):
 class BandForm(forms.ModelForm):
     class Meta:
         model = Band
-        fields = ['name', 'short_desc', 'long_desc', 'genre', 'image', 'country', 'city', 'is_active', 'tags']
+        fields = ['name', 'contact_email', 'show_contact_email', 'short_desc', 'long_desc', 'genre', 'image', 'country', 'city', 'is_active', 'tags']
 
 
 class SongForm(forms.ModelForm):
@@ -21,5 +21,7 @@ class SongForm(forms.ModelForm):
         fields = ['title', 'file', 'has_lyrics', 'language', 'lyrics']
 
 
-class AdditionalUserForm(forms.Form):
-    email = forms.EmailField()
+class SocialLinkForm(forms.ModelForm):
+    class Meta:
+        model = SocialLink
+        fields  =['name', 'link']

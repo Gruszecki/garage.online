@@ -34,6 +34,9 @@
                     {% endif %}
                     <br>
                     W Garażu od: {{ band.add_2db_date }}<br>
+                    {% if band.show_contact_email %}
+                        Kontakt: {{ band.contact_email }}<br>
+                    {% endif %}
                     <br>
                     Piosenki w Garażu:<br>
                     {% for song in songs %}
@@ -42,7 +45,8 @@
                     <br>
                     tagi:<br>
                     {{ band.tags }}
-                    <br>
+                    <br><br>
+<!--TODO: Display links-->
                 </div>
             </div>
         </div>

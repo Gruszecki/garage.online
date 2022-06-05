@@ -1,5 +1,4 @@
 function lyrics_toggle() {
-    console.log(has_lyrics)
     if (has_lyrics.checked) {
         document.getElementById("id_language").style.display = 'block';
         document.getElementById("id_lyrics").style.display = 'block';

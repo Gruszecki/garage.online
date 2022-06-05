@@ -42,3 +42,12 @@ class Song(models.Model):
 
     def __str__(self):
         return f'{self.band} - {self.title}'
+
+
+class SocialLink(models.Model):
+    name = models.SmallIntegerField(choices=choices.get_socials(), null=False, blank=False)
+    link = models.CharField(max_length=100, null=False, blank=False)
+    band = models.ForeignKey(Band, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.band} - {self.name}'

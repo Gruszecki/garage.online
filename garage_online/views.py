@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import BandForm, SongForm, CustomUserCreationForm, AdditionalUserForm
+from .forms import BandForm, SongForm, CustomUserCreationForm, SocialLinkForm
 
-from .models import Band, Song
+from .models import Band, Song, SocialLink
 
 
 # Create your views here.
@@ -59,6 +59,7 @@ def new_band(request):
 @login_required()
 def edit_band(request, id):
     band = get_object_or_404(Band, pk=id)
+    socials = SocialLink.objects.filter(band=band)
     band_form = BandForm(request.POST or None, request.FILES or None, instance=band)
 
     if request.method == 'GET':
@@ -67,23 +68,49 @@ def edit_band(request, id):
             'garage_online/band.html',
             {
                 'band_form': band_form,
+                'social_form': SocialLinkForm,
                 'band': band,
+                'socials': socials,
                 'is_new': False
             }
         )
     elif request.method == 'POST':
-        if band_form.is_valid():
+        # Save and go to dashboard without adding songs
+        if band_form.is_valid() and 'back_to_dashboard' in request.POST:
             band_form.save()
-        else:
-            print('Editing band failed:', band_form.errors, sep='\n')
             return redirect(dashboard)
-        if 'back_to_dashboard' in request.POST:
-            return redirect(dashboard)
-        elif 'go_to_songs' in request.POST:
+        # Save and add songs
+        elif band_form.is_valid() and 'go_to_songs' in request.POST:
+            band_form.save()
             return redirect(new_song, band.id)
+        # Delete band
         elif 'delete_band' in request.POST:
             band.delete()
             return redirect(dashboard)
+        # Social links
+        elif 'add_social_links' in request.POST:
+            social_form = SocialLinkForm(request.POST)
+            if social_form.is_valid():
+                social = social_form.save(commit=False)
+                social.band = band
+                social.save()
+            return redirect(edit_band, band.id)
+        # Error
+        else:
+            print('Editing band failed:', band_form.errors)
+            return redirect(dashboard)
+
+
+def band_details(request, id):
+    band = get_object_or_404(Band, pk=id)
+    songs = Song.objects.filter(band=band)
+    return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs})
+
+
+def all_bands(request):
+    bands = Band.objects.all()
+    songs = Song.objects.all()
+    return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs})
 
 
 def lyrics_validation(form):
@@ -163,18 +190,6 @@ def edit_songs(request, id):
     return redirect(edit_songs, band.id)
 
 
-def all_bands(request):
-    bands = Band.objects.all()
-    songs = Song.objects.all()
-    return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs})
-
-
-def band_details(request, id):
-    band = get_object_or_404(Band, pk=id)
-    songs = Song.objects.filter(band=band)
-    return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs})
-
-
 @login_required()
 def manage_privileges(request, id):
     band = Band.objects.get(id=id)
@@ -185,24 +200,20 @@ def manage_privileges(request, id):
             request,
             'garage_online/manage_privileges.html',
             {
-                'additional_user_form': AdditionalUserForm,
                 'band': band,
                 'users': users
             }
         )
     elif request.method == 'POST':
-        form = AdditionalUserForm(request.POST)
-
-        if form.is_valid():
-            if 'give_privileges' in request.POST:
-                email = form.cleaned_data['email']
-                try:
-                    additional_user = User.objects.get(email=email)
-                    band.user.add(additional_user)
-                except ObjectDoesNotExist:
-                    pass
-                finally:
-                    return redirect(manage_privileges, band.id)
+        if 'give_privileges' in request.POST:
+            email = request.POST.get('user_email')
+            try:
+                additional_user = User.objects.get(email=email)
+                band.user.add(additional_user)
+            except ObjectDoesNotExist:
+                pass    # TODO: Dodać obługę wyjątków: message na górze ekranu, że się nie udało
+            finally:
+                return redirect(manage_privileges, band.id)
         elif 'take_privileges' in request.POST:
             selected_user = request.POST.get('users_to_privilege_take', False)
             if selected_user:
