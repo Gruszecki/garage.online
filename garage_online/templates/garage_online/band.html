@@ -38,6 +38,12 @@
                 {% if not is_new %}
                     <a href="{% url 'edit_songs' band.id %}">Edytuj piosenki</a>
                 {% endif %}
+<!--Button: delete band-->
+                {% if not is_new %}
+                    <button type="submit" class="btn btn-danger" name="delete_band" style="float: right">
+                        Usuń
+                    </button>
+                {% endif %}
             </form>
         </div>
     </div>

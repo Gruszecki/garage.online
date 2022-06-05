@@ -79,6 +79,9 @@ def edit_band(request, id):
             return redirect(dashboard)
         elif 'go_to_songs' in request.POST:
             return redirect(new_song, band.id)
+        elif 'delete_band' in request.POST:
+            band.delete()
+            return redirect(dashboard)
 
 
 def lyrics_validation(form):
