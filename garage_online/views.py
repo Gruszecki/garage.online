@@ -95,6 +95,12 @@ def edit_band(request, id):
                 social.band = band
                 social.save()
             return redirect(edit_band, band.id)
+        # Remove link
+        elif 'remove_link' in request.POST:
+            link_id = request.POST.get('remove_link')
+            link = SocialLink.objects.get(id=link_id)
+            link.delete()
+            return redirect(edit_band, band.id)
         # Error
         else:
             print('Editing band failed:', band_form.errors)

@@ -23,10 +23,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('register/', views.register, name='register'),
-    path('band/new', views.new_band, name='new_band'),
-    path('band/edit/<int:id>', views.edit_band, name='edit_band'),
     path('all/', views.all_bands, name='all_bands'),
+    path('band/new', views.new_band, name='new_band'),
     path('band/<int:id>', views.band_details, name='band_details'),
+    path('band/<int:id>/edit', views.edit_band, name='edit_band'),
     path('band/<int:id>/add_song', views.new_song, name='add_song'),
     path('band/<int:id>/edit_songs', views.edit_songs, name='edit_songs'),
     path('band/<int:id>/manage_privileges', views.manage_privileges, name='manage_privileges')

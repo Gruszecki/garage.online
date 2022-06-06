@@ -56,23 +56,29 @@
             </div>
         </div>
 <!--Section: social links-->
-        <div class="col">
-            <h6>Linki</h6>
-            {% for social in socials %}
-                {{ social.get_name_display }}: {{ social.link }}<br>
-            {% endfor %}
+        {% if not is_net %}
+            <div class="col">
+                <h6>Linki</h6>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for social in socials %}
+                        {{ social.get_name_display }}: {{ social.link }}
+                        <button type="submit" class="btn btn-outline-dark" name="remove_link" value="{{ social.id }}">
+                            Usuń
+                        </button><br>
+                    {% endfor %}
+                </form>
+                <br>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ social_form }}<br>
 
-            <form method="post">
-                {% csrf_token %}
-                {{ social_form }}<br>
-
-                <button type="submit" class="btn btn-outline-dark" name="add_social_links">
-                    Dodaj linki
-                </button>
-            </form>
-
-
-        </div>
+                    <button type="submit" class="btn btn-outline-dark" name="add_social_links">
+                        Dodaj linki
+                    </button>
+                </form>
+            </div>
+        {% endif %}
     </div>
     <br>
     <a href="{% url 'dashboard' %}">Wróć na dashboard</a>
