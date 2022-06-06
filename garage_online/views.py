@@ -110,7 +110,8 @@ def edit_band(request, id):
 def band_details(request, id):
     band = get_object_or_404(Band, pk=id)
     songs = Song.objects.filter(band=band)
-    return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs})
+    links = SocialLink.objects.filter(band=band)
+    return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs, 'links': links})
 
 
 def all_bands(request):

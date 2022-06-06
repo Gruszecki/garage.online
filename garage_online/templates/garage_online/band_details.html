@@ -46,7 +46,11 @@
                     tagi:<br>
                     {{ band.tags }}
                     <br><br>
-<!--TODO: Display links-->
+<!--Links-->        {% if links|length %}
+                        {% for link in links %}
+                            {{ link.get_name_display }}: {{ link.link }}<br>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
