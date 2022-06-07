@@ -53,20 +53,22 @@ def new_band(request):
         if 'back_to_dashboard' in request.POST:
             return redirect(dashboard)
         elif 'go_to_songs' in request.POST:
-            return redirect(new_song, band.id)
+            return redirect(new_song, band.id, band.name)
 
 
 @login_required()
-def edit_band(request, id):
+def edit_band(request, id, name):
     band = get_object_or_404(Band, pk=id)
     socials = SocialLink.objects.filter(band=band)
     band_form = BandForm(request.POST or None, request.FILES or None, instance=band)
+    users_with_privileges = User.objects.filter(bands=band)
 
     if request.method == 'GET':
         return render(
             request,
             'garage_online/band.html',
             {
+                'users_with_privileges': users_with_privileges,
                 'band_form': band_form,
                 'social_form': SocialLinkForm,
                 'band': band,
@@ -82,11 +84,11 @@ def edit_band(request, id):
         # Save and add songs
         elif band_form.is_valid() and 'go_to_songs' in request.POST:
             band_form.save()
-            return redirect(new_song, band.id)
+            return redirect(new_song, band.id, band.name)
         # Delete band
         elif 'delete_band' in request.POST:
             band.delete()
-            return redirect(dashboard)
+            return redirect(dashboard)  # TODO: Add message success
         # Social links
         elif 'add_social_links' in request.POST:
             social_form = SocialLinkForm(request.POST)
@@ -94,20 +96,20 @@ def edit_band(request, id):
                 social = social_form.save(commit=False)
                 social.band = band
                 social.save()
-            return redirect(edit_band, band.id)
+            return redirect(edit_band, band.id, band.name)
         # Remove link
         elif 'remove_link' in request.POST:
             link_id = request.POST.get('remove_link')
             link = SocialLink.objects.get(id=link_id)
             link.delete()
-            return redirect(edit_band, band.id)
+            return redirect(edit_band, band.id, band.name)
         # Error
         else:
             print('Editing band failed:', band_form.errors)
             return redirect(dashboard)
 
 
-def band_details(request, id):
+def band_details(request, id, name):
     band = get_object_or_404(Band, pk=id)
     songs = Song.objects.filter(band=band)
     links = SocialLink.objects.filter(band=band)
@@ -129,7 +131,7 @@ def lyrics_validation(form):
 
 
 @login_required()
-def new_song(request, id):
+def new_song(request, id, name):
     band = Band.objects.get(id=id)
 
     if request.method == 'GET':
@@ -151,7 +153,7 @@ def new_song(request, id):
             song_form.save()
 
             if len(Song.objects.filter(band=band)) < 3:
-                return redirect(new_song, band.id)
+                return redirect(new_song, band.id, band.name)
             else:
                 return redirect(dashboard)
         else:
@@ -160,7 +162,7 @@ def new_song(request, id):
 
 
 @login_required()
-def edit_songs(request, id):
+def edit_songs(request, id, name):
     band = Band.objects.get(id=id)
     songs = Song.objects.filter(band=band)
 
@@ -189,18 +191,19 @@ def edit_songs(request, id):
                             song_form = lyrics_validation(song_form)
                             song_form.band = band
                             song_form.save()
-                            return redirect(edit_songs, band.id)
+                            return redirect(edit_songs, band.id, band.name)
             elif f'delete_{single_song.id}' in request.POST:
                 single_song.delete()
-                return redirect(edit_songs, band.id)
+                return redirect(edit_songs, band.id, band.name)
 
-    return redirect(edit_songs, band.id)
+    return redirect(edit_songs, band.id, band.name)
 
 
 @login_required()
-def manage_privileges(request, id):
+def manage_privileges(request, id, name):
     band = Band.objects.get(id=id)
     users = band.user.all()
+    users_with_privileges = User.objects.filter(bands=band)
 
     if request.method == 'GET':
         return render(
@@ -208,7 +211,8 @@ def manage_privileges(request, id):
             'garage_online/manage_privileges.html',
             {
                 'band': band,
-                'users': users
+                'users': users,
+                'users_with_privileges': users_with_privileges
             }
         )
     elif request.method == 'POST':
@@ -220,12 +224,27 @@ def manage_privileges(request, id):
             except ObjectDoesNotExist:
                 pass    # TODO: Dodać obługę wyjątków: message na górze ekranu, że się nie udało
             finally:
-                return redirect(manage_privileges, band.id)
+                return redirect(manage_privileges, band.id, band.name)
         elif 'take_privileges' in request.POST:
             selected_user = request.POST.get('users_to_privilege_take', False)
-            if selected_user:
-                user = User.objects.get(email=selected_user)
-                band.user.remove(user)
-            return redirect(manage_privileges, band.id)
+            if len(users_with_privileges) > 1:
+                if selected_user:
+                    user = User.objects.get(email=selected_user)
+                    band.user.remove(user)
+                return redirect(dashboard)
+            else:
+                pass    # TODO: Nie można odebrać sobie prawd do zarządzania zespołem kiedy jest się jego jedynym zarządcą
+                return redirect(manage_privileges, band.id, band.name)
 
-        return redirect(manage_privileges, band.id)     # In case of problems
+        return redirect(manage_privileges, band.id, band.name)     # In case of problems
+
+
+@login_required()
+def user_settings(request):
+    if request.method == 'GET':
+        return render(
+            request,
+            'garage_online/user_settings.html'
+        )
+    elif request.method == 'POST':
+        redirect(dashboard())

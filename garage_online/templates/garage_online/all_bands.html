@@ -20,7 +20,7 @@
                 <div class="card" style="width: 64rem" align="left">
                     <div class="card-body">
 <!--Band name-->
-                        <a href="{% url 'band_details' band.id %}">
+                        <a href="{% url 'band_details' band.id band.name %}">
                             {{ band.name }}
                         </a><br>
 <!--Band photo-->
