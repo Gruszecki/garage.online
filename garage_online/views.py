@@ -10,6 +10,7 @@ from .models import Band, Song, SocialLink
 
 
 # Create your views here.
+@login_required()
 def dashboard(request):
     bands = Band.objects.filter(user=request.user) if request.user.is_authenticated else None
     return render(request, 'garage_online/dashboard.html', {'bands': bands})
@@ -247,4 +248,4 @@ def user_settings(request):
             'garage_online/user_settings.html'
         )
     elif request.method == 'POST':
-        redirect(dashboard())
+        redirect(dashboard)
