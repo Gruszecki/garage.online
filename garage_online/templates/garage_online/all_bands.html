@@ -15,50 +15,68 @@
     {% if bands|length == 0 %}
         <p>Wygląda na to, że zespoły dopiero tworzą swój materiał i jeszcze nie mają się czym pochwalić. Ale trzymajmy za nich kciuki. W końcu to dla nas to robią.<br>DZIĘKUJEMY WAM, MŁODE ZESPOŁY!</p>
     {% else %}
-       {% for band in bands %}
-            <div align="center">
-                <div class="card" style="width: 64rem" align="left">
-                    <div class="card-body">
-<!--Band name-->
-                        <a href="{% url 'band_details' band.id band.name %}">
-                            {{ band.name }}
-                        </a><br>
-<!--Band photo-->
-                        <div>
-                            <img src="/media/{{band.image}}" style="float: left" class="band-photo-small" data-bs-toggle="modal" data-bs-target="#image{{band.id}}">
-                        </div>
-                        <div class="modal fade" id="image{{band.id}}" tabindex="-1" aria-labelledby="image{{band.id}}Label" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="image{{band.id}}Label">{{ band.name }}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="/media/{{band.image}}" class="band-photo" data-bs-toggle="modal" data-bs-target="#imagePreviewModal">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" data-bs-dismiss="modal">Close</button>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-<!--Short description-->
-                        {{ band.short_desc }}<br>
-                        <br>
-<!--Play button-->
-                        {% for song in songs %}
-                            {% if song.band.id == band.id %}
-                                <button onclick="play('/media/{{ song.file }}')">
-                                    {{song.title}}
-                                </button>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+    <div class="flex-container">
+
+
+        {% for band in bands %}
+
+
+        <img src="/media/{{band.image}}" class="band-photo-small" >
+        {{ band.name }}
+
         {% endfor %}
+    </div>
     {% endif %}
+
+
+
+<!--    {% if bands|length == 0 %}-->
+<!--        <p>Wygląda na to, że zespoły dopiero tworzą swój materiał i jeszcze nie mają się czym pochwalić. Ale trzymajmy za nich kciuki. W końcu to dla nas to robią.<br>DZIĘKUJEMY WAM, MŁODE ZESPOŁY!</p>-->
+<!--    {% else %}-->
+<!--       {% for band in bands %}-->
+<!--            <div align="center">-->
+<!--                <div class="card" style="width: 64rem" align="left">-->
+<!--                    <div class="card-body">-->
+<!--&lt;!&ndash;Band name&ndash;&gt;-->
+<!--                        <a href="{% url 'band_details' band.id band.name %}">-->
+<!--                            {{ band.name }}-->
+<!--                        </a><br>-->
+<!--&lt;!&ndash;Band photo&ndash;&gt;-->
+<!--                        <div>-->
+<!--                            <img src="/media/{{band.image}}" style="float: left" class="band-photo-small" data-bs-toggle="modal" data-bs-target="#image{{band.id}}">-->
+<!--                        </div>-->
+<!--                        <div class="modal fade" id="image{{band.id}}" tabindex="-1" aria-labelledby="image{{band.id}}Label" aria-hidden="true">-->
+<!--                        <div class="modal-dialog modal-lg">-->
+<!--                            <div class="modal-content">-->
+<!--                                <div class="modal-header">-->
+<!--                                    <h5 class="modal-title" id="image{{band.id}}Label">{{ band.name }}</h5>-->
+<!--                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                                </div>-->
+<!--                                <div class="modal-body">-->
+<!--                                    <img src="/media/{{band.image}}" class="band-photo" data-bs-toggle="modal" data-bs-target="#imagePreviewModal">-->
+<!--                                </div>-->
+<!--                                <div class="modal-footer">-->
+<!--                                    <button type="button" data-bs-dismiss="modal">Close</button>-->
+<!--                                </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--&lt;!&ndash;Short description&ndash;&gt;-->
+<!--                        {{ band.short_desc }}<br>-->
+<!--                        <br>-->
+<!--&lt;!&ndash;Play button&ndash;&gt;-->
+<!--                        {% for song in songs %}-->
+<!--                            {% if song.band.id == band.id %}-->
+<!--                                <button onclick="play('/media/{{ song.file }}')">-->
+<!--                                    {{song.title}}-->
+<!--                                </button>-->
+<!--                            {% endif %}-->
+<!--                        {% endfor %}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        {% endfor %}-->
+<!--    {% endif %}-->
 
 <!--Player-->
 <footer class="footer">

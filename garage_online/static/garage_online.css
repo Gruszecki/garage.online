@@ -1,10 +1,30 @@
 body {
     padding: 2rem;
+    background-color: black;
+    color: white;
+}
+
+a {
+    color: #a5f52f;
+}
+
+
+
+button {
+    background-color: #42f5ec;
+    border-color: #42f5ec;
+    color: black;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .band-photo-small {
-    width: 150px;
-    cursor: pointer
+    width: 300px;
 }
 
 .band-photo {
