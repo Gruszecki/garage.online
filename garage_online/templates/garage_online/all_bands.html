@@ -20,9 +20,10 @@
 
         {% for band in bands %}
 
-
-        <img src="/media/{{band.image}}" class="band-photo-small" >
-        {{ band.name }}
+        <div class="image-overlay">
+            <img src="/media/{{band.image}}" class="band-photo-small" style="position: relative;" />
+            <div class="text text-overlay"><span class="span-overlay">{{ band.name }}</span></div>
+        </div>
 
         {% endfor %}
     </div>

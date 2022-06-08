@@ -2,13 +2,12 @@ body {
     padding: 2rem;
     background-color: black;
     color: white;
+    margin-bottom: 75px;
 }
 
 a {
     color: #a5f52f;
 }
-
-
 
 button {
     background-color: #42f5ec;
@@ -21,6 +20,27 @@ button {
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-around;
+    gap: 75px;
+}
+
+.image-overlay {
+    position: relative;
+}
+
+.text-overlay {
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    width: 100%;
+}
+
+.span-overlay {
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .band-photo-small {
