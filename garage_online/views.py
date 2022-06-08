@@ -203,8 +203,7 @@ def edit_songs(request, id, name):
 @login_required()
 def manage_privileges(request, id, name):
     band = Band.objects.get(id=id)
-    users = band.user.all()
-    users_with_privileges = User.objects.filter(bands=band)
+    users_with_privileges = band.user.all()
 
     if request.method == 'GET':
         return render(
@@ -212,7 +211,6 @@ def manage_privileges(request, id, name):
             'garage_online/manage_privileges.html',
             {
                 'band': band,
-                'users': users,
                 'users_with_privileges': users_with_privileges
             }
         )
@@ -247,5 +245,13 @@ def user_settings(request):
             request,
             'garage_online/user_settings.html'
         )
-    elif request.method == 'POST':
-        redirect(dashboard)
+    elif request.method == 'POST' and 'delete_user' in request.POST:
+        all_bands_of_user = Band.objects.filter(user=request.user)
+        for band in all_bands_of_user:
+            if len(band.user.all()) > 1:
+                request.user.delete()
+                return redirect(all_bands)
+            else:
+                return redirect(user_settings)  # TODO: Nie można usunąć użytkownika kiedy jest jedynym zarządcą zespołu
+    else:
+        return redirect(dashboard)

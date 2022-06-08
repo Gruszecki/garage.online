@@ -8,7 +8,7 @@
 {% if user in users_with_privileges %}
 
     Użytkownicy posiadający uprawnienia do zarządzania tym zespołem:
-    {% for user in users %}
+    {% for user in users_with_privileges %}
         <li>{{ user.username }} ({{ user.email }})</li>
     {% endfor %}
     <br>

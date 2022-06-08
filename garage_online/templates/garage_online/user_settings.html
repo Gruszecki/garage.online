@@ -15,5 +15,11 @@
     <br>
 <!--Button: change password-->
     <a href="{% url 'password_change' %}">Zmień hasło</a><br>
-
+<!--Button: delete user-->
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" name="delete_user">
+            Usuń konto
+        </button>
+    </form>
 {% endblock %}
