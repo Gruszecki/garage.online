@@ -17,13 +17,50 @@
     {% else %}
     <div class="flex-container">
 
-
         {% for band in bands %}
-
-        <div class="image-overlay">
-            <img src="/media/{{band.image}}" class="band-photo-small" style="position: relative;" />
-            <div class="text text-overlay"><span class="span-overlay">{{ band.name }}</span></div>
+        <div class="image-box-overlay">
+<!--Band image-->
+            <img
+                src="/media/{{band.image}}"
+                class="band-photo-small"
+                style="position: relative;"
+                onmouseover="showIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+                onmouseout="hideIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+            />
+<!--Image span-->
+            <div
+                class="image-overlay" id="image glass {{ band.id }}"
+                onmouseover="showIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+                onmouseout="hideIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+            ></div>
+<!--Icon info-->
+            <i
+                class="fa-solid fa-circle-info fa-2xl info-overlay"
+                id="icon info {{ band.id }}"
+                onmouseover="showIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+                onmouseout="hideIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+            ></i>
+<!--Icon play-->
+            <i
+                class="fa-solid fa-circle-play fa-2xl play-overlay"
+                id="icon play {{ band.id }}"
+                onmouseover="showIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+                onmouseout="hideIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+            ></i>
+<!--Band name-->
+            <div class="text text-overlay">
+                <span
+                    class="span-name-overlay"
+                    id="name glass {{ band.id }}"
+                    onmouseover="showIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+                    onmouseout="hideIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+                >
+                    {{ band.name }}
+                </span>
+            </div>
         </div>
+
+
 
         {% endfor %}
     </div>
@@ -88,5 +125,5 @@
 </footer>
 
 <!--Scripts-->
-<script src="{% static 'player.js' %}"></script>
+<script src="{% static 'garage.js' %}"></script>
 {% endblock body %}

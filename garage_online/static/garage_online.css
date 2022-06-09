@@ -23,8 +23,18 @@ button {
     gap: 75px;
 }
 
-.image-overlay {
+.image-box-overlay {
     position: relative;
+}
+
+.image-overlay {
+    display: none;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
 }
 
 .text-overlay {
@@ -34,7 +44,23 @@ button {
     width: 100%;
 }
 
-.span-overlay {
+.info-overlay {
+    display: none;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    left: 35%;
+}
+
+.play-overlay {
+    display: none;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    right: 35%;
+}
+
+.span-name-overlay {
     color: white;
     background: rgba(0, 0, 0, 0.5);
     display: inline-block;

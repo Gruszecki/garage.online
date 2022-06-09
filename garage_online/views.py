@@ -255,8 +255,3 @@ def user_settings(request):
                 return redirect(user_settings)  # TODO: Nie można usunąć użytkownika kiedy jest jedynym zarządcą zespołu
     else:
         return redirect(dashboard)
-
-    # padding-top: 10px;
-    # padding-bottom: 10px;
-    # padding-left: 50px;
-    # padding-right: 50px;
