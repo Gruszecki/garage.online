@@ -39,14 +39,22 @@
                 id="icon info {{ band.id }}"
                 onmouseover="showIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
                 onmouseout="hideIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
+
             ></i>
 <!--Icon play-->
             <i
                 class="fa-solid fa-circle-play fa-2xl play-overlay"
                 id="icon play {{ band.id }}"
+                {% for song in songs %}
+                    {% if song.band.id == band.id %}
+                        style="cursor: pointer"
+                        onclick="play('/media/{{ song.file }}')"
+                    {% endif %}
+                {% endfor %}
                 onmouseover="showIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
                 onmouseout="hideIcons('icon info {{ band.id }}', 'icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}')"
             ></i>
+
 <!--Band name-->
             <div class="text text-overlay">
                 <span
