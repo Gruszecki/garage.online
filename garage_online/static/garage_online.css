@@ -5,14 +5,15 @@ body {
     margin-bottom: 75px;
 }
 
-a {
-    color: #a5f52f;
+button {
+    background-color: white;
+    border-color: white;
+    color: black;
 }
 
-button {
-    background-color: #42f5ec;
-    border-color: #42f5ec;
-    color: black;
+a {
+    color: #a5f52f;
+    text-decoration: none;
 }
 
 .flex-container {
@@ -78,6 +79,29 @@ button {
     width: 760px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.header {
+    font-size: 30px;
+}
+
+.header a {
+    font-size: 20px;
+    color: #a5f52f;
+    text-decoration: none;
+    padding: 20px;
+}
+
+a:hover {
+    color: white;
+}
+
+a.active {
+    color: white;
+}
+
+.header-right {
+    float: right;
 }
 
 .footer {

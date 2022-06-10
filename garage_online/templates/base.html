@@ -22,7 +22,22 @@
     {% endif %}
 
     <title>{% block title %}{% endblock %}</title>
+
+    <div class="header">
+        garage.online
+        <div class="header-right">
+            <a href="{% url 'all_bands' %}">zespoły</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}">dashboard</a>
+                <a href="{% url 'logout' %}">wyloguj</a>
+            {% else %}
+                <a href="{% url 'login' %}">zaloguj</a>
+            {% endif %}
+        </div>
+    </div>
+
 </head>
+<br><br>
 <body>
 
     {% block body %}{% endblock %}

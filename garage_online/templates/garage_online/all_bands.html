@@ -4,14 +4,6 @@
 
 {% block body %}
 
-    {% if user.is_authenticated %}
-        <a href="{% url 'dashboard' %}">Przejdź na dashboard</a><br>
-        <a href="{% url 'logout' %}">Wyloguj</a><br>
-    {% else %}
-        <a href="{% url 'login' %}">Zaloguj</a><br>
-    {% endif %}
-    <br>
-
     {% if bands|length == 0 %}
         <p>Wygląda na to, że zespoły dopiero tworzą swój materiał i jeszcze nie mają się czym pochwalić. Ale trzymajmy za nich kciuki. W końcu to dla nas to robią.<br>DZIĘKUJEMY WAM, MŁODE ZESPOŁY!</p>
     {% else %}
