@@ -69,11 +69,11 @@
 <!--Button: edit-->
             <div class="dropdown-edit">
                 <button class="btn-edit-band" id="btn-edit-{{ band.id }}">edytuj >></button>
-                <div class="dropdown-edit-content">
-                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-ozespole" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}')">o zespole</button><br>
-                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-piosenki" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}')">piosenki</button><br>
-                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}')">uprawnienia</button><br>
-                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-niebezpieczne" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}')">niebezpieczne</button>
+                <div class="dropdown-edit-content" id="dropdown-edit-content-{{ band.id }}">
+                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-ozespole" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}')">o zespole</button><br>
+                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-piosenki" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}')">utwory</button><br>
+                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}')">uprawnienia</button><br>
+                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-niebezpieczne" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}')">inne</button>
                 </div>
             </div>
         </div>
