@@ -20,3 +20,27 @@ function play(file) {
     player.load();
     player.play();
 }
+
+function btnEditClicked(btn) {
+    const all_buttons = document.getElementsByClassName("btn-edit-band");
+
+    for (const i of Array(all_buttons.length).keys()) {
+        var button = document.getElementById(all_buttons[i].id)
+        button.style.setProperty("background-color", "var(--background-color)")
+        button.style.setProperty("color", "var(--primary-color)")
+    }
+
+    var button = document.getElementById(btn);
+    button.style.setProperty("background-color", "var(--primary-color)");
+    button.style.setProperty("color", "var(--background-color)");
+}
+
+function changeEditBtnName(bandId, btnId, editBtnId) {
+    var buttonChoice = document.getElementById(btnId);
+    var buttonEdit = document.getElementById(editBtnId);
+    const textOfChoice = buttonChoice.innerText;
+
+    buttonEdit.innerText = textOfChoice;
+    btnEditClicked(editBtnId);
+}
+

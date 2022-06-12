@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Garage | przegląd{% endblock %}
+
+{% block body %}
+
+    {% if bands|length == 0 %}
+        <p>Nie dodałeś jeszcze żadnego zespołu.</p>
+    {% else %}
+    <div class="site-name">
+        twoje zespoły<br><br>
+    </div>
+
+    <div class="flex-container" style="flex-direction: column; float: left;">
+
+        {% for band in bands %}
+        <div>
+            <div class="image-box-overlay">
+<!--Band image-->
+                <img
+                    src="/media/{{band.image}}"
+                    class="band-photo-small"
+                    style="position: relative;"
+                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                />
+<!--Image glass-->
+                <div
+                    class="image-overlay"
+                    id="image-glass-{{ band.id }}"
+                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                ></div>
+<!--Description-->
+                <div
+                    class="description"
+                    id="description-{{ band.id }}"
+                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                >
+                    {{ band.short_desc }}
+                </div>
+<!--Icon play-->
+                <i
+                    class="fa-solid fa-circle-play fa-2xl play-overlay"
+                    id="icon-play-{{ band.id }}"
+                    {% for song in songs %}
+                        {% if song.band.id == band.id %}
+                            style="cursor: pointer"
+                            onclick="play('/media/{{ song.file }}')"
+                        {% endif %}
+                    {% endfor %}
+                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                ></i>
+
+<!--Band name-->
+                <div class="text text-overlay">
+                    <span
+                        class="span-name-overlay"
+                        id="name-glass-{{ band.id }}"
+                        onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', id, 'description-{{ band.id }}')"
+                        onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', id, 'description-{{ band.id }}')"
+                    >
+                        {{ band.name }}
+                    </span>
+                </div>
+            </div>
+<!--Button: edit-->
+            <div class="dropdown-edit">
+                <button class="btn-edit-band" id="btn-edit-{{ band.id }}">edytuj >></button>
+                <div class="dropdown-edit-content">
+                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-ozespole" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}')">o zespole</button><br>
+                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-piosenki" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}')">piosenki</button><br>
+                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}')">uprawnienia</button><br>
+                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-niebezpieczne" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}')">niebezpieczne</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+<div class="clear" style="clear: both; height: 0px;"></div>
+<!--Player-->
+<footer class="footer">
+    <audio controls seekable controlsList="nodownload" class="player" style="width: 80%;" id="player">
+        <source src="" type="audio/mpeg" id="playerSrc">
+        Your browser does not support the <code>audio</code> element.
+    </audio>
+</footer>
+
+{% endblock body %}

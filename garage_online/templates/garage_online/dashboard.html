@@ -3,14 +3,12 @@
 {% block title %}Garage | dashboard{% endblock %}
 
 {% block body %}
-    Cześć {{ user }}
+    Cześć {{ user }}!<br>
+
     <br><br>
-    <a href="{% url 'logout' %}">Logout</a><br>
-    <a href="{% url 'user_settings' %}">Ustawienia</a><br>
+    <a href="{% url 'user_settings' %}">konto</a><br>
     <br>
-    <a href="{% url 'all_bands' %}">Przeglądaj zespoły</a><br>
-    <br>
-    <a href="{% url 'new_band' %}">Dodaj swój zespół</a><br>
+    <a href="{% url 'user_bands' %}">twoje zespoły</a><br>
     <br>
     Twoje zespoły:<br>
     {% if bands|length == 0 %}

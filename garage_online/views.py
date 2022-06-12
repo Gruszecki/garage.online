@@ -123,6 +123,12 @@ def all_bands(request):
     return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs})
 
 
+def user_bands(request):
+    bands = Band.objects.filter(user=request.user)
+    songs = Song.objects.all()
+    return render(request, 'garage_online/user_bands.html', {'bands': bands, 'songs': songs})
+
+
 def lyrics_validation(form):
     if not form.has_lyrics:
         form.language = None

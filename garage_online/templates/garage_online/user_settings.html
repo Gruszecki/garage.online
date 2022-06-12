@@ -5,21 +5,18 @@
 {% block title %}Garage | ustawienia{% endblock %}
 
 {% block body %}
-    <a href="{% url 'all_bands' %}">Przegląd</a><br>
-    {% if user.is_authenticated %}
-        <a href="{% url 'dashboard' %}">Przejdź na dashboard</a><br>
-        <a href="{% url 'logout' %}">Wyloguj</a><br>
-    {% else %}
-        <a href="{% url 'login' %}">Zaloguj</a><br>
-    {% endif %}
-    <br>
+
 <!--Button: change password-->
-    <a href="{% url 'password_change' %}">Zmień hasło</a><br>
+<a href="{% url 'password_change' %}">Zmień hasło</a><br>
+
 <!--Button: delete user-->
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger" name="delete_user">
-            Usuń konto
-        </button>
-    </form>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger" name="delete_user">
+        Usuń konto
+    </button>
+</form>
+
+<!--TODO: Wybór koloru strony-->
+
 {% endblock %}

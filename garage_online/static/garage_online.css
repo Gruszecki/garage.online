@@ -1,18 +1,27 @@
+:root {
+    --primary-color: #fcba03;
+    --background-color: #000000;
+    --text-color: #ffffff;
+
+    --primary-width: 300px;
+    --large-width: 760px;
+}
+
 body {
     padding: 2rem;
     background-color: black;
-    color: white;
+    color: var(--text-color);
     margin-bottom: 75px;
 }
 
 button {
-    background-color: white;
-    border-color: white;
-    color: black;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 a {
-    color: #a5f52f;
+    color: var(--primary-color);
     text-decoration: none;
 }
 
@@ -30,6 +39,8 @@ a {
 
 .image-overlay {
     display: none;
+    /* background: rgba(105, 73, 1, 0.7); */
+    /*background: rgba(252, 186, 3, 0.7); */
     background: rgba(0, 0, 0, 0.5);
     position: absolute;
     width: 100%;
@@ -46,6 +57,7 @@ a {
 }
 
 .description {
+    color: var(--text-color);
     display: none;
     position: absolute;
     text-align: left;
@@ -64,7 +76,7 @@ a {
 }
 
 .span-name-overlay {
-    color: white;
+    color: var(--text-color);
     background: rgba(0, 0, 0, 0.5);
     display: inline-block;
     width: 100%;
@@ -73,45 +85,122 @@ a {
 }
 
 .band-photo-small {
-    width: 300px;
+    width: var(--primary-width);
 }
 
 .band-photo {
     display: block;
-    width: 760px;
+    width: var(--large-width);
     margin-left: auto;
     margin-right: auto;
 }
 
+.btn-edit-band {
+    border: 2px solid var(--primary-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    padding: 5px 28px;
+    font-size: 16px;
+    cursor: default;
+    width: var(--primary-width);
+}
+
+.site-name {
+    font-size: 25px;
+    color: var(--primary-color);
+}
+
 .header {
+
+}
+
+.logo {
     font-size: 30px;
 }
 
 .header a {
     font-size: 20px;
-    color: #a5f52f;
     text-decoration: none;
     padding: 20px;
 }
 
 a:hover {
-    color: white;
+    color: var(--text-color);
 }
 
 a.active {
-    color: white;
+    color: var(--text-color);
 }
 
 .header-right {
     float: right;
 }
 
+
+/* Dropdown menu for header */
+.dropdown {
+    float: left;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 150px;
+    /* background-color: rgba(0, 0, 0, 0.7); */
+    background-color: #202020;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    font-size: 18px;
+    padding: 10px;
+
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* Dropdown menu for edit band section */
+.dropdown-edit-content {
+    display: none;
+    position: absolute;
+    width: var(--primary-width);
+    background-color: var(--background-color);
+    z-index: 1;
+}
+
+.dropdown-edit-content button {
+    border: 1px solid var(--primary-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    padding: 5px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    width: var(--primary-width);
+}
+
+.dropdown-edit-content button:hover {
+    color: var(--background-color);
+    font-size: 16px;
+    background-color: var(--primary-color);
+}
+
+.dropdown-edit:hover .dropdown-edit-content {
+    display: block;
+    background-color: var(--background-color);
+}
+
+/* Footer */
 .footer {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: black;
+    background-color: var(--background-color);
     color: white;
     text-align: center;
 }
