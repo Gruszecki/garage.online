@@ -63,10 +63,3 @@ function editSongsAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
     changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
     document.getElementById(formId).style.display = 'block';
 }
-
-function saveSongs(formsId) {
-    var forms = document.getElementsByClassName(formsId);
-    forms[0].submit();
-    forms[1].submit();
-    forms[2].submit();
-}

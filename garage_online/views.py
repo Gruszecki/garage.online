@@ -165,7 +165,9 @@ def user_bands(request):
 
             return redirect(user_bands)
         elif 'save_songs' in request.POST:
+            print('udało się')
             print(request.POST)
+            return redirect(user_bands)
         # # Delete band
         # elif 'delete_band' in request.POST:
         #     band.delete()
@@ -189,11 +191,6 @@ def user_bands(request):
             print('Editing band failed.')
             print(request.POST)
             return redirect(user_bands)
-
-
-def action(request):
-    print(request.POST)
-    return redirect(user_bands)
 
 
 def lyrics_validation(form):

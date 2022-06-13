@@ -114,11 +114,11 @@
 <!--Form: songs-->
         {% for id, forms in song_forms.items %}
             <div class="edit-form edit-songs-form" id="songs-edit-form-{{ id }}" style="display: none;">
-                <div class="row">
-                    {% for form in forms %}
-                        <div class="col-4">
-                            <form method="post" enctype="multipart/form-data" class="song-form-{{id}}">
-                                {% csrf_token %}
+                <form method="post" id="form_global_{{ id }}">
+                    {% csrf_token %}
+                    <div class="row">
+                        {% for form in forms %}
+                            <div class="col-4">
                                 <input type="hidden" value="{{ id }}" name="band_id">
                                 <div class="row">
                                     <div class="col-3">Nazwa:</div>
@@ -149,22 +149,21 @@
                                         <button type="button" onclick="play('/media/{{ form.file.value }}')">odtwórz</button>
                                     {% endif %}
                                 </div>
-                                <button type="submit"></button>
-                            </form>
-                        </div>
+                            </div>
+                        {% endfor %}
 
-                    {% endfor %}
-                </div>
-                <br><br>
-                <div class="row">
-<!--Button: save songs-->
-                    <button
-                            type="submit"
-                            name="save_songs"
-                            style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"
-                            onclick="saveSongs('song-form-{{id}}')"
-                    >zapisz zmiany</button>
-                </div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+    <!--Button: save songs-->
+                        <button
+                                type="submit"
+                                name="save_songs"
+                                form="form_global_{{ id }}"
+                                style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"
+                        >zapisz zmiany</button>
+                    </div>
+                </form>
             </div>
         {% endfor %}
     </div>
