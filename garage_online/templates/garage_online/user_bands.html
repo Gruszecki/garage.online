@@ -1,85 +1,174 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Garage | przegląd{% endblock %}
+{% block title %}Garage | twoje zespoły{% endblock %}
 
 {% block body %}
 
-    {% if bands|length == 0 %}
-        <p>Nie dodałeś jeszcze żadnego zespołu.</p>
-    {% else %}
-    <div class="site-name">
-        twoje zespoły<br><br>
-    </div>
+<div class="site-name">
+    twoje zespoły<br><br>
+</div>
 
-    <div class="flex-container" style="flex-direction: column; float: left;">
-
-        {% for band in bands %}
-        <div>
-            <div class="image-box-overlay">
+<!--Sidebar-->
+<div class="flex-container" style="flex-direction: column; float: left;">
+    {% for band in bands %}
+    <div>
+        <div class="image-box-overlay">
 <!--Band image-->
-                <img
-                    src="/media/{{band.image}}"
-                    class="band-photo-small"
-                    style="position: relative;"
-                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
-                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
-                />
-<!--Image glass-->
-                <div
-                    class="image-overlay"
-                    id="image-glass-{{ band.id }}"
-                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
-                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
-                ></div>
-<!--Description-->
-                <div
-                    class="description"
-                    id="description-{{ band.id }}"
-                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
-                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
-                >
-                    {{ band.short_desc }}
-                </div>
-<!--Icon play-->
-                <i
-                    class="fa-solid fa-circle-play fa-2xl play-overlay"
-                    id="icon-play-{{ band.id }}"
-                    {% for song in songs %}
-                        {% if song.band.id == band.id %}
-                            style="cursor: pointer"
-                            onclick="play('/media/{{ song.file }}')"
-                        {% endif %}
-                    {% endfor %}
-                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
-                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
-                ></i>
-
+            <img
+                src="/media/{{band.image}}"
+                class="band-photo-small"
+                style="position: relative;"
+                onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+                onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
+            />
 <!--Band name-->
-                <div class="text text-overlay">
-                    <span
-                        class="span-name-overlay"
-                        id="name-glass-{{ band.id }}"
-                        onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', id, 'description-{{ band.id }}')"
-                        onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', id, 'description-{{ band.id }}')"
-                    >
-                        {{ band.name }}
-                    </span>
-                </div>
-            </div>
-<!--Button: edit-->
-            <div class="dropdown-edit">
-                <button class="btn-edit-band" id="btn-edit-{{ band.id }}">edytuj >></button>
-                <div class="dropdown-edit-content" id="dropdown-edit-content-{{ band.id }}">
-                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-ozespole" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}')">o zespole</button><br>
-                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-piosenki" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}')">utwory</button><br>
-                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}')">uprawnienia</button><br>
-                    <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-niebezpieczne" onclick="changeEditBtnName({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}')">inne</button>
-                </div>
+            <div class="text text-overlay">
+                <span
+                    class="span-name-overlay"
+                    id="name-glass-{{ band.id }}"
+                    onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', id, 'description-{{ band.id }}')"
+                    onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', id, 'description-{{ band.id }}')"
+                >
+                    {{ band.name }}
+                </span>
             </div>
         </div>
+<!--Button: edit-->
+        <div class="dropdown-edit">
+            <button class="btn-edit-band" id="btn-edit-{{ band.id }}">edytuj >></button>
+            <div class="dropdown-edit-content" id="dropdown-edit-content-{{ band.id }}">
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-ozespole" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">o zespole</button><br>
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-piosenki" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'songs-edit-form-{{ band.id }}')">utwory</button><br>
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-edit-form-{{ band.id }}')">uprawnienia</button><br>
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-niebezpieczne" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'other-edit-form-{{ band.id }}')">inne</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+<!--Button: add new band-->
+    <button style="color: var(--background-color); background-color: var(--primary-color); width: var(--primary-width); padding: 5px 28px; font-size: 16px;">
+        dodaj nowy zespół
+    </button>
+
+</div>
+
+<!--Content-->
+<div class="flex-container" style="flex-direction: column;">
+    <div class="col-11">
+<!--Form: band-->
+        {% for id, form in band_forms.items %}
+            <form method="post" class="edit-form edit-band-form" id="band-edit-form-{{ id }}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" value="{{ id }}" name="form_id">
+                <div class="row">
+                    <div class="col-3">Nazwa:</div>
+                    <div class="col">{{ form.name }}</div>
+                </div><br>
+                <div class="row textarea-short">
+                    <div class="col-3">Krótki opis (do 150 znaków):</div>
+                    <div class="col">{{ form.short_desc }}</div>
+                </div><br>
+                <div class="row textarea-long">
+                    <div class="col-3">Długi opis:</div>
+                    <div class="col">{{ form.long_desc }}</div>
+                </div><br>
+                <div class="row">
+                    <div class="col-3">E-mail zespołu:</div>
+                    <div class="col">{{ form.contact_email }}</div>
+                <div class="row">
+                </div><br>
+                    <div class="col-3">E-mail widoczny:</div>
+                    <div class="col-1">{{ form.show_contact_email }}</div>
+                </div><br>
+                <div class="row">
+                    <div class="col-3">Zespół aktywny:</div>
+                    <div class="col-1">{{ form.is_active }}</div>
+                </div><br>
+                <div class="row">
+                    <div class="col-3">Główny gatunek:</div>
+                    <div class="col">{{ form.genre }}</div>
+                </div><br>
+                <div class="row">
+                    <div class="col-3">Kraj:</div>
+                    <div class="col" name="dropdown-form">{{ form.country }}</div>
+                </div><br>
+                <div class="row">
+                    <div class="col-3">Miejscowość:</div>
+                    <div class="col">{{ form.city }}</div>
+                </div><br>
+                <div class="row">
+                    <div class="col-3">Tagi oddzielone przecinkami:</div>
+                    <div class="col">{{ form.tags }}</div>
+                </div><br>
+                <div class="row">
+                    <div class="col-3">Zdjęcie:</div>
+                    <div class="col">{{ form.image }}</div>
+                </div><br>
+                <br>
+<!--Button: save band-->
+                <div class="row">
+                    <button type="submit" name="save_band" style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;">zapisz zmiany</button>
+                </div>
+            </form>
+        {% endfor %}
+<!--Form: songs-->
+        {% for id, forms in song_forms.items %}
+            <div class="edit-form edit-songs-form" id="songs-edit-form-{{ id }}" style="display: none;">
+                <div class="row">
+                    {% for form in forms %}
+                        <div class="col-4">
+                            <form method="post" enctype="multipart/form-data" class="song-form-{{id}}">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ id }}" name="band_id">
+                                <div class="row">
+                                    <div class="col-3">Nazwa:</div>
+                                    <div class="col">{{ form.title }}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-6">Posiada tekst:</div>
+                                    <div class="col-6">{{ form.has_lyrics }}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3">Język:</div>
+                                    <div class="col">{{ form.language }}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">Tekst:</div>
+                                        <div class="row">{{ form.lyrics }}</div>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">Plik:</div>
+                                        <div class="row">{{ form.file }}</div>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    {% if form.file.value %}
+                                        <button type="button" onclick="play('/media/{{ form.file.value }}')">odtwórz</button>
+                                    {% endif %}
+                                </div>
+                                <button type="submit"></button>
+                            </form>
+                        </div>
+
+                    {% endfor %}
+                </div>
+                <br><br>
+                <div class="row">
+<!--Button: save songs-->
+                    <button
+                            type="submit"
+                            name="save_songs"
+                            style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"
+                            onclick="saveSongs('song-form-{{id}}')"
+                    >zapisz zmiany</button>
+                </div>
+            </div>
         {% endfor %}
     </div>
-    {% endif %}
+</div>
 
 <div class="clear" style="clear: both; height: 0px;"></div>
 <!--Player-->

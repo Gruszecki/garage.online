@@ -15,9 +15,9 @@ body {
 }
 
 button {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: var(--background-color);
+    border: 2px solid var(--primary-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
 }
 
 a {
@@ -184,14 +184,13 @@ a.active {
 }
 
 .dropdown-edit-content button:hover {
-    color: var(--background-color);
     font-size: 16px;
+    color: var(--background-color);
     background-color: var(--primary-color);
 }
 
 .dropdown-edit:hover .dropdown-edit-content {
     display: block;
-    background-color: var(--background-color);
 }
 
 /* Footer */
@@ -203,4 +202,39 @@ a.active {
     background-color: var(--background-color);
     color: white;
     text-align: center;
+}
+
+/* Forms */
+.edit-form {
+    display: none;
+}
+
+.edit-form .row {
+    padding-left: 10px;
+}
+
+.edit-form input, textarea {
+    color: var(--text-color);
+    background-color: var(--background-color);
+    border: 1px solid var(--text-color);
+    width: 100%
+}
+
+.edit-form .textarea-short textarea{
+    height: 100px;
+    width: 100%;
+}
+
+.edit-form .textarea-long textarea{
+    height: 300px;
+    width: 100%;
+}
+
+.edit-form #dropdown-form {
+    width: 15px;
+}
+
+.edit-form input:focus, textarea:focus {
+    outline: none;
+    border: 1px solid var(--primary-color);
 }

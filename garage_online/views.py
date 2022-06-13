@@ -89,7 +89,7 @@ def edit_band(request, id, name):
         # Delete band
         elif 'delete_band' in request.POST:
             band.delete()
-            return redirect(dashboard)  # TODO: Add message success
+            return redirect(dashboard)
         # Social links
         elif 'add_social_links' in request.POST:
             social_form = SocialLinkForm(request.POST)
@@ -125,8 +125,75 @@ def all_bands(request):
 
 def user_bands(request):
     bands = Band.objects.filter(user=request.user)
-    songs = Song.objects.all()
-    return render(request, 'garage_online/user_bands.html', {'bands': bands, 'songs': songs})
+    band_forms = {}
+    song_forms = {}
+
+    for band in bands:
+        band_forms[band.id] = BandForm(request.POST or None, request.FILES or None, instance=band)
+        songs = Song.objects.filter(band=band)
+        song_forms_list = [(SongForm(request.POST or None, request.FILES or None, instance=song)) for song in songs]
+        for i in range(3 - len(song_forms_list)):
+            song_forms_list.append(SongForm(None, None))
+        song_forms[band.id] = song_forms_list
+
+    if request.method == 'GET':
+        return render(
+            request,
+            'garage_online/user_bands.html',
+            {
+                'bands': bands,
+                'band_forms': band_forms,
+                'song_forms': song_forms
+            }
+        )
+    elif request.method == 'POST':
+        # Save and refresh
+        if 'save_band' in request.POST:
+            form_id = request.POST.get('form_id')
+            band_forms[int(form_id)].name = request.POST.get('name')
+            band_forms[int(form_id)].name = request.POST.get('short_desc')
+            band_forms[int(form_id)].name = request.POST.get('long_desc')
+            band_forms[int(form_id)].name = request.POST.get('contact_email')
+            band_forms[int(form_id)].name = request.POST.get('show_contact_email')
+            band_forms[int(form_id)].name = request.POST.get('is_active')
+            band_forms[int(form_id)].name = request.POST.get('genre')
+            band_forms[int(form_id)].name = request.POST.get('country')
+            band_forms[int(form_id)].name = request.POST.get('city')
+            band_forms[int(form_id)].name = request.POST.get('tags')
+            band_forms[int(form_id)].name = request.POST.get('image')
+            band_forms[int(form_id)].save()     # TODO: Dodać komunikat o sukcesie
+
+            return redirect(user_bands)
+        elif 'save_songs' in request.POST:
+            print(request.POST)
+        # # Delete band
+        # elif 'delete_band' in request.POST:
+        #     band.delete()
+        #     return redirect(dashboard)
+        # # Social links
+        # elif 'add_social_links' in request.POST:
+        #     social_form = SocialLinkForm(request.POST)
+        #     if social_form.is_valid():
+        #         social = social_form.save(commit=False)
+        #         social.band = band
+        #         social.save()
+        #     return redirect(edit_band, band.id, band.name)
+        # # Remove link
+        # elif 'remove_link' in request.POST:
+        #     link_id = request.POST.get('remove_link')
+        #     link = SocialLink.objects.get(id=link_id)
+        #     link.delete()
+        #     return redirect(edit_band, band.id, band.name)
+        # # Error
+        else:
+            print('Editing band failed.')
+            print(request.POST)
+            return redirect(user_bands)
+
+
+def action(request):
+    print(request.POST)
+    return redirect(user_bands)
 
 
 def lyrics_validation(form):
@@ -238,7 +305,7 @@ def manage_privileges(request, id, name):
                     band.user.remove(user)
                 return redirect(dashboard)
             else:
-                pass    # TODO: Nie można odebrać sobie prawd do zarządzania zespołem kiedy jest się jego jedynym zarządcą
+                pass
                 return redirect(manage_privileges, band.id, band.name)
 
         return redirect(manage_privileges, band.id, band.name)     # In case of problems
@@ -258,6 +325,8 @@ def user_settings(request):
                 request.user.delete()
                 return redirect(all_bands)
             else:
-                return redirect(user_settings)  # TODO: Nie można usunąć użytkownika kiedy jest jedynym zarządcą zespołu
+                return redirect(user_settings)
     else:
         return redirect(dashboard)
+
+
