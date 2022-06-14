@@ -125,17 +125,23 @@ def all_bands(request):
 
 def user_bands(request):
     bands = Band.objects.filter(user=request.user)
+    band_songs = {}
     band_forms = {}
     song_forms = {}
 
     for band in bands:
         band_forms[band.id] = BandForm(request.POST or None, request.FILES or None, instance=band)
         songs = Song.objects.filter(band=band)
-        song_forms_list = [(SongForm(request.POST or None, request.FILES or None, instance=song)) for song in songs]
-        for i in range(3 - len(song_forms_list)):
-            song_forms_list.append(SongForm(None, None))
-        song_forms[band.id] = song_forms_list
+        song_forms_dict = {}
 
+        for song in songs:
+            song_forms_dict[song.id] = SongForm(request.POST or None, request.FILES or None, instance=song)
+        if len(song_forms_dict) < 3:
+            song_forms_dict[0] = SongForm(request.POST or None, request.FILES or None)
+
+        song_forms[band.id] = song_forms_dict
+        band_songs[band.id] = songs
+    # print(bands, band_forms, band_songs, song_forms, sep='\n')
     if request.method == 'GET':
         return render(
             request,
@@ -143,30 +149,28 @@ def user_bands(request):
             {
                 'bands': bands,
                 'band_forms': band_forms,
+                'band_songs': band_songs,
                 'song_forms': song_forms
             }
         )
     elif request.method == 'POST':
         # Save and refresh
         if 'save_band' in request.POST:
-            form_id = request.POST.get('form_id')
-            band_forms[int(form_id)].name = request.POST.get('name')
-            band_forms[int(form_id)].name = request.POST.get('short_desc')
-            band_forms[int(form_id)].name = request.POST.get('long_desc')
-            band_forms[int(form_id)].name = request.POST.get('contact_email')
-            band_forms[int(form_id)].name = request.POST.get('show_contact_email')
-            band_forms[int(form_id)].name = request.POST.get('is_active')
-            band_forms[int(form_id)].name = request.POST.get('genre')
-            band_forms[int(form_id)].name = request.POST.get('country')
-            band_forms[int(form_id)].name = request.POST.get('city')
-            band_forms[int(form_id)].name = request.POST.get('tags')
-            band_forms[int(form_id)].name = request.POST.get('image')
-            band_forms[int(form_id)].save()     # TODO: Dodać komunikat o sukcesie
+            band_id = request.POST.get('band_id')
+            band_forms[int(band_id)].save()     # TODO: Dodać komunikat o sukcesie
 
             return redirect(user_bands)
         elif 'save_songs' in request.POST:
-            print('udało się')
-            print(request.POST)
+            band_id = int(request.POST.get('band_id'))
+            song_id = int(request.POST.get('song_id'))
+
+            band = Band.objects.get(id=band_id)
+            form = song_forms[band_id][song_id]
+            song_form = form.save(commit=False)
+            song_form = lyrics_validation(song_form)
+            song_form.band = band
+            song_form.save()
+
             return redirect(user_bands)
         # # Delete band
         # elif 'delete_band' in request.POST:

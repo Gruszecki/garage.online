@@ -5,6 +5,8 @@
 
     --primary-width: 300px;
     --large-width: 760px;
+
+    --button-height-shift: 36px;
 }
 
 body {
@@ -190,6 +192,37 @@ a.active {
 }
 
 .dropdown-edit:hover .dropdown-edit-content {
+    display: block;
+}
+
+/* Dropdown menu for edit song section */
+.dropdown-edit-song-content {
+    display: none;
+    position: absolute;
+    left: var(--primary-width);
+    top: var(--button-height-shift);
+    width: var(--primary-width);
+    background-color: var(--background-color);
+    z-index: 1;
+}
+
+.dropdown-edit-song-content button {
+    border: 1px solid var(--primary-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    padding: 5px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    width: var(--primary-width);
+}
+
+.dropdown-edit-song-content button:hover {
+    font-size: 16px;
+    color: var(--background-color);
+    background-color: var(--primary-color);
+}
+
+.dropdown-edit-song:hover .dropdown-edit-song-content {
     display: block;
 }
 

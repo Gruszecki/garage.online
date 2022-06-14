@@ -38,9 +38,24 @@
             <button class="btn-edit-band" id="btn-edit-{{ band.id }}">edytuj >></button>
             <div class="dropdown-edit-content" id="dropdown-edit-content-{{ band.id }}">
                 <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-ozespole" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">o zespole</button><br>
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-piosenki" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'songs-edit-form-{{ band.id }}')">utwory</button><br>
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-edit-form-{{ band.id }}')">uprawnienia</button><br>
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-niebezpieczne" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'other-edit-form-{{ band.id }}')">inne</button>
+<!--Button: songs-->
+                <div class="dropdown-edit-song">
+                    <button class="btn-edit-song" id="btn-edit-choice-{{ band.id }}-piosenki">utwory >></button><br>
+                    <div class="dropdown-edit-song-content" id="dropdown-songs-content-{{ band.id }}">
+                        {% for band_id, songs in band_songs.items %}
+                            {% if band_id == band.id %}
+                                {% for song in songs %}
+                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-{{ song.id }}" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band_id }}-{{ song.id }}')">{{ song.title }}</button><br>
+                                {% endfor %}
+                                {% if songs|length < 3 %}
+                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-0" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band.id }}-0')">nowy utwór</button><br>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editPrivilegesAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-edit-form-{{ band.id }}')">uprawnienia</button><br>
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-niebezpieczne" onclick="editOtherAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'other-edit-form-{{ band.id }}')">inne</button>
             </div>
         </div>
     </div>
@@ -57,9 +72,9 @@
     <div class="col-11">
 <!--Form: band-->
         {% for id, form in band_forms.items %}
-            <form method="post" class="edit-form edit-band-form" id="band-edit-form-{{ id }}" enctype="multipart/form-data">
+            <form method="post" class="edit-form" id="band-edit-form-{{ id }}" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" value="{{ id }}" name="form_id">
+                <input type="hidden" value="{{ id }}" name="band_id">
                 <div class="row">
                     <div class="col-3">Nazwa:</div>
                     <div class="col">{{ form.name }}</div>
@@ -111,61 +126,53 @@
                 </div>
             </form>
         {% endfor %}
-<!--Form: songs-->
-        {% for id, forms in song_forms.items %}
-            <div class="edit-form edit-songs-form" id="songs-edit-form-{{ id }}" style="display: none;">
-                <form method="post" id="form_global_{{ id }}">
-                    {% csrf_token %}
-                    <div class="row">
-                        {% for form in forms %}
-                            <div class="col-4">
-                                <input type="hidden" value="{{ id }}" name="band_id">
-                                <div class="row">
-                                    <div class="col-3">Nazwa:</div>
-                                    <div class="col">{{ form.title }}</div>
-                                </div><br>
-                                <div class="row">
-                                    <div class="col-6">Posiada tekst:</div>
-                                    <div class="col-6">{{ form.has_lyrics }}</div>
-                                </div><br>
-                                <div class="row">
-                                    <div class="col-3">Język:</div>
-                                    <div class="col">{{ form.language }}</div>
-                                </div><br>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="row">Tekst:</div>
-                                        <div class="row">{{ form.lyrics }}</div>
-                                    </div>
-                                </div><br>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="row">Plik:</div>
-                                        <div class="row">{{ form.file }}</div>
-                                    </div>
-                                </div><br>
-                                <div class="row">
-                                    {% if form.file.value %}
-                                        <button type="button" onclick="play('/media/{{ form.file.value }}')">odtwórz</button>
-                                    {% endif %}
+<!--Form: song-->
+        <div class="row">
+            {% for band_id, forms in song_forms.items %}
+                {% for song_id, form in forms.items %}
+                    <form method="post" class="edit-form" id="song-edit-form-{{ band_id }}-{{ song_id }}" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        <div class="col-6 mx-auto">
+                            <input type="hidden" value="{{ band_id }}" name="band_id">
+                            <input type="hidden" value="{{ song_id }}" name="song_id">
+                            <div class="row">
+                                <div class="col-3">Tytuł:</div>
+                                <div class="col">{{ form.title }}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3">Posiada tekst:</div>
+                                <div class="col-2">{{ form.has_lyrics }}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3">Język:</div>
+                                <div class="col">{{ form.language }}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">Tekst:</div>
+                                    <div class="row">{{ form.lyrics }}</div>
                                 </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">Plik:</div>
+                                    <div class="row">{{ form.file }}</div>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                {% if form.file.value %}
+                                    <button type="button" style="width: 30%; margin: auto;" onclick="play('/media/{{ form.file.value }}')">odtwórz</button>
+                                {% endif %}
                             </div>
-                        {% endfor %}
-
-                    </div>
-                    <br><br>
-                    <div class="row">
-    <!--Button: save songs-->
-                        <button
-                                type="submit"
-                                name="save_songs"
-                                form="form_global_{{ id }}"
-                                style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"
-                        >zapisz zmiany</button>
-                    </div>
-                </form>
-            </div>
-        {% endfor %}
+                            <br><br>
+                            <div class="row">
+                                <button type="submit" name="save_songs" style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"  >zapisz zmiany</button>
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 

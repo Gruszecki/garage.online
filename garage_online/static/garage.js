@@ -63,3 +63,15 @@ function editSongsAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
     changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
     document.getElementById(formId).style.display = 'block';
 }
+
+function editPrivilegesAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
+    hideAllForms();
+    changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
+    document.getElementById(formId).style.display = 'block';
+}
+
+function editOtherAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
+    hideAllForms();
+    changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
+    document.getElementById(formId).style.display = 'block';
+}
