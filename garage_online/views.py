@@ -141,7 +141,7 @@ def user_bands(request):
 
         song_forms[band.id] = song_forms_dict
         band_songs[band.id] = songs
-    # print(bands, band_forms, band_songs, song_forms, sep='\n')
+
     if request.method == 'GET':
         return render(
             request,
@@ -154,7 +154,13 @@ def user_bands(request):
             }
         )
     elif request.method == 'POST':
-        # Save and refresh
+        for band in bands:
+            songs = Song.objects.filter(band=band)
+            for song in songs:
+                if f'delete-song-{band.id}-{song.id}' in request.POST:
+                    song.delete()
+                    return redirect(user_bands)  # TODO: Dodać komunikat o sukcesie
+
         if 'save_band' in request.POST:
             band_id = request.POST.get('band_id')
             band_forms[int(band_id)].save()     # TODO: Dodać komunikat o sukcesie
@@ -171,7 +177,7 @@ def user_bands(request):
             song_form.band = band
             song_form.save()
 
-            return redirect(user_bands)
+            return redirect(user_bands)    # TODO: Dodać komunikat o sukcesie
         # # Delete band
         # elif 'delete_band' in request.POST:
         #     band.delete()

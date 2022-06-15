@@ -1,6 +1,7 @@
 :root {
     --primary-color: #fcba03;
     --background-color: #000000;
+    --background-light-color: #202020;
     --text-color: #ffffff;
 
     --primary-width: 300px;
@@ -151,14 +152,13 @@ a.active {
     padding-bottom: 10px;
     width: 150px;
     /* background-color: rgba(0, 0, 0, 0.7); */
-    background-color: #202020;
+    background-color: var(--background-light-color);
     z-index: 1;
 }
 
 .dropdown-content a {
     font-size: 18px;
     padding: 10px;
-
 }
 
 .dropdown:hover .dropdown-content {
@@ -270,4 +270,13 @@ a.active {
 .edit-form input:focus, textarea:focus {
     outline: none;
     border: 1px solid var(--primary-color);
+}
+
+/* Confirmation box */
+.modal-content {
+    background-color: var(--background-light-color);
+}
+
+.modal-title {
+    color: var(--primary-color);
 }
