@@ -130,7 +130,7 @@
         <div class="row">
             {% for band_id, forms in song_forms.items %}
                 {% for song_id, form in forms.items %}
-                    <form method="post" class="edit-form" id="song-edit-form-{{ band_id }}-{{ song_id }}"  >
+                    <form method="post" class="edit-form" id="song-edit-form-{{ band_id }}-{{ song_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="col-6 mx-auto">
                             <input type="hidden" value="{{ band_id }}" name="band_id">
@@ -166,20 +166,26 @@
                             </div>
                             <br><br>
                             <div class="row">
-                                <button type="submit" name="save_songs" style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"  >zapisz zmiany</button>
+                                <button type="submit" name="save_songs" style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"  >zapisz</button>
                             </div>
                         </div>
-                        <br><br><hr style="border-top: 1px dashed">
+
+                    <div class="songDeleteFormClass" id="songDeleteFormId-{{ song_id }}">
+                    <form method="post"  >
 <!--Button: delete song-->
-                        <button
-                                type="button"
-                                style="width: 20%; background-color: #cc3357; color: white; border: none; padding: 5px 28px; font-size: 16px;"
-                                data-bs-toggle="modal"
-                                data-bs-target="#confirmationBox-{{ band_id }}-{{ song_id }}"
-                        >
-                            usuń utwór
-                        </button>
+                    <br><br><hr style="border-top: 1px dashed">
+                    <button
+                            type="button"
+                            style="width: 20%; background-color: #cc3357; color: white; border: none; padding: 5px 28px; font-size: 16px;"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirmationBox-{{ band_id }}-{{ song_id }}"
+                    >
+                        usuń utwór
+                    </button>
+
 <!--Delete song: confirmation box-->
+
+                        {% csrf_token %}
                         <div class="modal fade" id="confirmationBox-{{ band_id }}-{{ song_id }}" tabindex="-1" aria-labelledby="confirmationBoxLabel-{{ band_id }}-{{ song_id }}" aria-hidden="true">
                               <div class="modal-dialog">
                                   <div class="modal-content">
@@ -198,6 +204,8 @@
                               </div>
                         </div>
                     </form>
+    </div>
+                        </form>
                 {% endfor %}
             {% endfor %}
         </div>

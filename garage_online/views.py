@@ -154,16 +154,13 @@ def user_bands(request):
             }
         )
     elif request.method == 'POST':
-        for band in bands:
-            songs = Song.objects.filter(band=band)
-            for song in songs:
-                if f'delete-song-{band.id}-{song.id}' in request.POST:
-                    song.delete()
-                    return redirect(user_bands)  # TODO: Dodać komunikat o sukcesie
-
         if 'save_band' in request.POST:
-            band_id = request.POST.get('band_id')
-            band_forms[int(band_id)].save()     # TODO: Dodać komunikat o sukcesie
+            band_id = int(request.POST.get('band_id'))
+            if band_forms[band_id].is_valid():
+                band_forms[band_id].save()     # TODO: Dodać komunikat o sukcesie
+            else:
+                print('Nie udało się zapisać zespołu')    # TODO: Komunikat o niepowodzeniu
+                print(band_forms[band_id].errors)
 
             return redirect(user_bands)
         elif 'save_songs' in request.POST:
@@ -172,12 +169,16 @@ def user_bands(request):
 
             band = Band.objects.get(id=band_id)
             form = song_forms[band_id][song_id]
-            song_form = form.save(commit=False)
-            song_form = lyrics_validation(song_form)
-            song_form.band = band
-            song_form.save()
+            if form.is_valid():
+                song_form = form.save(commit=False)
+                song_form = lyrics_validation(song_form)
+                song_form.band = band
+                song_form.save()    # TODO: Dodać komunikat o sukcesie
+            else:
+                print('Nie udało się zapisać piosenki')       # Dodać komunikat form not valid
+                print(form.errors)
 
-            return redirect(user_bands)    # TODO: Dodać komunikat o sukcesie
+            return redirect(user_bands)
         # # Delete band
         # elif 'delete_band' in request.POST:
         #     band.delete()
@@ -198,6 +199,13 @@ def user_bands(request):
         #     return redirect(edit_band, band.id, band.name)
         # # Error
         else:
+            for band in bands:
+                songs = Song.objects.filter(band=band)
+                for song in songs:
+                    if f'delete-song-{band.id}-{song.id}' in request.POST:
+                        song.delete()
+                        return redirect(user_bands)  # TODO: Dodać komunikat o sukcesie
+
             print('Editing band failed.')
             print(request.POST)
             return redirect(user_bands)
