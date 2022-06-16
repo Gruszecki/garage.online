@@ -131,6 +131,7 @@ def user_bands(request):
 
     for band in bands:
         band_forms[band.id] = BandForm(request.POST or None, request.FILES or None, instance=band)
+
         songs = Song.objects.filter(band=band)
         song_forms_dict = {}
 

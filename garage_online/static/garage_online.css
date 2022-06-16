@@ -7,7 +7,7 @@
     --primary-width: 300px;
     --large-width: 760px;
 
-    --button-height-shift: 0px;
+    --button-height-shift: 36px;
 }
 
 body {
@@ -200,7 +200,7 @@ a.active {
     display: none;
     position: absolute;
     left: var(--primary-width);
-    top: var(--button-height-shift);
+    /* top: var(--button-height-shift); */
     width: var(--primary-width);
     background-color: var(--background-color);
     z-index: 1;

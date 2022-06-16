@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Band, Song
+from .models import Band, Song, SocialLink
 
 # Register your models here.
 admin.site.register(Band)
+admin.site.register(SocialLink)
 
 
 @admin.register(Song)

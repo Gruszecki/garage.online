@@ -24,4 +24,4 @@ class SongForm(forms.ModelForm):
 class SocialLinkForm(forms.ModelForm):
     class Meta:
         model = SocialLink
-        fields  =['name', 'link']
+        fields  =['band_site', 'facebook', 'bandcamp', 'spotify', 'youtube', 'soundcloud', 'itunes', 'instagram']

@@ -40,7 +40,7 @@
 <!--Button: band-->
                 <div class="dropdown-inside-edit">
                     <button id="btn-edit-choice-{{ band.id }}-ozespole">zespół >></button>
-                    <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}">
+                    <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}" style="top: 0px;">
                         <button class="btn-edit-band-choice" id="band-info-content-{{ band.id }}" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">informacje</button>
                         <button class="btn-edit-band-choice" id="band-links-content-{{ band.id }}" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-links-form-{{ band.id }}')">linki</button>
                     </div>
@@ -48,7 +48,7 @@
 <!--Button: songs-->
                 <div class="dropdown-inside-edit">
                     <button id="btn-edit-choice-{{ band.id }}-piosenki">utwory >></button>
-                    <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}-{{song.id}}">
+                    <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}-{{song.id}}" style="top: 36px;">
                         {% for band_id, songs in band_songs.items %}
                             {% if band_id == band.id %}
                                 {% for song in songs %}
