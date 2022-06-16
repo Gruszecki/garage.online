@@ -7,7 +7,7 @@
     --primary-width: 300px;
     --large-width: 760px;
 
-    --button-height-shift: 36px;
+    --button-height-shift: 0px;
 }
 
 body {
@@ -195,8 +195,8 @@ a.active {
     display: block;
 }
 
-/* Dropdown menu for edit song section */
-.dropdown-edit-song-content {
+/* Dropdown menu for edit band and song section */
+.dropdown-inside-edit-content {
     display: none;
     position: absolute;
     left: var(--primary-width);
@@ -206,7 +206,7 @@ a.active {
     z-index: 1;
 }
 
-.dropdown-edit-song-content button {
+.dropdown-inside-edit-content button {
     border: 1px solid var(--primary-color);
     background-color: var(--background-color);
     color: var(--primary-color);
@@ -216,13 +216,13 @@ a.active {
     width: var(--primary-width);
 }
 
-.dropdown-edit-song-content button:hover {
+.dropdown-inside-edit-content button:hover {
     font-size: 16px;
     color: var(--background-color);
     background-color: var(--primary-color);
 }
 
-.dropdown-edit-song:hover .dropdown-edit-song-content {
+.dropdown-inside-edit:hover .dropdown-inside-edit-content {
     display: block;
 }
 

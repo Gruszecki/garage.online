@@ -67,19 +67,12 @@ function editSongsAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
 
     for (const i of Array(deleteForms.length).keys()) {
         if (deleteForms[i].id == "songDeleteFormId-0") {
-
             deleteForms[i].style.display = "none";
         }
     }
 }
 
 function editPrivilegesAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
-    hideAllForms();
-    changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
-    document.getElementById(formId).style.display = 'block';
-}
-
-function editOtherAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
     hideAllForms();
     changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
     document.getElementById(formId).style.display = 'block';

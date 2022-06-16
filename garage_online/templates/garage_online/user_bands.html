@@ -8,7 +8,7 @@
     twoje zespoły<br><br>
 </div>
 
-<!--Sidebar-->
+<!--SIDEBAR-->
 <div class="flex-container" style="flex-direction: column; float: left;">
     {% for band in bands %}
     <div>
@@ -33,30 +33,36 @@
                 </span>
             </div>
         </div>
-<!--Button: edit-->
+<!--Button: EDIT-->
         <div class="dropdown-edit">
             <button class="btn-edit-band" id="btn-edit-{{ band.id }}">edytuj >></button>
             <div class="dropdown-edit-content" id="dropdown-edit-content-{{ band.id }}">
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-ozespole" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">o zespole</button><br>
+<!--Button: band-->
+                <div class="dropdown-inside-edit">
+                    <button id="btn-edit-choice-{{ band.id }}-ozespole">zespół >></button>
+                    <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}">
+                        <button class="btn-edit-band-choice" id="band-info-content-{{ band.id }}" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">informacje</button>
+                        <button class="btn-edit-band-choice" id="band-links-content-{{ band.id }}" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-links-form-{{ band.id }}')">linki</button>
+                    </div>
+                </div>
 <!--Button: songs-->
-                <div class="dropdown-edit-song">
-                    <button class="btn-edit-song" id="btn-edit-choice-{{ band.id }}-piosenki">utwory >></button><br>
-                    <div class="dropdown-edit-song-content" id="dropdown-songs-content-{{ band.id }}">
+                <div class="dropdown-inside-edit">
+                    <button id="btn-edit-choice-{{ band.id }}-piosenki">utwory >></button>
+                    <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}-{{song.id}}">
                         {% for band_id, songs in band_songs.items %}
                             {% if band_id == band.id %}
                                 {% for song in songs %}
-                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-{{ song.id }}" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band_id }}-{{ song.id }}')">{{ song.title }}</button><br>
+                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-{{ song.id }}" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band_id }}-{{ song.id }}')">{{ song.title }}</button>
                                 {% endfor %}
                                 {% if songs|length < 3 %}
-                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-0" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band.id }}-0')">nowy utwór</button><br>
+                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-0" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band.id }}-0')">nowy utwór</button>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
                     </div>
                 </div>
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editPrivilegesAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-edit-form-{{ band.id }}')">uprawnienia</button><br>
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-niebezpieczne" onclick="editOtherAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'other-edit-form-{{ band.id }}')">inne</button>
-            </div>
+<!--Button: privileges-->
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editPrivilegesAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-edit-form-{{ band.id }}')">uprawnienia</button><br></div>
         </div>
     </div>
     {% endfor %}
