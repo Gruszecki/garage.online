@@ -153,6 +153,8 @@ def user_bands(request):
 
         social_links[band.id] = SocialLinkForm(request.POST or None, instance=links_obj)
 
+    new_band_form = BandForm(request.POST or None, request.FILES or None)
+
     if request.method == 'GET':
         return render(
             request,
@@ -160,6 +162,7 @@ def user_bands(request):
             {
                 'bands': bands,
                 'band_forms': band_forms,
+                'new_band_form': new_band_form,
                 'band_songs': band_songs,
                 'song_forms': song_forms,
                 'social_links': social_links
@@ -174,6 +177,16 @@ def user_bands(request):
                 messages.success(request, f'Nie udało się zapisać zespołu.', fail_silently=True)
                 print('Nie udało się zapisać zespołu.')
                 print(band_forms[band_id].errors)
+
+            return redirect(user_bands)
+        elif 'new_band' in request.POST:
+            if new_band_form.is_valid():
+                band = new_band_form.save()
+                request.user.bands.add(band)
+            else:
+                messages.success(request, f'Nie udało się zapisać zespołu.', fail_silently=True)
+                print('Nie udało się zapisać zespołu.')
+                print(new_band_form.errors)
 
             return redirect(user_bands)
         elif 'save_songs' in request.POST:

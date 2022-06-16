@@ -41,8 +41,8 @@
                 <div class="dropdown-inside-edit">
                     <button id="btn-edit-choice-{{ band.id }}-ozespole">zespół >></button>
                     <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}" style="top: 0px;">
-                        <button class="btn-edit-band-choice" id="band-info-content-{{ band.id }}" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">informacje</button>
-                        <button class="btn-edit-band-choice" id="band-links-content-{{ band.id }}" onclick="editLinksAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-links-form-{{ band.id }}')">linki</button>
+                        <button class="btn-edit-band-choice" id="band-info-content-{{ band.id }}" onclick="editBandAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">informacje</button>
+                        <button class="btn-edit-band-choice" id="band-links-content-{{ band.id }}" onclick="editLinksAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-links-form-{{ band.id }}')">linki</button>
                     </div>
                 </div>
 <!--Button: songs-->
@@ -52,22 +52,22 @@
                         {% for band_id, songs in band_songs.items %}
                             {% if band_id == band.id %}
                                 {% for song in songs %}
-                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-{{ song.id }}" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band_id }}-{{ song.id }}')">{{ song.title }}</button>
+                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-{{ song.id }}" onclick="editSongsAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band_id }}-{{ song.id }}')">{{ song.title }}</button>
                                 {% endfor %}
                                 {% if songs|length < 3 %}
-                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-0" onclick="editSongsAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band.id }}-0')">nowy utwór</button>
+                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-0" onclick="editSongsAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band.id }}-0')">nowy utwór</button>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
                     </div>
                 </div>
 <!--Button: privileges-->
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editPrivilegesAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-edit-form-{{ band.id }}')">uprawnienia</button><br></div>
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editPrivilegesAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-edit-form-{{ band.id }}')">uprawnienia</button><br></div>
         </div>
     </div>
     {% endfor %}
-<!--Button: add new band-->
-    <button style="color: var(--background-color); background-color: var(--primary-color); width: var(--primary-width); padding: 5px 28px; font-size: 16px;">
+<!--Button: ADD NEW BAND-->
+    <button id="btn-new-band" onclick="newBandAction()" style="color: var(--background-color); background-color: var(--primary-color); width: var(--primary-width); padding: 5px 28px; font-size: 16px;">
         dodaj nowy zespół
     </button>
 
@@ -165,6 +165,59 @@
                 </div>
             </form>
         {% endfor %}
+<!--Form: NEW BAND-->
+        <form method="post" class="edit-form" id="new-band-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-3">Nazwa:</div>
+                <div class="col">{{ new_band_form.name }}</div>
+            </div><br>
+            <div class="row textarea-short">
+                <div class="col-3">Krótki opis (do 150 znaków):</div>
+                <div class="col">{{ new_band_form.short_desc }}</div>
+            </div><br>
+            <div class="row textarea-long">
+                <div class="col-3">Długi opis:</div>
+                <div class="col">{{ new_band_form.long_desc }}</div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">E-mail zespołu:</div>
+                <div class="col">{{ new_band_form.contact_email }}</div>
+            <div class="row">
+            </div><br>
+                <div class="col-3">E-mail widoczny:</div>
+                <div class="col-1">{{ new_band_form.show_contact_email }}</div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">Zespół aktywny:</div>
+                <div class="col-1">{{ new_band_form.is_active }}</div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">Główny gatunek:</div>
+                <div class="col">{{ new_band_form.genre }}</div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">Kraj:</div>
+                <div class="col" name="dropdown-form">{{ new_band_form.country }}</div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">Miejscowość:</div>
+                <div class="col">{{ new_band_form.city }}</div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">Tagi oddzielone przecinkami:</div>
+                <div class="col">{{ new_band_form.tags }}</div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">Zdjęcie:</div>
+                <div class="col">{{ new_band_form.image }}</div>
+            </div><br>
+            <br>
+<!--Button: save new band-->
+            <div class="row">
+                <button type="submit" name="new_band" style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;">zapisz zespół</button>
+            </div>
+        </form>
 <!--Form: LINKS-->
         {% for band_id, form in social_links.items %}
             <form method="post" class="edit-form" id="band-links-form-{{ band_id }}">

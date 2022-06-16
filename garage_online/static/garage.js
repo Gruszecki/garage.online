@@ -21,7 +21,7 @@ function play(file) {
     player.play();
 }
 
-function btnEditClicked(editBtnId, dropdownId) {
+function btnEditClicked(editBtnId) {
     const all_buttons = document.getElementsByClassName("btn-edit-band");
     for (const i of Array(all_buttons.length).keys()) {
         var button = document.getElementById(all_buttons[i].id);
@@ -43,24 +43,24 @@ function hideAllForms() {
     }
 }
 
-function changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId) {
+function changeEditBtnName(choiceBtnId, editBtnId, dropdownId) {
     var buttonChoice = document.getElementById(choiceBtnId);
     var buttonEdit = document.getElementById(editBtnId);
     const textOfChoice = buttonChoice.innerText;
 
-    btnEditClicked(editBtnId, dropdownId);
+    btnEditClicked(editBtnId);
     buttonEdit.innerText = textOfChoice;
 }
 
-function editBandAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
+function editBandAction(choiceBtnId, editBtnId, dropdownId, formId) {
     hideAllForms();
-    changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
+    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
     document.getElementById(formId).style.display = 'block';
 }
 
-function editSongsAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
+function editSongsAction(choiceBtnId, editBtnId, dropdownId, formId) {
     hideAllForms();
-    changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
+    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
     document.getElementById(formId).style.display = 'block';
 
     const deleteForms = document.getElementsByClassName("songDeleteFormClass");
@@ -72,14 +72,28 @@ function editSongsAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
     }
 }
 
-function editPrivilegesAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
+function editPrivilegesAction(choiceBtnId, editBtnId, dropdownId, formId) {
     hideAllForms();
-    changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
+    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
     document.getElementById(formId).style.display = 'block';
 }
 
-function editLinksAction(bandId, choiceBtnId, editBtnId, dropdownId, formId) {
+function editLinksAction(choiceBtnId, editBtnId, dropdownId, formId) {
     hideAllForms();
-    changeEditBtnName(bandId, choiceBtnId, editBtnId, dropdownId);
+    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
     document.getElementById(formId).style.display = 'block';
+}
+
+function newBandAction(newBandForm) {
+    hideAllForms()
+
+    const all_buttons = document.getElementsByClassName("btn-edit-band");
+    for (const i of Array(all_buttons.length).keys()) {
+        var button = document.getElementById(all_buttons[i].id);
+        button.style.setProperty("background-color", "var(--background-color)");
+        button.style.setProperty("color", "var(--primary-color)");
+        button.innerText = 'edytuj >>';
+    }
+
+    document.getElementById("new-band-form").style.display = "block";
 }
