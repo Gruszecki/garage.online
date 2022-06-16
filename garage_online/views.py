@@ -200,6 +200,9 @@ def user_bands(request):
         # # Error
         else:
             for band in bands:
+                if f'delete-band-{band.id}' in request.POST:
+                    band.delete()
+                    return redirect(user_bands)  # TODO: Dodać komunikat o sukcesie
                 songs = Song.objects.filter(band=band)
                 for song in songs:
                     if f'delete-song-{band.id}-{song.id}' in request.POST:

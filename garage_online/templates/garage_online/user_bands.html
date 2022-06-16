@@ -70,7 +70,7 @@
 <!--Content-->
 <div class="flex-container" style="flex-direction: column;">
     <div class="col-11">
-<!--Form: band-->
+<!--Form: BAND-->
         {% for id, form in band_forms.items %}
             <form method="post" class="edit-form" id="band-edit-form-{{ id }}" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -124,9 +124,42 @@
                 <div class="row">
                     <button type="submit" name="save_band" style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;">zapisz zmiany</button>
                 </div>
+<!--DELETE BAND-->
+                <div class="bandDeleteFormClass" id="bandDeleteFormId-{{ id }}">
+                    <form method="post"  >
+<!--Button: delete band-->
+                        <br><br><hr style="border-top: 1px dashed">
+                        <button
+                                type="button"
+                                style="width: 20%; background-color: #cc3357; color: white; border: none; padding: 5px 28px; font-size: 16px;"
+                                data-bs-toggle="modal"
+                                data-bs-target="#bandDeleteConfirmationBox-{{ id }}"
+                        >
+                            usuń zespół
+                        </button>
+<!--Delete band: confirmation box-->
+                        <div class="modal fade" id="bandDeleteConfirmationBox-{{ id }}" tabindex="-1" aria-labelledby="bandDeleteConfirmationBoxLabel-{{ id }}" aria-hidden="true">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="bandDeleteConfirmationBoxLabel-{{ id }}">Potwierdź usunięcie</h5>
+                                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="color: var(--background-color);"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                          Czy na pewno chcesz usunąć <b>{{ form.name.value }}</b>? Zespół nie będzie dłużej przechowywany w bazie danych i wszystkie dane zostaną trwale usunięte. Tej operacji nie da się cofnąć.
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button type="button" class="button" data-bs-dismiss="modal">zamknij</button>
+                                          <button type="submit" class="button" name="delete-band-{{ id }}" style="color: var(--background-color); background-color: var(--primary-color);">usuń</button>
+                                      </div>
+                                  </div>
+                              </div>
+                        </div>
+                    </form>
+                </div>
             </form>
         {% endfor %}
-<!--Form: song-->
+<!--Form: SONG-->
         <div class="row">
             {% for band_id, forms in song_forms.items %}
                 {% for song_id, form in forms.items %}
@@ -169,43 +202,41 @@
                                 <button type="submit" name="save_songs" style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"  >zapisz</button>
                             </div>
                         </div>
-
-                    <div class="songDeleteFormClass" id="songDeleteFormId-{{ song_id }}">
-                    <form method="post"  >
+<!--DELETE SONG-->
+                        <div class="songDeleteFormClass" id="songDeleteFormId-{{ song_id }}">
+                            <form method="post"  >
 <!--Button: delete song-->
-                    <br><br><hr style="border-top: 1px dashed">
-                    <button
-                            type="button"
-                            style="width: 20%; background-color: #cc3357; color: white; border: none; padding: 5px 28px; font-size: 16px;"
-                            data-bs-toggle="modal"
-                            data-bs-target="#confirmationBox-{{ band_id }}-{{ song_id }}"
-                    >
-                        usuń utwór
-                    </button>
-
+                                <br><br><hr style="border-top: 1px dashed">
+                                <button
+                                        type="button"
+                                        style="width: 20%; background-color: #cc3357; color: white; border: none; padding: 5px 28px; font-size: 16px;"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#confirmationBox-{{ band_id }}-{{ song_id }}"
+                                >
+                                    usuń utwór
+                                </button>
 <!--Delete song: confirmation box-->
-
-                        {% csrf_token %}
-                        <div class="modal fade" id="confirmationBox-{{ band_id }}-{{ song_id }}" tabindex="-1" aria-labelledby="confirmationBoxLabel-{{ band_id }}-{{ song_id }}" aria-hidden="true">
-                              <div class="modal-dialog">
-                                  <div class="modal-content">
-                                      <div class="modal-header">
-                                          <h5 class="modal-title" id="confirmationBoxLabel-{{ band_id }}-{{ song_id }}">Potwierdź usunięcie</h5>
-                                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="color: var(--background-color);"></button>
+                                {% csrf_token %}
+                                <div class="modal fade" id="confirmationBox-{{ band_id }}-{{ song_id }}" tabindex="-1" aria-labelledby="confirmationBoxLabel-{{ band_id }}-{{ song_id }}" aria-hidden="true">
+                                      <div class="modal-dialog">
+                                          <div class="modal-content">
+                                              <div class="modal-header">
+                                                  <h5 class="modal-title" id="confirmationBoxLabel-{{ band_id }}-{{ song_id }}">Potwierdź usunięcie</h5>
+                                                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="color: var(--background-color);"></button>
+                                              </div>
+                                              <div class="modal-body">
+                                                  Czy na pewno chcesz usunąć <b>{{ form.title.value }}</b>? Tej operacji nie da się cofnąć.
+                                              </div>
+                                              <div class="modal-footer">
+                                                  <button type="button" class="button" data-bs-dismiss="modal">zamknij</button>
+                                                  <button type="submit" class="button" name="delete-song-{{ band_id }}-{{ song_id }}" style="color: var(--background-color); background-color: var(--primary-color);">usuń</button>
+                                              </div>
+                                          </div>
                                       </div>
-                                      <div class="modal-body">
-                                          Czy na pewno chcesz usunąć <b>{{ form.title.value }}</b>? Tej operacji nie da się cofnąć.
-                                      </div>
-                                      <div class="modal-footer">
-                                          <button type="button" class="button" data-bs-dismiss="modal">zamknij</button>
-                                          <button type="submit" class="button" name="delete-song-{{ band_id }}-{{ song_id }}" style="color: var(--background-color); background-color: var(--primary-color);">usuń</button>
-                                      </div>
-                                  </div>
-                              </div>
+                                </div>
+                            </form>
                         </div>
                     </form>
-    </div>
-                        </form>
                 {% endfor %}
             {% endfor %}
         </div>
