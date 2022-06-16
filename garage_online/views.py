@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -123,11 +124,13 @@ def all_bands(request):
     return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs})
 
 
+@login_required()
 def user_bands(request):
     bands = Band.objects.filter(user=request.user)
     band_songs = {}
     band_forms = {}
     song_forms = {}
+    social_links = {}
 
     for band in bands:
         band_forms[band.id] = BandForm(request.POST or None, request.FILES or None, instance=band)
@@ -143,6 +146,13 @@ def user_bands(request):
         song_forms[band.id] = song_forms_dict
         band_songs[band.id] = songs
 
+        try:
+            links_obj = SocialLink.objects.get(band=band)
+        except SocialLink.DoesNotExist:
+            links_obj = None
+
+        social_links[band.id] = SocialLinkForm(request.POST or None, instance=links_obj)
+
     if request.method == 'GET':
         return render(
             request,
@@ -151,16 +161,18 @@ def user_bands(request):
                 'bands': bands,
                 'band_forms': band_forms,
                 'band_songs': band_songs,
-                'song_forms': song_forms
+                'song_forms': song_forms,
+                'social_links': social_links
             }
         )
     elif request.method == 'POST':
         if 'save_band' in request.POST:
             band_id = int(request.POST.get('band_id'))
             if band_forms[band_id].is_valid():
-                band_forms[band_id].save()     # TODO: Dodać komunikat o sukcesie
+                band_forms[band_id].save()
             else:
-                print('Nie udało się zapisać zespołu')    # TODO: Komunikat o niepowodzeniu
+                messages.success(request, f'Nie udało się zapisać zespołu.', fail_silently=True)
+                print('Nie udało się zapisać zespołu.')
                 print(band_forms[band_id].errors)
 
             return redirect(user_bands)
@@ -169,46 +181,41 @@ def user_bands(request):
             song_id = int(request.POST.get('song_id'))
 
             band = Band.objects.get(id=band_id)
-            form = song_forms[band_id][song_id]
-            if form.is_valid():
-                song_form = form.save(commit=False)
-                song_form = lyrics_validation(song_form)
-                song_form.band = band
-                song_form.save()    # TODO: Dodać komunikat o sukcesie
+            song_form = song_forms[band_id][song_id]
+            if song_form.is_valid():
+                form = song_form.save(commit=False)
+                form = lyrics_validation(form)
+                form.band = band
+                form.save()
+                messages.success(request, f'Utwór {form.title} został pomyślnie zapisany.', fail_silently=True)
             else:
-                print('Nie udało się zapisać piosenki')       # Dodać komunikat form not valid
-                print(form.errors)
+                print('Nie udało się zapisać utworu.')       # Dodać komunikat form not valid
+                print(song_form.errors)
 
             return redirect(user_bands)
-        # # Delete band
-        # elif 'delete_band' in request.POST:
-        #     band.delete()
-        #     return redirect(dashboard)
-        # # Social links
-        # elif 'add_social_links' in request.POST:
-        #     social_form = SocialLinkForm(request.POST)
-        #     if social_form.is_valid():
-        #         social = social_form.save(commit=False)
-        #         social.band = band
-        #         social.save()
-        #     return redirect(edit_band, band.id, band.name)
-        # # Remove link
-        # elif 'remove_link' in request.POST:
-        #     link_id = request.POST.get('remove_link')
-        #     link = SocialLink.objects.get(id=link_id)
-        #     link.delete()
-        #     return redirect(edit_band, band.id, band.name)
-        # # Error
+        elif 'save_links' in request.POST:
+            band_id = int(request.POST.get('band_id'))
+            social_link_form = social_links[band_id]
+            band = Band.objects.get(id=band_id)
+
+            if social_link_form.is_valid():
+                socials = social_link_form.save()
+                band.social_links = socials
+                band.save()
+                messages.success(request, f'Linki zespołu {band.name} zostały zauktualizowane.', fail_silently=True)
+                return redirect(user_bands)
         else:
             for band in bands:
                 if f'delete-band-{band.id}' in request.POST:
                     band.delete()
-                    return redirect(user_bands)  # TODO: Dodać komunikat o sukcesie
+                    messages.success(request, f'Zespół {band.name} został usunięty.', fail_silently=True)
+                    return redirect(user_bands)
                 songs = Song.objects.filter(band=band)
                 for song in songs:
                     if f'delete-song-{band.id}-{song.id}' in request.POST:
                         song.delete()
-                        return redirect(user_bands)  # TODO: Dodać komunikat o sukcesie
+                        messages.success(request, f'Utwór {song.title} został usunięty.', fail_silently=True)
+                        return redirect(user_bands)
 
             print('Editing band failed.')
             print(request.POST)
@@ -313,7 +320,7 @@ def manage_privileges(request, id, name):
                 additional_user = User.objects.get(email=email)
                 band.user.add(additional_user)
             except ObjectDoesNotExist:
-                pass    # TODO: Dodać obługę wyjątków: message na górze ekranu, że się nie udało
+                messages.success(request, f'Nadanie uprawnień nie powiodło się. Nie znaleziono użytkownika o podanym adresise e-mail: {email}', fail_silently=True)
             finally:
                 return redirect(manage_privileges, band.id, band.name)
         elif 'take_privileges' in request.POST:

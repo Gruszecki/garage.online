@@ -16,7 +16,7 @@
 <!--Band image-->
             <img
                 src="/media/{{band.image}}"
-                class="band-photo-small"
+                class="band-photo-small img-fluid"
                 style="position: relative;"
                 onmouseover="showIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
                 onmouseout="hideIcons('icon-play-{{ band.id }}', 'image-glass-{{ band.id }}', 'name-glass-{{ band.id }}', 'description-{{ band.id }}')"
@@ -42,7 +42,7 @@
                     <button id="btn-edit-choice-{{ band.id }}-ozespole">zespół >></button>
                     <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}" style="top: 0px;">
                         <button class="btn-edit-band-choice" id="band-info-content-{{ band.id }}" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">informacje</button>
-                        <button class="btn-edit-band-choice" id="band-links-content-{{ band.id }}" onclick="editBandAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-links-form-{{ band.id }}')">linki</button>
+                        <button class="btn-edit-band-choice" id="band-links-content-{{ band.id }}" onclick="editLinksAction({{ band.id }}, id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-links-form-{{ band.id }}')">linki</button>
                     </div>
                 </div>
 <!--Button: songs-->
@@ -165,6 +165,53 @@
                 </div>
             </form>
         {% endfor %}
+<!--Form: LINKS-->
+        {% for band_id, form in social_links.items %}
+            <form method="post" class="edit-form" id="band-links-form-{{ band_id }}">
+                {% csrf_token %}
+                <input type="hidden" value="{{ band_id }}" name="band_id">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-3">Strona zespołu:</div>
+                            <div class="col">{{ form.band_site }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">Facebook:</div>
+                            <div class="col">{{ form.facebook }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">Bandcamp:</div>
+                            <div class="col">{{ form.bandcamp }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">Spotify:</div>
+                            <div class="col">{{ form.spotify }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">YouTube:</div>
+                            <div class="col">{{ form.youtube }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">SoundCloud:</div>
+                            <div class="col">{{ form.soundcloud }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">iTunes:</div>
+                            <div class="col">{{ form.itunes }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">Instagram:</div>
+                            <div class="col">{{ form.instagram }}</div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <button type="submit" name="save_links" style="color: var(--background-color); background-color: var(--primary-color); padding: 5px 28px; font-size: 16px;"  >zapisz</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        {% endfor %}
 <!--Form: SONG-->
         <div class="row">
             {% for band_id, forms in song_forms.items %}
@@ -254,6 +301,7 @@
 <footer class="footer">
     <audio controls seekable controlsList="nodownload" class="player" style="width: 80%;" id="player">
         <source src="" type="audio/mpeg" id="playerSrc">
+        <source src="" type="audio/ogg">
         Your browser does not support the <code>audio</code> element.
     </audio>
 </footer>
