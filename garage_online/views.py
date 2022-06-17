@@ -153,7 +153,7 @@ def user_bands(request):
             links_obj = None
 
         social_links[band.id] = SocialLinkForm(request.POST or None, instance=links_obj)
-        users_with_privileges[band.id] = band.user.all()
+        users_with_privileges[band] = band.user.all()
 
     new_band_form = BandForm(request.POST or None, request.FILES or None)
 
@@ -236,7 +236,7 @@ def user_bands(request):
             band_id = int(request.POST.get('band_id'))
             band = Band.objects.get(id=band_id)
             selected_user = request.POST.get('users_to_privilege_take', False)
-            if len(users_with_privileges[band_id]) > 1:
+            if len(users_with_privileges[band]) > 1:
                 if selected_user:
                     user = User.objects.get(email=selected_user)
                     band.user.remove(user)
