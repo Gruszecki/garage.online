@@ -131,6 +131,7 @@ def user_bands(request):
     band_forms = {}
     song_forms = {}
     social_links = {}
+    users_with_privileges = {}
 
     for band in bands:
         band_forms[band.id] = BandForm(request.POST or None, request.FILES or None, instance=band)
@@ -152,6 +153,7 @@ def user_bands(request):
             links_obj = None
 
         social_links[band.id] = SocialLinkForm(request.POST or None, instance=links_obj)
+        users_with_privileges[band.id] = band.user.all()
 
     new_band_form = BandForm(request.POST or None, request.FILES or None)
 
@@ -165,7 +167,8 @@ def user_bands(request):
                 'new_band_form': new_band_form,
                 'band_songs': band_songs,
                 'song_forms': song_forms,
-                'social_links': social_links
+                'social_links': social_links,
+                'users_with_privileges': users_with_privileges
             }
         )
     elif request.method == 'POST':
@@ -217,6 +220,32 @@ def user_bands(request):
                 band.save()
                 messages.success(request, f'Linki zespołu {band.name} zostały zauktualizowane.', fail_silently=True)
                 return redirect(user_bands)
+        elif 'give_privileges' in request.POST:
+            band_id = int(request.POST.get('band_id'))
+            band = Band.objects.get(id=band_id)
+            email = request.POST.get('user_email')
+            try:
+                additional_user = User.objects.get(email=email)
+                band.user.add(additional_user)
+                messages.success(request, f'Pomyślnie nadano uprawnienia dla użytkownika o podanym adresise e-mail: {email}.', fail_silently=True)
+            except ObjectDoesNotExist:
+                messages.success(request, f'Nadanie uprawnień nie powiodło się. Nie znaleziono użytkownika o podanym adresise e-mail: {email}.', fail_silently=True)
+            finally:
+                return redirect(user_bands)
+        elif 'take_privileges' in request.POST:
+            band_id = int(request.POST.get('band_id'))
+            band = Band.objects.get(id=band_id)
+            selected_user = request.POST.get('users_to_privilege_take', False)
+            if len(users_with_privileges[band_id]) > 1:
+                if selected_user:
+                    user = User.objects.get(email=selected_user)
+                    band.user.remove(user)
+                    messages.success(request, f'Pomyślnie odebrano uprawnienia.', fail_silently=True)
+                    return redirect(user_bands)
+            else:
+                messages.success(request, f'Nie możesz odebrać uprawnień do zespołu, którego jesteś jedynym zarządcą.', fail_silently=True)
+
+            return redirect(user_bands)
         else:
             for band in bands:
                 if f'delete-band-{band.id}' in request.POST:

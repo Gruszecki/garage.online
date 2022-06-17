@@ -62,7 +62,7 @@
                     </div>
                 </div>
 <!--Button: privileges-->
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editPrivilegesAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-edit-form-{{ band.id }}')">uprawnienia</button><br></div>
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editPrivilegesAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-manage-form-{{ band.id }}')">uprawnienia</button><br></div>
         </div>
     </div>
     {% endfor %}
@@ -345,6 +345,48 @@
                     </form>
                 {% endfor %}
             {% endfor %}
+        </div>
+        <div class="row">
+
+        {% for band_id, users in users_with_privileges.items %}
+
+            <div class="edit-form" id="privileges-manage-form-{{ band_id }}">
+                Uprawnienia do zarządzania zespołem <span style="color: var(--primary-color)">{{band.name}}</span> posiadają:<br>
+                {% for user in users %}
+                    <li>{{ user.username }} ({{ user.email }})</li>
+                {% endfor %}
+                <br><br>
+                <div class="col-6">
+
+                    <!--Section: give privileges-->
+                    <h5>Nadaj uprawnienia</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ band_id }}" name="band_id">
+                        Email <span style="font-size: 10px;">(użytkownik musi posiadać konto w Garażu)</span>
+                        <input type="email" name="user_email"  required/><br><br>
+                        <button type="submit" name="give_privileges" style="width: 150px; color: var(--background-color); background-color: var(--primary-color);">nadaj</button>
+                    </form>
+                    <br><br>
+
+                    <!--Section: take privileges-->
+                    <h5>Odbierz uprawnienia</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ band_id }}" name="band_id">
+                        <select name="users_to_privilege_take">
+                            <option selected="selected" disabled>Wybierz użytkownika</option>
+                            {% for user in users %}
+                                <option value="{{ user.email }}">{{ user.username }} ({{ user.email }})</option>
+                            {% endfor %}
+                        </select>
+                        <br><br>
+                        <button type="submit" name="take_privileges" style="width: 150px; color: var(--background-color); background-color: var(--primary-color);">odbierz </button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+
         </div>
     </div>
 </div>

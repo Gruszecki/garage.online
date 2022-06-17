@@ -29,6 +29,11 @@ a {
     text-decoration: none;
 }
 
+li {
+    list-style-type: square;
+    color: var(--text-color);
+}
+
 .alert {
     padding: 20px;
     background-color: var(--primary-color);

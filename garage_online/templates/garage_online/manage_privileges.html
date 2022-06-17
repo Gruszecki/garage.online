@@ -13,10 +13,10 @@
     {% endfor %}
     <br>
 
+    <!--Section: give privileges-->
     <form method="post">
         {% csrf_token %}
         <input type="email" name="user_email" required/>
-    <!--Section: give privileges-->
         <button type="submit" name="give_privileges">
             Dodaj uprawnienie dla tego użytkownika
         </button>
