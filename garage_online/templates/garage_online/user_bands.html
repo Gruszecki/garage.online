@@ -280,13 +280,13 @@
                             </div><br>
                             <div class="row">
                                 <div class="col-3">Posiada tekst:</div>
-                                <div class="col-2">{{ form.has_lyrics }}</div>
+                                <div class="col-2" onclick="hideLyricsFields({{band_id}}, {{song_id}})">{{ form.has_lyrics }}</div>
                             </div><br>
-                            <div class="row">
+                            <div class="row" id="language-{{band_id}}-{{song_id}}">
                                 <div class="col-3">Język:</div>
                                 <div class="col">{{ form.language }}</div>
                             </div><br>
-                            <div class="row">
+                            <div class="row" id="lyrics-{{band_id}}-{{song_id}}">
                                 <div class="col">
                                     <div class="row">Tekst:</div>
                                     <div class="row">{{ form.lyrics }}</div>

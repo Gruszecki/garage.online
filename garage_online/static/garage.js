@@ -97,3 +97,17 @@ function newBandAction(newBandForm) {
 
     document.getElementById("new-band-form").style.display = "block";
 }
+
+function hideLyricsFields(bandId, songId) {
+    var form = document.getElementById(`song-edit-form-${bandId}-${songId}`);
+    var language = document.getElementById(`language-${bandId}-${songId}`);
+    var lyrics = document.getElementById(`lyrics-${bandId}-${songId}`);
+
+    if(form.elements["has_lyrics"].checked){
+        language.style.display = "block";
+        lyrics.style.display = "block";
+    } else {
+        language.style.display = "none";
+        lyrics.style.display = "none";
+    }
+}
