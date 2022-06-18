@@ -9,16 +9,5 @@
     <a href="{% url 'user_settings' %}">konto</a><br>
     <br>
     <a href="{% url 'user_bands' %}">twoje zespoły</a><br>
-    <br>
-    Twoje zespoły:<br>
-    {% if bands|length == 0 %}
-        Nie dodałeś jeszcze żadnego zespołu
-    {% else %}
-        {% for band in bands %}
-            {{ band.name }} - <a href="{% url 'edit_band' band.id band.name %}">edit</a><br>
-        {% endfor %}
-    {% endif %}
-
-
 
 {% endblock %}

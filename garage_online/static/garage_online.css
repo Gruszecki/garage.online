@@ -1,11 +1,11 @@
 :root {
-    /*--primary-color: #fcba03;*/
     --primary-color: #fcba03;
     --background-color: #000000;
     --background-light-color: #202020;
     --text-color: #ffffff;
 
     --primary-width: 300px;
+    --medium-width: 450px;
     --large-width: 760px;
 
     --button-height-shift: 36px;
@@ -68,7 +68,7 @@ li {
 .image-overlay {
     display: none;
     /* background: rgba(105, 73, 1, 0.7); */
-    /*background: rgba(252, 186, 3, 0.7); */
+    /* background: rgba(252, 186, 3, 0.7); */
     background: rgba(0, 0, 0, 0.5);
     position: absolute;
     width: 100%;
@@ -143,17 +143,46 @@ li {
 }
 
 .header {
-
+    top: 0;
+    position: sticky;
+    z-index: 1;
+    height: 50px;
+    width: 100%;
+    background: var(--background-color);
 }
 
 .logo {
     font-size: 30px;
+    display: inline-block;
+}
+
+.search {
+    position: absolute;
+    display: inline-block;
+    top: 10px;
+    left: 0px;
+    width: 100%;
+}
+
+.search input {
+    position: relative;
+    border: 2px solid #505050;
+    background: var(--background-color);
+    color: var(--text-color);
+    width: var(--medium-width);
+}
+
+.search input:focus {
+    outline: none;
+    border: 1px solid var(--primary-color);
 }
 
 .header a {
+    position: relative;
     font-size: 20px;
     text-decoration: none;
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 a:hover {
@@ -165,13 +194,17 @@ a.active {
 }
 
 .header-right {
+    position: relative;
+    display: inline-block;
     float: right;
+    top: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
 }
-
 
 /* Dropdown menu for header */
 .dropdown {
-    float: left;
+   float: left;
 }
 
 .dropdown-content {
@@ -179,7 +212,6 @@ a.active {
     position: absolute;
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 150px;
     /* background-color: rgba(0, 0, 0, 0.7); */
     background-color: var(--background-light-color);
     z-index: 1;
@@ -187,7 +219,9 @@ a.active {
 
 .dropdown-content a {
     font-size: 18px;
-    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    white-space: nowrap;
 }
 
 .dropdown:hover .dropdown-content {
@@ -229,7 +263,6 @@ a.active {
     display: none;
     position: absolute;
     left: var(--primary-width);
-    /* top: var(--button-height-shift); */
     width: var(--primary-width);
     background-color: var(--background-color);
     z-index: 1;
