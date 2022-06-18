@@ -111,3 +111,25 @@ function hideLyricsFields(bandId, songId) {
         lyrics.style.display = "none";
     }
 }
+
+function filter() {
+    const searchElements = Array.from(document.getElementsByClassName("search-options"));
+    const sortElements = Array.from(document.getElementsByClassName("sort-options"));
+    const filterElements = Array.from(document.getElementsByClassName("filter-options"));
+
+    const searchChecked = Array.isArray(searchElements) ? searchElements.filter(element => element.checked === true) : [];
+    const sortChecked = Array.isArray(sortElements) ? sortElements.filter(element => element.checked === true) : [];
+    const filterChecked = Array.isArray(filterElements) ? filterElements.filter(element => element.checked === true) : [];
+
+    for (const i of Array(searchChecked.length).keys()) {
+        console.log(searchChecked[i].id);
+    }
+
+    for (const i of Array(sortChecked.length).keys()) {
+        console.log(sortChecked[i].id);
+    }
+
+    for (const i of Array(filterChecked.length).keys()) {
+        console.log(filterChecked[i].id);
+    }
+}

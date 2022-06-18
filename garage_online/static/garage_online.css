@@ -1,7 +1,8 @@
 :root {
     --primary-color: #fcba03;
     --background-color: #000000;
-    --background-light-color: #202020;
+    --background-medium-color: #202020;
+    --background-light-color: #505050;
     --text-color: #ffffff;
 
     --primary-width: 300px;
@@ -166,7 +167,7 @@ li {
 
 .search input {
     position: relative;
-    border: 2px solid #505050;
+    border: 2px solid var(--background-light-color);
     background: var(--background-color);
     color: var(--text-color);
     width: var(--medium-width);
@@ -175,6 +176,13 @@ li {
 .search input:focus {
     outline: none;
     border: 1px solid var(--primary-color);
+}
+
+#btn-filter {
+    color: var(--background-color);
+    background-color:
+    var(--primary-color);
+    border: none;
 }
 
 .header a {
@@ -198,8 +206,6 @@ a.active {
     display: inline-block;
     float: right;
     top: 10px;
-    margin-top: auto;
-    margin-bottom: auto;
 }
 
 /* Dropdown menu for header */
@@ -213,7 +219,7 @@ a.active {
     padding-top: 10px;
     padding-bottom: 10px;
     /* background-color: rgba(0, 0, 0, 0.7); */
-    background-color: var(--background-light-color);
+    background-color: var(--background-medium-color);
     z-index: 1;
 }
 
@@ -336,9 +342,42 @@ a.active {
 
 /* Confirmation box */
 .modal-content {
-    background-color: var(--background-light-color);
+    background-color: var(--background-medium-color);
 }
 
 .modal-title {
     color: var(--primary-color);
+}
+
+/* Filter offcanvas */
+.offcanvas-header {
+    background-color: var(--primary-color);
+}
+
+.offcanvas-title {
+    color: var(--background-color);
+}
+
+.offcanvas-body {
+    background-color: var(--background-medium-color);
+}
+
+.form-check-input {
+    background-color: var(--primary-color);
+}
+
+.list-group {
+    display: inline-block;
+}
+
+#btn-offcanvas {
+    color: var(--background-color);
+    background-color:
+    var(--primary-color);
+    border: none;
+}
+
+/* Audio player */
+audio::-webkit-media-controls-panel{
+background-color:var(--primary-color) !important;
 }

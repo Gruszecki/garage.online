@@ -1,4 +1,5 @@
 {% load static %}
+{% load poll_extras %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,15 +25,18 @@
 
     <title>{% block title %}{% endblock %}</title>
 
+<!--Header-->
     <div class="header">
+<!--Logo-->
         <text class="logo">
             garage.online
         </text>
-
+<!--Search-->
         <div class="search" align="center">
+            <button id="btn-filter" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas">Filtruj</button>
             <input type="text" placeholder="Szukaj...">
         </div>
-
+<!--Menu-->
         <div class="header-right">
             {% if user.is_authenticated %}
                 <div class="dropdown">
@@ -54,8 +58,101 @@
         </div>
     </div>
 
+<!--OFFCANVAS-->
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Filtracja</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="row">
+<!--Search-->
+                <div class="col">
+                    Szukaj:<br>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchName" type="checkbox" value="" checked> nazwa
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchDesc" type="checkbox" value="" checked> opis
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchSong" type="checkbox" value="" checked> utwór
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchTag" type="checkbox" value="" checked> tag
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchCity" type="checkbox" value="" checked> miejscowość
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchCountry" type="checkbox" value="" checked> kraj
+                    </label>
+                </div>
+<!--Sort-->
+                <div class="col g-0">
+                    Sortuj:<br>
+                    <input class="form-check-input sort-options" type="radio" name="flexRadioDefault" id="sortOld" checked>
+                    <label class="form-check-label" for="sortOld"> od najnowszych</label><br>
+                    <input class="form-check-input sort-options" type="radio" name="flexRadioDefault" id="sortNew">
+                    <label class="form-check-label" for="sortNew"> od najstarszych</label><br>
+                    <input class="form-check-input sort-options" type="radio" name="flexRadioDefault" id="sortAz">
+                    <label class="form-check-label" for="sortAz"> a-z</label><br>
+                    <input class="form-check-input sort-options" type="radio" name="flexRadioDefault" id="sortZa">
+                    <label class="form-check-label" for="sortZa"> z-a</label>
+                </div>
+            </div>
+            <br>
+<!--Filter-->
+            Filtruj:<br>
+            <div class="row">
+                <div class="col-3">
+                    zespoły
+                </div>
+                <div class="col">
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 filter-options" id="filterActive" type="checkbox" value="" checked> aktywne
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 filter-options" id="filterNotActive" type="checkbox" value="" checked> nieaktywne
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 filter-options" id="filterWithSongs" type="checkbox" value="" checked> z piosenkami
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 filter-options" id="filterWithoutSongs" type="checkbox" value="" checked> bez piosenek
+                    </label>
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">
+                    piosenki
+                </div>
+                <div class="col">
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 filter-options" id="filterHasLyrics" type="checkbox" value="" checked> z tekstami
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 filter-options" id="filterHasNoLyrics" type="checkbox" value="" checked> bez tekstów
+                    </label>
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">
+                    gatunki
+                </div>
+                <div class="col">
+                    {% genres %}
+                </div>
+            </div>
+            <br>
+            <button type="button" id="btn-offcanvas" onclick="filter()" data-bs-dismiss="offcanvas">Zatwierdź</button>
+        </div>
+    </div>
+</div>
+
 </head>
 <br><br>
+
 <body>
 
     {% block body %}{% endblock %}
