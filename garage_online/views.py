@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
 
+from .choices import get_filters
 from .forms import BandForm, SongForm, CustomUserCreationForm, SocialLinkForm
-
 from .models import Band, Song, SocialLink
 
 
@@ -118,10 +118,22 @@ def band_details(request, id, name):
     return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs, 'links': links})
 
 
+def use_filters(bands):
+    pass
+
+
 def all_bands(request):
     bands = Band.objects.all()
     songs = Song.objects.all()
-    return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs})
+    filters = get_filters()
+
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        if 'set_filters' in request.POST:
+            print(request.POST)
+
+    return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs, 'filters': filters})
 
 
 @login_required()

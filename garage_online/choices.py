@@ -2,6 +2,24 @@ from country_list import countries_for_language
 import pycountry
 
 
+def get_filters():
+    bands = {
+        'active': 'aktywne',
+        'not-active': 'nieaktywne',
+        'with-songs': 'z utworami',
+        'without-songs': 'bez utworów'
+    }
+
+    songs = {
+        'with-lyrics': 'z tekstami',
+        'without-lyrics': 'bez tekstów'
+    }
+
+    genres = get_genres()
+
+    return {'bands': bands, 'songs': songs, 'genres': genres}
+
+
 def get_genres():
     genres = {
         (0, 'other'),
@@ -30,7 +48,9 @@ def get_genres():
         (23, 'world')
     }
 
-    return genres
+    genres_sorted = sorted(genres, key=lambda tup: tup[0])
+
+    return genres_sorted
 
 
 def get_socials():

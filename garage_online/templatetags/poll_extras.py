@@ -6,7 +6,7 @@ register = template.Library()
 
 @register.inclusion_tag('results.html')
 def genres():
-    gens = get_genres()
-    genres_sorted = sorted(gens, key=lambda tup: tup[0])
+    return {'genres': get_genres()}
 
-    return {'genres': genres_sorted}
+# mydata = Members.objects.filter(firstname='Emil').values() | Members.objects.filter(firstname='Tobias').values()
+# plus do tego jeszcze set

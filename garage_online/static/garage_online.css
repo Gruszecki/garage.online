@@ -18,13 +18,12 @@ body {
     color: var(--text-color);
     margin-bottom: 75px;
 }
-
+/*
 button {
     border: 2px solid var(--primary-color);
     background-color: var(--background-color);
     color: var(--primary-color);
 }
-
 
 button:hover {
     background-color: var(--background-medium-color);
@@ -34,7 +33,7 @@ button:focus {
     background-color: var(--primary-color);
     color: var(--background-color);
 }
-
+*/
 a {
     color: var(--primary-color);
     text-decoration: none;
@@ -193,6 +192,11 @@ li {
     background-color:
     var(--primary-color);
     border: none;
+    display: none;
+}
+
+#search-place {
+    display: none;
 }
 
 .header a {

@@ -3,12 +3,10 @@
 {% block title %}Garage | przegląd{% endblock %}
 
 {% block body %}
-
     {% if bands|length == 0 %}
         <p>Wygląda na to, że zespoły dopiero tworzą swój materiał i jeszcze nie mają się czym pochwalić. Ale trzymajmy za nich kciuki. W końcu to dla nas to robią.<br>DZIĘKUJEMY WAM, MŁODE ZESPOŁY!</p>
     {% else %}
     <div class="flex-container">
-
         {% for band in bands %}
         <div class="image-box-overlay">
 <!--Band image-->
@@ -64,6 +62,134 @@
         {% endfor %}
     </div>
     {% endif %}
+
+
+
+
+<!--OFFCANVAS-->
+<form method="post">
+    {% csrf_token %}
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Filtracja</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <div class="row">
+    <!--Search-->
+                <div class="col">
+                    Szukaj:<br>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchName" type="checkbox" name="searchName" value=""> nazwa
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchDesc" type="checkbox" name="searchDesc" value=""> opis
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchSong" type="checkbox" name="searchSong" value=""> utwór
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchTag" type="checkbox" name="searchTag" value=""> tag
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchCity" type="checkbox" name="searchCity" value=""> miejscowość
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1 search-options" id="searchCountry" type="checkbox" name="searchCountry" value=""> kraj
+                    </label>
+                </div>
+    <!--Sort-->
+                <div class="col g-0">
+                    Sortuj:<br>
+                    <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortOld" checked>
+                    <label class="form-check-label" for="sortOld"> od najnowszych</label><br>
+                    <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortNew">
+                    <label class="form-check-label" for="sortNew"> od najstarszych</label><br>
+                    <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortAz">
+                    <label class="form-check-label" for="sortAz"> a-z</label><br>
+                    <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortZa">
+                    <label class="form-check-label" for="sortZa"> z-a</label>
+                </div>
+            </div>
+            <br>
+    <!--Filter-->
+            Filtruj:<br>
+            <div class="row">
+                <div class="col-3">
+                    zespoły
+                </div>
+                <div class="col">
+                    {% for filter_id, filter_name in filters.bands.items %}
+                        <button id="filterBandsButton{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
+                            <input
+                                    type="checkbox"
+                                    class="filter-options"
+                                    id="filter-bands-{{filter_id}}"
+                                    onclick="checkboxButton(id, 'filterBandsButton{{filter_id}}')"
+                                    name="filterBands{{filter_id}}"
+                                    value="filterBands{{filter_id}}"
+                                    style="display: none;"
+                            >
+                            <label for="filter-bands-{{filter_id}}">{{ filter_name }}</label>
+                        </button>
+                    {% endfor %}
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">
+                    utwory
+                </div>
+                <div class="col">
+                    {% for filter_id, filter_name in filters.songs.items %}
+                        <button id="filterSongsButton{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
+                            <input
+                                    type="checkbox"
+                                    class="filter-options"
+                                    id="filter-songs-{{filter_id}}"
+                                    onclick="checkboxButton(id, 'filterSongsButton{{filter_id}}')"
+                                    name="filterSongs{{filter_id}}"
+                                    value="filterSongs{{filter_id}}"
+                                    style="display: none;"
+                            >
+                            <label for="filter-songs-{{filter_id}}">{{ filter_name }}</label>
+                        </button>
+                    {% endfor %}
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-3">
+                    gatunki
+                </div>
+                <div class="col">
+                    {% for filter_id, filter_name in filters.genres %}
+                        <button id="filterGenreButton{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
+                            <input
+                                    type="checkbox"
+                                    class="filter-options"
+                                    id="filter-genre-{{filter_id}}"
+                                    onclick="checkboxButton(id, 'filterGenreButton{{filter_id}}')"
+                                    name="filterGenre{{filter_id}}"
+                                    value="filterGenre{{filter_id}}"
+                                    style="display: none;"
+                            >
+                            <label for="filter-genre-{{filter_id}}">{{ filter_name }}</label>
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            <button type="submit" id="btn-offcanvas" name="set_filters" data-bs-dismiss="offcanvas">Zatwierdź</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    filterBtn = document.getElementById("btn-filter");
+    searchPlace = document.getElementById("search-place");
+    filterBtn.style.display = "inline-block";
+    searchPlace.style.display = "inline-block";
+</script>
 
 <!--Player-->
 <footer class="footer">

@@ -1,3 +1,11 @@
+var filterButtons = document.getElementsByClassName("filter-button");
+
+for (const i of Array(filterButtons.length).keys()) {
+    filterButtons[i].style.setProperty("background-color", "var(--background-color)");
+    filterButtons[i].style.setProperty("color", "var(--primary-color)");
+    filterButtons[i].style.setProperty("border", "2px solid var(--primary-color)");
+}
+
 function showIcons(playId, imageGlassId, nameGlassId, descId) {
     document.getElementById(playId).style.display = "block";
     document.getElementById(imageGlassId).style.display = "inline-block";
@@ -126,13 +134,20 @@ function checkboxButton(checkboxId, buttonId) {
 }
 
 function filter() {
+
+    // All elements
     const searchElements = Array.from(document.getElementsByClassName("search-options"));
     const sortElements = Array.from(document.getElementsByClassName("sort-options"));
     const filterElements = Array.from(document.getElementsByClassName("filter-options"));
 
+    // Only checked elements
     const searchChecked = Array.isArray(searchElements) ? searchElements.filter(element => element.checked === true) : [];
     const sortChecked = Array.isArray(sortElements) ? sortElements.filter(element => element.checked === true) : [];
     const filterChecked = Array.isArray(filterElements) ? filterElements.filter(element => element.checked === true) : [];
+
+    // Filtered elements
+    const filterSet = new Set();
+
 
     for (const i of Array(searchChecked.length).keys()) {
         console.log(searchChecked[i].id);
