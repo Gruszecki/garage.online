@@ -1,6 +1,15 @@
 {% for genre in genres %}
-        <label class="list-group-item">
-            <input class="form-check-input me-1 filter-options" id="filterGenre1" type="checkbox" value="" checked>  {{ genre.1 }}
-        </label>
+<button id="filterGenreButton{{genre.0}}" style="margin: 2px; ">
+    <input
+            type="checkbox"
+            class="filter-options"
+            id="filterGenre{{genre.0}}"
+            onclick="checkboxButton(id, 'filterGenreButton{{genre.0}}')"
+            name="filterGenre{{genre.1}}"
+            value="filterGenre{{genre.1}}"
+            style="display: none;"
+    >
+    <label for="filterGenre{{genre.0}}">{{ genre.1 }}</label>
+</button>
 {% endfor %}
 

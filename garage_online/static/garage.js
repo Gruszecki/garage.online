@@ -112,6 +112,19 @@ function hideLyricsFields(bandId, songId) {
     }
 }
 
+function checkboxButton(checkboxId, buttonId) {
+    checkbox = document.getElementById(checkboxId);
+    button = document.getElementById(buttonId);
+
+    if(checkbox.checked) {
+        button.style.setProperty("background-color", "var(--primary-color)");
+        button.style.setProperty("color", "var(--background-color)");
+    } else {
+        button.style.setProperty("background-color", "var(--background-color)");
+        button.style.setProperty("color", "var(--primary-color)");
+    }
+}
+
 function filter() {
     const searchElements = Array.from(document.getElementsByClassName("search-options"));
     const sortElements = Array.from(document.getElementsByClassName("sort-options"));

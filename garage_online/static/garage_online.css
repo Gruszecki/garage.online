@@ -25,6 +25,16 @@ button {
     color: var(--primary-color);
 }
 
+
+button:hover {
+    background-color: var(--background-medium-color);
+}
+
+button:focus {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
 a {
     color: var(--primary-color);
     text-decoration: none;

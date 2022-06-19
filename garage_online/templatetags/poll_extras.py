@@ -7,4 +7,6 @@ register = template.Library()
 @register.inclusion_tag('results.html')
 def genres():
     gens = get_genres()
-    return {'genres': gens}
+    genres_sorted = sorted(gens, key=lambda tup: tup[0])
+
+    return {'genres': genres_sorted}
