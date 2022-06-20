@@ -143,19 +143,20 @@ def use_filters(bands, split_filters):
     without_songs = set()
     with_lyrics = set()
     without_lyrics = set()
+    with_genres = set()
 
+    # Band active/not active
     if 'active' in split_filters['filterBands'] and 'not_active' in split_filters['filterBands']:
         active = set(bands)
     elif 'active' in split_filters['filterBands'] or 'not_active' in split_filters['filterBands']:
         if 'active' in split_filters['filterBands']:
-            for band in bands.filter(is_active=True):
-                active.add(band)
+            active = set(bands.filter(is_active=True))
         elif 'not_active' in split_filters['filterBands']:
-            for band in bands.filter(is_active=False):
-                not_active.add(band)
+            not_active = set(bands.filter(is_active=False))
     else:
         active = set(bands)
 
+    # Band with songs/without songs
     if 'with_songs' in split_filters['filterBands'] and 'without_songs' in split_filters['filterBands']:
         with_songs = set(bands)
     elif 'with_songs' in split_filters['filterBands'] or 'without_songs' in split_filters['filterBands']:
@@ -170,9 +171,10 @@ def use_filters(bands, split_filters):
     else:
         with_songs = set(bands)
 
+    # Songs with lyrics/without lyrics
     if 'with_lyrics' in split_filters['filterSongs'] and 'without_lyrics' in split_filters['filterSongs'] and 'without_songs' not in split_filters['filterBands']:
         with_lyrics = set(bands)
-    elif 'with_lyrics' in split_filters['filterSongs'] or 'without_lyrics' in split_filters['filterSongs'] and 'without_songs' not in split_filters['filterBands']:
+    elif ('with_lyrics' in split_filters['filterSongs'] or 'without_lyrics' in split_filters['filterSongs']) and ('without_songs' not in split_filters['filterBands']):
         if 'with_lyrics' in split_filters['filterSongs']:
             for band in bands:
                 for song in Song.objects.filter(band=band):
@@ -183,12 +185,21 @@ def use_filters(bands, split_filters):
                 for song in Song.objects.filter(band=band):
                     if not song.has_lyrics:
                         without_lyrics.add(band)
-    elif 'without_songs' not in split_filters['filterBands']:
+    elif 'with_lyrics' not in split_filters['filterSongs'] and 'without_lyrics' not in split_filters['filterSongs']:
         with_lyrics = set(bands)
     else:
         with_lyrics = set()
 
-    filtered_bands = (active | not_active) & (with_songs | without_songs) & (with_lyrics | without_lyrics)
+    # Bands' genres
+    if len(split_filters['filterGenres']) > 0:
+        for genre in split_filters['filterGenres']:
+            for band in bands:
+                if int(band.genre) == int(genre):
+                    with_genres.add(band)
+    else:
+        with_genres = set(bands)
+
+    filtered_bands = (active | not_active) & (with_songs | without_songs) & (with_lyrics | without_lyrics) & with_genres
 
     return filtered_bands
 
