@@ -5,14 +5,14 @@ import pycountry
 def get_filters():
     bands = {
         'active': 'aktywne',
-        'not-active': 'nieaktywne',
-        'with-songs': 'z utworami',
-        'without-songs': 'bez utworów'
+        'not_active': 'nieaktywne',
+        'with_songs': 'z utworami',
+        'without_songs': 'bez utworów'
     }
 
     songs = {
-        'with-lyrics': 'z tekstami',
-        'without-lyrics': 'bez tekstów'
+        'with_lyrics': 'z tekstami',
+        'without_lyrics': 'bez tekstów'
     }
 
     genres = get_genres()

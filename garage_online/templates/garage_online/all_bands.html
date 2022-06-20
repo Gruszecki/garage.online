@@ -121,17 +121,17 @@
                 </div>
                 <div class="col">
                     {% for filter_id, filter_name in filters.bands.items %}
-                        <button id="filterBandsButton{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
+                        <button id="filterBandsButton-{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
                             <input
                                     type="checkbox"
                                     class="filter-options"
-                                    id="filter-bands-{{filter_id}}"
-                                    onclick="checkboxButton(id, 'filterBandsButton{{filter_id}}')"
-                                    name="filterBands{{filter_id}}"
-                                    value="filterBands{{filter_id}}"
+                                    id="filterBands-{{filter_id}}"
+                                    onclick="checkboxButton(id, 'filterBandsButton-{{filter_id}}')"
+                                    name="filterBands-{{filter_id}}"
+                                    value="filterBands-{{filter_id}}"
                                     style="display: none;"
                             >
-                            <label for="filter-bands-{{filter_id}}">{{ filter_name }}</label>
+                            <label for="filterBands-{{filter_id}}">{{ filter_name }}</label>
                         </button>
                     {% endfor %}
                 </div>
@@ -142,17 +142,17 @@
                 </div>
                 <div class="col">
                     {% for filter_id, filter_name in filters.songs.items %}
-                        <button id="filterSongsButton{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
+                        <button id="filterSongsButton-{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
                             <input
                                     type="checkbox"
                                     class="filter-options"
-                                    id="filter-songs-{{filter_id}}"
-                                    onclick="checkboxButton(id, 'filterSongsButton{{filter_id}}')"
-                                    name="filterSongs{{filter_id}}"
-                                    value="filterSongs{{filter_id}}"
+                                    id="filterSongs-{{filter_id}}"
+                                    onclick="checkboxButton(id, 'filterSongsButton-{{filter_id}}')"
+                                    name="filterSongs-{{filter_id}}"
+                                    value="filterSongs-{{filter_id}}"
                                     style="display: none;"
                             >
-                            <label for="filter-songs-{{filter_id}}">{{ filter_name }}</label>
+                            <label for="filterSongs-{{filter_id}}">{{ filter_name }}</label>
                         </button>
                     {% endfor %}
                 </div>
@@ -163,17 +163,17 @@
                 </div>
                 <div class="col">
                     {% for filter_id, filter_name in filters.genres %}
-                        <button id="filterGenreButton{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
+                        <button id="filterGenresButton-{{filter_id}}" class="filter-button" type="button" style="margin: 2px; cursor: default;">
                             <input
                                     type="checkbox"
                                     class="filter-options"
-                                    id="filter-genre-{{filter_id}}"
-                                    onclick="checkboxButton(id, 'filterGenreButton{{filter_id}}')"
-                                    name="filterGenre{{filter_id}}"
-                                    value="filterGenre{{filter_id}}"
+                                    id="filterGenres-{{filter_id}}"
+                                    onclick="checkboxButton(id, 'filterGenresButton-{{filter_id}}')"
+                                    name="filterGenres-{{filter_id}}"
+                                    value="filterGenres-{{filter_id}}"
                                     style="display: none;"
                             >
-                            <label for="filter-genre-{{filter_id}}">{{ filter_name }}</label>
+                            <label for="filterGenres-{{filter_id}}">{{ filter_name }}</label>
                         </button>
                     {% endfor %}
                 </div>

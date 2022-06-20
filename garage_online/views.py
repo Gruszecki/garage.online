@@ -118,8 +118,59 @@ def band_details(request, id, name):
     return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs, 'links': links})
 
 
-def use_filters(bands):
-    pass
+def parse_filters(request):
+    split_filters = {
+        'filterBands': [],
+        'filterSongs': [],
+        'filterGenres': []
+    }
+
+    for name in request:
+        try:
+            group_id, filter_id = name.split('-')
+            if group_id in list(split_filters):
+                split_filters[group_id].append(filter_id)
+        except ValueError:
+            pass
+
+    return split_filters
+
+
+def use_filters(bands, split_filters):
+    active = set()
+    not_active = set()
+    with_songs = set()
+    without_songs = set()
+
+    if 'active' in split_filters['filterBands'] and 'not_active' in split_filters['filterBands']:
+        active = set(bands)
+    elif 'active' in split_filters['filterBands'] or 'not_active' in split_filters['filterBands']:
+        if 'active' in split_filters['filterBands']:
+            for band in bands.filter(is_active=True):
+                active.add(band)
+        elif 'not_active' in split_filters['filterBands']:
+            for band in bands.filter(is_active=False):
+                not_active.add(band)
+    else:
+        active = set(bands)
+
+    if 'with_songs' in split_filters['filterBands'] and 'without_songs' in split_filters['filterBands']:
+        with_songs = set(bands)
+    elif 'with_songs' in split_filters['filterBands'] or 'without_songs' in split_filters['filterBands']:
+        if 'with_songs' in split_filters['filterBands']:
+            for band in bands:
+                if len(Song.objects.filter(band=band)) > 0:
+                    with_songs.add(band)
+        elif 'without_songs' in split_filters['filterBands']:
+            for band in bands:
+                if len(Song.objects.filter(band=band)) == 0:
+                    without_songs.add(band)
+    else:
+        with_songs = set(bands)
+
+    filtered_bands = (active | not_active) & (with_songs | without_songs)
+
+    return filtered_bands
 
 
 def all_bands(request):
@@ -131,7 +182,9 @@ def all_bands(request):
         pass
     elif request.method == 'POST':
         if 'set_filters' in request.POST:
-            print(request.POST)
+            split_filters = parse_filters(request.POST)
+            bands = use_filters(bands, split_filters)
+            print(bands)
 
     return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs, 'filters': filters})
 
