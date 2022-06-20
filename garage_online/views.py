@@ -141,6 +141,8 @@ def use_filters(bands, split_filters):
     not_active = set()
     with_songs = set()
     without_songs = set()
+    with_lyrics = set()
+    without_lyrics = set()
 
     if 'active' in split_filters['filterBands'] and 'not_active' in split_filters['filterBands']:
         active = set(bands)
@@ -168,7 +170,25 @@ def use_filters(bands, split_filters):
     else:
         with_songs = set(bands)
 
-    filtered_bands = (active | not_active) & (with_songs | without_songs)
+    if 'with_lyrics' in split_filters['filterSongs'] and 'without_lyrics' in split_filters['filterSongs'] and 'without_songs' not in split_filters['filterBands']:
+        with_lyrics = set(bands)
+    elif 'with_lyrics' in split_filters['filterSongs'] or 'without_lyrics' in split_filters['filterSongs'] and 'without_songs' not in split_filters['filterBands']:
+        if 'with_lyrics' in split_filters['filterSongs']:
+            for band in bands:
+                for song in Song.objects.filter(band=band):
+                    if song.has_lyrics:
+                        with_lyrics.add(band)
+        elif 'without_lyrics' in split_filters['filterSongs']:
+            for band in bands:
+                for song in Song.objects.filter(band=band):
+                    if not song.has_lyrics:
+                        without_lyrics.add(band)
+    elif 'without_songs' not in split_filters['filterBands']:
+        with_lyrics = set(bands)
+    else:
+        with_lyrics = set()
+
+    filtered_bands = (active | not_active) & (with_songs | without_songs) & (with_lyrics | without_lyrics)
 
     return filtered_bands
 
@@ -184,7 +204,6 @@ def all_bands(request):
         if 'set_filters' in request.POST:
             split_filters = parse_filters(request.POST)
             bands = use_filters(bands, split_filters)
-            print(bands)
 
     return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs, 'filters': filters})
 
