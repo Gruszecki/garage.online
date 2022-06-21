@@ -9,6 +9,9 @@ from .choices import get_filters
 from .forms import BandForm, SongForm, CustomUserCreationForm, SocialLinkForm
 from .models import Band, Song, SocialLink
 
+import time
+import datetime
+
 
 # Create your views here.
 @login_required()
@@ -124,12 +127,13 @@ def parse_filters(request):
         'filterSongs': [],
         'filterGenres': [],
         'searchFields': [],
-        'sort': 'newest'
+        'sortRadios': []
     }
 
     for name in request:
+        print(request[name], name)
         try:
-            group_id, filter_id = name.split('-')
+            group_id, filter_id = request[name].split('-')
             if group_id in list(split_filters):
                 split_filters[group_id].append(filter_id)
         except ValueError:
@@ -139,6 +143,7 @@ def parse_filters(request):
 
 
 def use_filters(bands, split_filters):
+    print(split_filters)
     active = set()
     not_active = set()
     with_songs = set()
@@ -176,7 +181,7 @@ def use_filters(bands, split_filters):
     # Songs with lyrics/without lyrics
     if 'with_lyrics' in split_filters['filterSongs'] and 'without_lyrics' in split_filters['filterSongs'] and 'without_songs' not in split_filters['filterBands']:
         with_lyrics = set(bands)
-    elif ('with_lyrics' in split_filters['filterSongs'] or 'without_lyrics' in split_filters['filterSongs']) and ('without_songs' not in split_filters['filterBands']):
+    elif 'with_lyrics' in split_filters['filterSongs'] or 'without_lyrics' in split_filters['filterSongs']:
         if 'with_lyrics' in split_filters['filterSongs']:
             for band in bands:
                 for song in Song.objects.filter(band=band):
@@ -217,59 +222,64 @@ def use_searching(bands, split_filters, phrase):
         if 'name' in split_filters['searchFields']:
             if phrase in band.name.lower():
                 searched_bands.add(band)
-                print("Band name:", band.name)
         if 'desc' in split_filters['searchFields']:
             if phrase in band.short_desc.lower() or phrase in band.long_desc.lower():
                 searched_bands.add(band)
-                print("Band desc:", band.short_desc, band.long_desc, sep='\n')
         if 'song' in split_filters['searchFields']:
             songs = Song.objects.filter(band=band)
             for song in songs:
                 if phrase in song.title.lower():
                     searched_bands.add(band)
-                    print("Band song:", song.title)
         if 'tag' in split_filters['searchFields']:
             if phrase in band.tags.lower():
                 searched_bands.add(band)
-                print("Band tag:", band.tags)
         if 'city' in split_filters['searchFields']:
             if phrase in band.city.lower():
                 searched_bands.add(band)
-                print("Band city:", band.city)
 
     return searched_bands
 
 
 def use_sorting(bands, split_filters):
-    pass
+    if len(split_filters['sortRadios']) == 0:
+        sorted_bands = sorted(bands, key=lambda band: time.mktime(datetime.datetime.strptime(str(band.add_2db_date), "%Y-%m-%d").timetuple()), reverse=True)
+    elif split_filters['sortRadios'][0] == 'newest':
+        sorted_bands = sorted(bands, key=lambda band: time.mktime(datetime.datetime.strptime(str(band.add_2db_date), "%Y-%m-%d").timetuple()), reverse=True)
+    elif split_filters['sortRadios'][0] == 'oldest':
+        sorted_bands = sorted(bands, key=lambda band: time.mktime(datetime.datetime.strptime(str(band.add_2db_date), "%Y-%m-%d").timetuple()))
+    elif split_filters['sortRadios'][0] == 'a_z':
+        sorted_bands = sorted(bands, key=lambda band: band.name.lower())
+    elif split_filters['sortRadios'][0] == 'z_a':
+        sorted_bands = sorted(bands, key=lambda band: band.name.lower(), reverse=True)
+
+    return sorted_bands
 
 
 def use_combined_filters(bands, split_filters, phrase):
     filtered_bands = use_filters(bands, split_filters)
-    searched_bands = use_searching(filtered_bands, split_filters, phrase)
+    searched_bands = use_searching(filtered_bands, split_filters, phrase) if len(phrase) else filtered_bands
     sorted_bands = use_sorting(searched_bands, split_filters)
 
-    return searched_bands
+    return sorted_bands
 
 
 def all_bands(request):
     bands = Band.objects.all()
     songs = Song.objects.all()
     filters = get_filters()
+    split_filters = parse_filters(request.POST)
 
     if request.method == 'GET':
         pass
     elif request.method == 'POST':
-        split_filters = parse_filters(request.POST)
-
         if 'set_filters' in request.POST:
             phrase = request.POST['search-place-canvas'].lower()
             bands = use_combined_filters(bands, split_filters, phrase)
         elif 'btn-search' in request.POST:
             phrase = request.POST['search-place'].lower()
-            bands = use_searching(bands, split_filters, phrase)
+            bands = use_searching(bands, split_filters, phrase) if len(phrase) else bands
 
-    return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs, 'filters': filters})
+    return render(request, 'garage_online/all_bands.html', {'bands': use_sorting(bands, split_filters), 'songs': songs, 'filters': filters})
 
 
 @login_required()

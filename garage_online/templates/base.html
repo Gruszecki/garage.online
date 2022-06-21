@@ -30,14 +30,19 @@
         <text class="logo">
             garage.online
         </text>
-<!--Search-->
+<!--SEARCH-->
         <div class="search" align="center">
-
-            <button id="btn-filter" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas" onclick="copySearchInput()">Filtruj</button>
+<!--Button: filter-->
+            <button id="btn-filter" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas" onclick="copySearchInput()">
+                <i class="fa-solid fa-filter"></i>
+            </button>
 
             <form method="post" style="display: inline-block;">
                 {% csrf_token %}
-                <button id="btn-search" name="btn-search" type="submit">Szukaj</button>
+<!--Button: search-->
+                <button id="btn-search" name="btn-search" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
                 <input type="text" id="search-place" name="search-place" placeholder="Szukaj...">
             </form>
 

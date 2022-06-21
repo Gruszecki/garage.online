@@ -85,21 +85,17 @@
                     Szukaj:<br>
                     {% for filter_id, filter_name in filters.search_fields.items %}
                         <label class="list-group-item">
-                            <input class="form-check-input me-1 search-options" id="searchFields-{{ filter_id }}" type="checkbox" name="searchFields-{{ filter_id }}" value=""> {{ filter_name }}
+                            <input class="form-check-input me-1 search-options" id="searchFields-{{ filter_id }}" type="checkbox" name="searchFields-{{ filter_id }}" value="searchFields-{{ filter_id }}"> {{ filter_name }}
                         </label>
                     {% endfor %}
                 </div>
     <!--Sort-->
                 <div class="col g-0">
                     Sortuj:<br>
-                    <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortOld" checked>
-                    <label class="form-check-label" for="sortOld"> od najnowszych</label><br>
-                    <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortNew">
-                    <label class="form-check-label" for="sortNew"> od najstarszych</label><br>
-                    <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortAz">
-                    <label class="form-check-label" for="sortAz"> a-z</label><br>
-                    <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortZa">
-                    <label class="form-check-label" for="sortZa"> z-a</label>
+                    {% for filter_id, filter_name in filters.sort_options.items %}
+                        <input class="form-check-input sort-options" type="radio" name="sortRadios" id="sortRadios-{{ filter_id }}" value="sortRadios-{{ filter_id }}">
+                        <label class="form-check-label" for="sortRadios-{{ filter_id }}"> {{ filter_name }}</label><br>
+                    {% endfor %}
                 </div>
             </div>
             <br>

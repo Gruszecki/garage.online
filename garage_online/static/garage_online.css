@@ -187,21 +187,7 @@ li {
     border: 1px solid var(--primary-color);
 }
 
-#btn-filter {
-    color: var(--background-color);
-    background-color:
-    var(--primary-color);
-    border: none;
-    display: none;
-}
 
-#btn-search {
-    color: var(--background-color);
-    background-color:
-    var(--primary-color);
-    border: none;
-    display: none;
-}
 
 #search-place {
     display: none;
@@ -326,6 +312,30 @@ a.active {
 
 .dropdown-inside-edit:hover .dropdown-inside-edit-content {
     display: block;
+}
+
+/* Buttons */
+#play-song-form {
+    width: 30%;
+    margin: auto;
+    color: var(--background-color);
+    background-color: var(--primary-color);
+    padding: 5px 28px;
+    font-size: 16px;
+}
+
+#btn-filter {
+    color: var(--primary-color);
+    background-color: var(--background-light-color);
+    border: none;
+    display: none;
+}
+
+#btn-search {
+    color: var(--background-color);
+    background-color: var(--primary-color);
+    border: none;
+    display: none;
 }
 
 /* Footer */

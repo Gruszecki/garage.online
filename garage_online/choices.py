@@ -34,7 +34,13 @@ def get_filters():
         'z_a': 'z-a'
     }
 
-    return {'bands': bands, 'songs': songs, 'genres': genres, 'search_fields': search_fields, 'sort_options': sort_options}
+    return {
+        'bands': bands,
+        'songs': songs,
+        'genres': genres,
+        'search_fields': search_fields,
+        'sort_options': sort_options
+    }
 
 
 def get_genres():
