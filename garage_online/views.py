@@ -122,7 +122,9 @@ def parse_filters(request):
     split_filters = {
         'filterBands': [],
         'filterSongs': [],
-        'filterGenres': []
+        'filterGenres': [],
+        'searchFields': [],
+        'sort': 'newest'
     }
 
     for name in request:
@@ -204,6 +206,52 @@ def use_filters(bands, split_filters):
     return filtered_bands
 
 
+def use_searching(bands, split_filters, phrase):
+    bands = set(bands)
+    searched_bands = set()
+
+    if len(split_filters['searchFields']) == 0:
+        split_filters['searchFields'] = ['name', 'desc', 'song', 'tag', 'city']
+
+    for band in bands:
+        if 'name' in split_filters['searchFields']:
+            if phrase in band.name.lower():
+                searched_bands.add(band)
+                print("Band name:", band.name)
+        if 'desc' in split_filters['searchFields']:
+            if phrase in band.short_desc.lower() or phrase in band.long_desc.lower():
+                searched_bands.add(band)
+                print("Band desc:", band.short_desc, band.long_desc, sep='\n')
+        if 'song' in split_filters['searchFields']:
+            songs = Song.objects.filter(band=band)
+            for song in songs:
+                if phrase in song.title.lower():
+                    searched_bands.add(band)
+                    print("Band song:", song.title)
+        if 'tag' in split_filters['searchFields']:
+            if phrase in band.tags.lower():
+                searched_bands.add(band)
+                print("Band tag:", band.tags)
+        if 'city' in split_filters['searchFields']:
+            if phrase in band.city.lower():
+                searched_bands.add(band)
+                print("Band city:", band.city)
+
+    return searched_bands
+
+
+def use_sorting(bands, split_filters):
+    pass
+
+
+def use_combined_filters(bands, split_filters, phrase):
+    filtered_bands = use_filters(bands, split_filters)
+    searched_bands = use_searching(filtered_bands, split_filters, phrase)
+    sorted_bands = use_sorting(searched_bands, split_filters)
+
+    return searched_bands
+
+
 def all_bands(request):
     bands = Band.objects.all()
     songs = Song.objects.all()
@@ -212,9 +260,14 @@ def all_bands(request):
     if request.method == 'GET':
         pass
     elif request.method == 'POST':
+        split_filters = parse_filters(request.POST)
+
         if 'set_filters' in request.POST:
-            split_filters = parse_filters(request.POST)
-            bands = use_filters(bands, split_filters)
+            phrase = request.POST['search-place-canvas'].lower()
+            bands = use_combined_filters(bands, split_filters, phrase)
+        elif 'btn-search' in request.POST:
+            phrase = request.POST['search-place'].lower()
+            bands = use_searching(bands, split_filters, phrase)
 
     return render(request, 'garage_online/all_bands.html', {'bands': bands, 'songs': songs, 'filters': filters})
 

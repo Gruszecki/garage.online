@@ -72,32 +72,22 @@
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Filtracja</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
         </div>
+
+        <input type="text" id="search-place-canvas" name="search-place-canvas" placeholder="Szukaj...">
+        <button type="submit" id="btn-offcanvas" name="set_filters" data-bs-dismiss="offcanvas">Szukaj</button>
 
         <div class="offcanvas-body">
             <div class="row">
     <!--Search-->
                 <div class="col">
                     Szukaj:<br>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1 search-options" id="searchName" type="checkbox" name="searchName" value=""> nazwa
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1 search-options" id="searchDesc" type="checkbox" name="searchDesc" value=""> opis
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1 search-options" id="searchSong" type="checkbox" name="searchSong" value=""> utwór
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1 search-options" id="searchTag" type="checkbox" name="searchTag" value=""> tag
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1 search-options" id="searchCity" type="checkbox" name="searchCity" value=""> miejscowość
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1 search-options" id="searchCountry" type="checkbox" name="searchCountry" value=""> kraj
-                    </label>
+                    {% for filter_id, filter_name in filters.search_fields.items %}
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1 search-options" id="searchFields-{{ filter_id }}" type="checkbox" name="searchFields-{{ filter_id }}" value=""> {{ filter_name }}
+                        </label>
+                    {% endfor %}
                 </div>
     <!--Sort-->
                 <div class="col g-0">
@@ -178,16 +168,16 @@
                     {% endfor %}
                 </div>
             </div>
-            <br>
-            <button type="submit" id="btn-offcanvas" name="set_filters" data-bs-dismiss="offcanvas">Zatwierdź</button>
         </div>
     </div>
 </form>
 
 <script>
     filterBtn = document.getElementById("btn-filter");
+    searchBtn = document.getElementById("btn-search");
     searchPlace = document.getElementById("search-place");
     filterBtn.style.display = "inline-block";
+    searchBtn.style.display = "inline-block";
     searchPlace.style.display = "inline-block";
 </script>
 

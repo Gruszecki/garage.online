@@ -3,6 +3,8 @@ import pycountry
 
 
 def get_filters():
+    # Keys cannot have dashes (-) in names because later they will be split by dashes
+
     bands = {
         'active': 'aktywne',
         'not_active': 'nieaktywne',
@@ -17,7 +19,22 @@ def get_filters():
 
     genres = get_genres()
 
-    return {'bands': bands, 'songs': songs, 'genres': genres}
+    search_fields = {
+        'name': 'nazwa',
+        'desc': 'opis',
+        'song': 'utwór',
+        'tag': 'tag',
+        'city': 'miejscowość',
+    }
+
+    sort_options = {
+        'newest': 'od najnowszych',
+        'oldest': 'od najstarszych',
+        'a_z': 'a-z',
+        'z_a': 'z-a'
+    }
+
+    return {'bands': bands, 'songs': songs, 'genres': genres, 'search_fields': search_fields, 'sort_options': sort_options}
 
 
 def get_genres():

@@ -195,8 +195,28 @@ li {
     display: none;
 }
 
+#btn-search {
+    color: var(--background-color);
+    background-color:
+    var(--primary-color);
+    border: none;
+    display: none;
+}
+
 #search-place {
     display: none;
+}
+
+#search-place-canvas {
+    position: relative;
+    border: 1px solid var(--background-light-color);
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+#search-place-canvas:focus {
+    outline: none;
+    background: var(--background-color);
 }
 
 .header a {
@@ -365,11 +385,11 @@ a.active {
 
 /* Filter offcanvas */
 .offcanvas-header {
-    background-color: var(--primary-color);
+    background-color: var(--background-medium-color);
 }
 
 .offcanvas-title {
-    color: var(--background-color);
+    color: var(--primary-color);
 }
 
 .offcanvas-body {

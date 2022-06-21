@@ -32,8 +32,15 @@
         </text>
 <!--Search-->
         <div class="search" align="center">
-            <button id="btn-filter" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas">Filtruj</button>
-            <input type="text" id="search-place" placeholder="Szukaj...">
+
+            <button id="btn-filter" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas" onclick="copySearchInput()">Filtruj</button>
+
+            <form method="post" style="display: inline-block;">
+                {% csrf_token %}
+                <button id="btn-search" name="btn-search" type="submit">Szukaj</button>
+                <input type="text" id="search-place" name="search-place" placeholder="Szukaj...">
+            </form>
+
         </div>
 <!--Menu-->
         <div class="header-right">
