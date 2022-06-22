@@ -18,7 +18,7 @@ class BandForm(forms.ModelForm):
 class SongForm(forms.ModelForm):
     class Meta:
         model = Song
-        fields = ['title', 'file', 'has_lyrics', 'language', 'lyrics']
+        fields = ['title', 'main_song', 'file', 'has_lyrics', 'language', 'lyrics']
 
 
 class SocialLinkForm(forms.ModelForm):

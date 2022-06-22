@@ -50,6 +50,7 @@ class Song(models.Model):
     has_lyrics = models.BooleanField(default=True)
     language = models.CharField(max_length=2, choices=choices.get_languages(), default='pl', null=True, blank=True)
     lyrics = models.TextField(null=True, blank=True)
+    main_song = models.BooleanField(default=True)
     band = models.ForeignKey(Band, on_delete=models.CASCADE)
 
     def __str__(self):

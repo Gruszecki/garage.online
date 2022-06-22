@@ -360,6 +360,14 @@ def user_bands(request):
                 form = song_form.save(commit=False)
                 form = lyrics_validation(form)
                 form.band = band
+                if form.main_song:
+                    for song in band_songs[band_id]:
+                        if song.id != form.id:
+                            song.main_song = False
+                            song.save()
+                else:
+                    if not len(band_songs[band_id]):
+                        form.main_song = True
                 form.save()
                 messages.success(request, f'Utwór {form.title} został pomyślnie zapisany.', fail_silently=True)
             else:

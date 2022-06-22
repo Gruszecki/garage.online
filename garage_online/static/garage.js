@@ -92,6 +92,12 @@ function editLinksAction(choiceBtnId, editBtnId, dropdownId, formId) {
     document.getElementById(formId).style.display = 'block';
 }
 
+function editMainSongAction(choiceBtnId, editBtnId, dropdownId, formId) {
+    hideAllForms();
+    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
+    document.getElementById(formId).style.display = 'block';
+}
+
 function newBandAction(newBandForm) {
     hideAllForms()
 
