@@ -371,8 +371,9 @@ def user_bands(request):
                 form.save()
                 messages.success(request, f'Utwór {form.title} został pomyślnie zapisany.', fail_silently=True)
             else:
-                print('Nie udało się zapisać utworu.')       # Dodać komunikat form not valid
+                print('Nie udało się zapisać utworu.')
                 print(song_form.errors)
+                messages.success(request, f'Operacja nie powiodła się.', fail_silently=True)
 
             return redirect(user_bands)
         elif 'save_links' in request.POST:

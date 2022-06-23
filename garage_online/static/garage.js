@@ -6,15 +6,17 @@ for (const i of Array(filterButtons.length).keys()) {
     filterButtons[i].style.setProperty("border", "2px solid var(--primary-color)");
 }
 
-function showIcons(playId, imageGlassId, nameGlassId, descId) {
+function showIcons(playId, infoId, imageGlassId, nameGlassId, descId) {
     document.getElementById(playId).style.display = "block";
+    document.getElementById(infoId).style.display = "block";
     document.getElementById(imageGlassId).style.display = "inline-block";
     document.getElementById(nameGlassId).style.display = "none";
     document.getElementById(descId).style.display = "block";
 }
 
-function hideIcons(playId, imageGlassId, nameGlassId, descId) {
+function hideIcons(playId, infoId, imageGlassId, nameGlassId, descId) {
     document.getElementById(playId).style.display = "none";
+    document.getElementById(infoId).style.display = "none";
     document.getElementById(imageGlassId).style.display = "none";
     document.getElementById(nameGlassId).style.display = "inline-block";
     document.getElementById(descId).style.display = "none";

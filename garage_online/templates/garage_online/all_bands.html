@@ -14,28 +14,28 @@
                 src="/media/{{band.image}}"
                 class="band-photo-small"
                 style="position: relative;"
-                onmouseover="showIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                onmouseout="hideIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
             />
 <!--Image glass-->
             <div
                 class="image-overlay"
                 id="image glass {{ band.id }}"
-                onmouseover="showIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                onmouseout="hideIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
             ></div>
 <!--Description-->
             <div
                 class="description"
                 id="description {{ band.id }}"
-                onmouseover="showIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                onmouseout="hideIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
             >
                 {{ band.short_desc }}
             </div>
 <!--Icon play-->
             <i
-                class="fa-solid fa-circle-play fa-2xl play-overlay"
+                class="fa-solid fa-circle-play fa-2xl icon-overlay"
                 id="icon play {{ band.id }}"
                 {% for song in songs %}
                     {% if song.band.id == band.id %}
@@ -43,17 +43,29 @@
                         onclick="play('/media/{{ song.file }}')"
                     {% endif %}
                 {% endfor %}
-                onmouseover="showIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                onmouseout="hideIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
             ></i>
-
+<!--Icon info-->
+            <i
+                class="fa-solid fa-circle-info fa-2xl icon-overlay"
+                id="icon info {{ band.id }}"
+                {% for song in songs %}
+                    {% if song.band.id == band.id %}
+                        style="cursor: pointer"
+                        onclick="play('/media/{{ song.file }}')"
+                    {% endif %}
+                {% endfor %}
+                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+            ></i>
 <!--Band name-->
             <div class="text text-overlay">
                 <span
                     class="span-name-overlay"
                     id="name glass {{ band.id }}"
-                    onmouseover="showIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                    onmouseout="hideIcons('icon play {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                    onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+                    onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
                 >
                     {{ band.name }}
                 </span>
