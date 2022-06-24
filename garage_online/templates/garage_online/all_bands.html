@@ -3,80 +3,163 @@
 {% block title %}Garage | przegląd{% endblock %}
 
 {% block body %}
-    {% if bands|length == 0 %}
-        <p>Brak zespołów dla zadanych filtrów.</p>
-    {% else %}
-    <div class="flex-container">
-        {% for band in bands %}
-        <div class="image-box-overlay">
+
+{% if bands|length == 0 %}
+    <p>Brak zespołów dla zadanych filtrów.</p>
+{% else %}
+<div class="flex-container">
+    {% for band in bands %}
+    <div class="image-box-overlay">
 <!--Band image-->
-            <img
-                src="/media/{{band.image}}"
-                class="band-photo-small"
-                style="position: relative;"
-                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-            />
+        <img
+            src="/media/{{band.image}}"
+            class="band-photo-small"
+            style="position: relative;"
+            onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+            onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+        />
 <!--Image glass-->
-            <div
-                class="image-overlay"
-                id="image glass {{ band.id }}"
-                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-            ></div>
+        <div
+            class="image-overlay"
+            id="image glass {{ band.id }}"
+            onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+            onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+        ></div>
 <!--Description-->
-            <div
-                class="description"
-                id="description {{ band.id }}"
+        <div
+            class="description"
+            id="description {{ band.id }}"
+            onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+            onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+        >
+            {{ band.short_desc }}
+        </div>
+<!--Icon play-->
+        <i
+            class="fa-solid fa-circle-play fa-2xl icon-overlay"
+            id="icon play {{ band.id }}"
+            {% for song in songs %}
+                {% if song.main_song %}
+                    {% if song.band.id == band.id %}
+                        style="cursor: pointer;"
+                        onclick="play('/media/{{ song.file }}')"
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+            onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+        ></i>
+<!--Icon info-->
+        <i
+            class="fa-solid fa-circle-info fa-2xl icon-overlay"
+            id="icon info {{ band.id }}"
+            style="cursor: pointer"
+            data-bs-toggle="modal"
+            data-bs-target="#bandInfoModal-{{ band.id }}"
+            onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+            onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
+        ></i>
+<!--Band name-->
+        <div class="text text-overlay">
+            <span
+                class="span-name-overlay"
+                id="name glass {{ band.id }}"
                 onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
                 onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
             >
-                {{ band.short_desc }}
-            </div>
-<!--Icon play-->
-            <i
-                class="fa-solid fa-circle-play fa-2xl icon-overlay"
-                id="icon play {{ band.id }}"
-                {% for song in songs %}
-                    {% if song.band.id == band.id %}
-                        style="cursor: pointer"
-                        onclick="play('/media/{{ song.file }}')"
-                    {% endif %}
-                {% endfor %}
-                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-            ></i>
-<!--Icon info-->
-            <i
-                class="fa-solid fa-circle-info fa-2xl icon-overlay"
-                id="icon info {{ band.id }}"
-                {% for song in songs %}
-                    {% if song.band.id == band.id %}
-                        style="cursor: pointer"
-                        onclick="play('/media/{{ song.file }}')"
-                    {% endif %}
-                {% endfor %}
-                onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-            ></i>
-<!--Band name-->
-            <div class="text text-overlay">
-                <span
-                    class="span-name-overlay"
-                    id="name glass {{ band.id }}"
-                    onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                    onmouseout="hideIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
-                >
+                {{ band.name }}
+            </span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Band info MODAL -->
+{% for band in bands %}
+<div class="modal fade" id="bandInfoModal-{{ band.id }}" tabindex="-1" aria-labelledby="bandInfoModalLabel-{{ band.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bandInfoModalLabel-{{ band.id }}">
                     {{ band.name }}
-                </span>
+                    <a href="{% url 'band_details' band.id band.name %}">
+                        <button class="btn-open-in-new-tab">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </button>
+                    </a>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div align="center">
+                                <img src="/media/{{band.image}}" class="photo-band-info" style= onclick=""/>
+                                <br>
+                                <div class="social-links">
+                                    {% if band.social_links.band_site|length %}
+                                        <a href="{{ band.social_links.band_site }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-browser fa-xl"></i></a>&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if band.social_links.facebook|length %}
+                                        <a href="{{ band.social_links.facebook }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook fa-xl"></i></a>&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if band.social_links.bandcamp|length %}
+                                        <a href="{{ band.social_links.bandcamp }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-bandcamp fa-xl"></i></a>&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if band.social_links.spotify|length %}
+                                        <a href="{{ band.social_links.spotify }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-spotify fa-xl"></i></a>&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if band.social_links.youtube|length %}
+                                        <a href="{{ band.social_links.youtube }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube fa-xl"></i></a>&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if band.social_links.soundcloud|length %}
+                                        <a href="{{ band.social_links.soundcloud }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-soundcloud fa-xl"></i></a>&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if band.social_links.itunes|length %}
+                                        <a href="{{ band.social_links.itunes }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-itunes fa-xl"></i></a>&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% if band.social_links.instagram|length %}
+                                        <a href="{{ band.social_links.instagram }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram fa-xl"></i></a>&nbsp;&nbsp;
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="play-in-modal">
+                            {% for song in songs %}
+                                {% if song.band.id == band.id %}
+                                    <i
+                                        class="fa-solid fa-circle-play fa-xl"
+                                        onclick="play('/media/{{ song.file }}')"
+                                        style="cursor: pointer;"
+                                    ></i> {{ song.title }}<br>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                            <br>
+                            <div>
+                                {% if band.show_contact_email %}
+                                    Kontakt: {{ band.contact_email }}<br>
+                                {% endif %}
+                                Miejscowość: {{ band.city }}<br>
+                                Aktywny: {% if band.is_active %} tak {% else %} nie {% endif %}<br>
+                                Gatunek: {{ band.get_genre_display }}<br>
+                                Tagi: {{ band.tags }}<br>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="band-info-text">{{ band.long_desc }}</div>
+                        </div>
+                    </div>
+                </div><br>
+            <div class="modal-footer">
+                <button type="button" class="btn-close-modal-band-info" data-bs-dismiss="modal">Zamknij</button>
             </div>
         </div>
-        {% endfor %}
     </div>
-    {% endif %}
-
-
-
+</div>
+{% endfor %}
 
 <!--OFFCANVAS-->
 <form method="post">
@@ -191,7 +274,7 @@
 
 <!--Player-->
 <footer class="footer">
-    <audio controls seekable controlsList="nodownload" class="player" style="width: 80%; foreground-color: yellow;" id="player">
+    <audio controls seekable controlsList="nodownload" class="player" style="width: 80%;" id="player">
         <source src="" type="audio/mpeg" id="playerSrc">
         <source src="" type="audio/ogg">
         Your browser does not support the <code>audio</code> element.

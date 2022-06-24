@@ -3,55 +3,78 @@
 {% block title %}Garage | {{ band.name }}{% endblock %}
 
 {% block body %}
-    <a href="{% url 'all_bands' %}">Przegląd</a><br>
-    {% if user.is_authenticated %}
-        <a href="{% url 'dashboard' %}">Przejdź na dashboard</a><br>
-        <a href="{% url 'logout' %}">Wyloguj</a><br>
-    {% else %}
-        <a href="{% url 'login' %}">Zaloguj</a><br>
-    {% endif %}
-    <br>
-        <div align="center">
-            <div class="card" style="width: 64rem" align="left">
-                <div class="card-body">
+
+<div align="center">
+    <div style="width: 64rem" align="left">
+        <div class="card-body">
 <!--Band photo-->
-                    <img src="/media/{{band.image}}" style="float: center" class="band-photo" data-bs-toggle="modal" data-bs-target="#image{{band.id}}">
-                    <br>
+            <img src="/media/{{band.image}}" style="float: center;" class="band-photo" data-bs-toggle="modal" data-bs-target="#image{{band.id}}">
+            <br>
 <!--Band name-->
-                    <h5 style="text-align: center">{{ band.name }}</h5>
-                    <br>
-<!--Short description-->
-                    {{ band.long_desc }}<br>
-                    <br>
-                    Gatunek: {{ band.get_genre_display }}<br>
-                    Kraj: {{ band.get_country_display }}<br>
-                    Miejscowość: {{ band.city }}<br>
-                    Aktywny:
-                    {% if band.is_active %}
-                        tak
-                    {% else %}
-                        nie
+            <h5 style="text-align: center; color: var(--primary-color);">{{ band.name }}</h5>
+            <br>
+            <div class="social-links" align="center">
+                {% if band.social_links.band_site|length %}
+                    <a href="{{ band.social_links.band_site }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-browser fa-xl"></i></a>&nbsp;&nbsp;
+                {% endif %}
+                {% if band.social_links.facebook|length %}
+                    <a href="{{ band.social_links.facebook }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook fa-xl"></i></a>&nbsp;&nbsp;
+                {% endif %}
+                {% if band.social_links.bandcamp|length %}
+                    <a href="{{ band.social_links.bandcamp }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-bandcamp fa-xl"></i></a>&nbsp;&nbsp;
+                {% endif %}
+                {% if band.social_links.spotify|length %}
+                    <a href="{{ band.social_links.spotify }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-spotify fa-xl"></i></a>&nbsp;&nbsp;
+                {% endif %}
+                {% if band.social_links.youtube|length %}
+                    <a href="{{ band.social_links.youtube }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube fa-xl"></i></a>&nbsp;&nbsp;
+                {% endif %}
+                {% if band.social_links.soundcloud|length %}
+                    <a href="{{ band.social_links.soundcloud }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-soundcloud fa-xl"></i></a>&nbsp;&nbsp;
+                {% endif %}
+                {% if band.social_links.itunes|length %}
+                    <a href="{{ band.social_links.itunes }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-itunes fa-xl"></i></a>&nbsp;&nbsp;
+                {% endif %}
+                {% if band.social_links.instagram|length %}
+                    <a href="{{ band.social_links.instagram }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram fa-xl"></i></a>&nbsp;&nbsp;
+                {% endif %}
+            </div>
+            <br>
+            <div class="play-in-modal">
+                {% for song in songs %}
+                    {% if song.band.id == band.id %}
+                        <i
+                            class="fa-solid fa-circle-play fa-xl"
+                            onclick="play('/media/{{ song.file }}')"
+                            style="cursor: pointer;"
+                        ></i> {{ song.title }}<br>
                     {% endif %}
-                    <br>
-                    W Garażu od: {{ band.add_2db_date }}<br>
-                    {% if band.show_contact_email %}
-                        Kontakt: {{ band.contact_email }}<br>
-                    {% endif %}
-                    <br>
-                    Piosenki w Garażu:<br>
-                    {% for song in songs %}
-                    <li>{{ song.title }}<br>
-                    {% endfor %}
-                    <br>
-                    tagi:<br>
-                    {{ band.tags }}
-                    <br><br>
-<!--Links-->        {% if links|length %}
-                        {% for link in links %}
-                            {{ link.get_name_display }}: {{ link.link }}<br>
-                        {% endfor %}
-                    {% endif %}
-                </div>
+                {% endfor %}
+            </div>
+            <br>
+            <div class="band-info-text">{{ band.long_desc }}</div><br>
+            <br>
+            <div>
+                {% if band.show_contact_email %}
+                    Kontakt: {{ band.contact_email }}<br>
+                {% endif %}
+                Miejscowość: {{ band.city }}<br>
+                Aktywny: {% if band.is_active %} tak {% else %} nie {% endif %}<br>
+                Gatunek: {{ band.get_genre_display }}<br>
+                Tagi: {{ band.tags }}<br>
+                <br>
             </div>
         </div>
+    </div>
+</div>
+
+<!--Player-->
+<footer class="footer">
+    <audio controls seekable controlsList="nodownload" class="player" style="width: 80%;" id="player">
+        <source src="" type="audio/mpeg" id="playerSrc">
+        <source src="" type="audio/ogg">
+        Your browser does not support the <code>audio</code> element.
+    </audio>
+</footer>
+
 {% endblock %}

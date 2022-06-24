@@ -5,19 +5,28 @@
 {% block body %}
 
 <div align="center">
-    <div class="card" style="width: 18rem;" align="left">
-        <div class="card-body">
-            <h5 class="card-title">Hello unknown user</h5>
-            <form method="post">
-                {% csrf_token %}
-                {{ form|bootstrap }}
-                <br>
-                <button type="submit" class="btn btn-outline-dark">Log in <i class="fa-solid fa-right-to-bracket"></i></button>
-            </form>
+    <div style="width: 18rem;" align="left">
+        <h4 class="card-title">Witaj nieznajomy</h4>
+        <br>
+        <form method="post" class="edit-form visible-form">
+            {% csrf_token %}
+            Nazwa użytkownika
+            {{ form.username }}
+            <br><br>
+            Hasło
+            {{ form.password }}
+            <br><br><br>
+            <button type="submit" id="btn-login">Log in <i class="fa-solid fa-right-to-bracket"></i></button>
+        </form>
+
+    <br><br>
+    <h5 align="left">
+        Co jest grane?
+    </h5>
+        <div align="right">
+    <a href="{% url 'password_reset' %}">Ej, bo chyba zapomniałem hasła</a><br>
+    <a href="{% url 'register' %}">Dzień dobry, ja tu pierwszy raz</a><br>
+            </div>
         </div>
-    </div>
-    <br>
-    <a href="{% url 'password_reset' %}">Ej, chyba zapomniałem hasła</a><br>
-    <a href="{% url 'register' %}">Chciałbym dołączyć do Garażu</a><br>
 </div>
 {% endblock %}

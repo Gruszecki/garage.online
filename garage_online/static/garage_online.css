@@ -130,6 +130,7 @@ li {
     padding-bottom: 10px;
 }
 
+/* Photos */
 .band-photo-small {
     width: var(--primary-width);
 }
@@ -143,6 +144,12 @@ li {
     width: var(--large-width);
     margin-left: auto;
     margin-right: auto;
+}
+
+.photo-band-info {
+    display: flex;
+    width: var(--medium-width);
+    position: relative;
 }
 
 .btn-edit-band {
@@ -194,8 +201,6 @@ li {
     outline: none;
     border: 1px solid var(--primary-color);
 }
-
-
 
 #search-place {
     display: none;
@@ -346,6 +351,26 @@ a.active {
     display: none;
 }
 
+.btn-close-modal-band-info {
+    color: var(--background-color);
+    background-color: var(--primary-color);
+    border: none;
+}
+
+.btn-open-in-new-tab {
+    color: var(--primary-color);
+    background-color: var(--background-medium-color);
+    border: none;
+}
+
+#btn-login {
+    color: var(--background-color);
+    background-color: var(--primary-color);
+    padding: 5px 28px;
+    font-size: 16px;
+    width: 100%
+}
+
 /* Footer */
 .footer {
     position: fixed;
@@ -360,6 +385,10 @@ a.active {
 /* Forms */
 .edit-form {
     display: none;
+}
+
+.visible-form {
+    display: block;
 }
 
 .edit-form .row {
@@ -393,12 +422,22 @@ a.active {
 }
 
 /* Confirmation box */
+/* Band info modal */
 .modal-content {
-    background-color: var(--background-medium-color);
+    background-color: var(--background-medium-color);-webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    border-radius: 0px !important;
 }
 
 .modal-title {
     color: var(--primary-color);
+}
+
+.band-info-text {
+    text-align: justify;
+    text-justify: inter-word;
+    white-space: pre-line;
+    word-break: break-word;
 }
 
 /* Filter offcanvas */
@@ -431,5 +470,18 @@ a.active {
 
 /* Audio player */
 audio::-webkit-media-controls-panel{
-background-color:var(--primary-color) !important;
+    background-color:var(--primary-color) !important;
+}
+
+.social-links a {
+    color: var(--text-color);
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+}
+
+.play-in-modal {
+    color: var(--primary-color);
+    line-height: 200%;
 }
