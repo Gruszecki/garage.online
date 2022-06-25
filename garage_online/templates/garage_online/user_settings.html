@@ -7,7 +7,10 @@
 {% block body %}
 
 <!--Button: change password-->
-<a href="{% url 'password_change' %}">Zmień hasło</a>
+<a href="{% url 'password_change' %}">
+    <button type="button" id="btn-change-password">Zmień hasło</button>
+</a>
+
 <br><br>
 <!--TODO: Wybór koloru strony-->
 
