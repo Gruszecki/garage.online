@@ -15,9 +15,9 @@ Including another URLconf
 """
 # garage_online/urls.py
 
+from django.conf.urls import include
 from django.urls import path, re_path
 from garage_online import views
-from django.conf.urls import include
 
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
@@ -31,5 +31,6 @@ urlpatterns = [
     path('band/<int:id>/<str:name>/edit_songs', views.edit_songs, name='edit_songs'),
     path('band/<int:id>/<str:name>/manage_privileges', views.manage_privileges, name='manage_privileges'),
     path('user/bands', views.user_bands, name='user_bands'),
-    path('settings', views.user_settings, name='user_settings')
+    path('settings', views.user_settings, name='user_settings'),
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
 ]

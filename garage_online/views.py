@@ -2,12 +2,19 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from .choices import get_filters
 from .forms import BandForm, SongForm, CustomUserCreationForm, SocialLinkForm
 from .models import Band, Song, SocialLink
+from .tokens import account_activation_token
 
 import time
 import datetime
@@ -31,13 +38,42 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            # user.is_active = False
+            user.is_active = False
             user.save()
 
+            current_site = get_current_site(request)
+            mail_subject = 'Aktywacja konta w Garażu'
+            mail_message = render_to_string('garage_online/register_confirm.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(mail_subject, mail_message, to=[to_email])
+            email.send()
+
+            messages.success(request, 'Potwierdź, proszę, swój e-mail w celu dokończenia rejestracji.')
+            return redirect('all_bands')
+
+        messages.success(request, "Coś poszło nie tak :\\")
+        return redirect(all_bands)
 
 
-            login(request, user)
-            return redirect(dashboard)
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Dziękujemy za potwierdzenie adresu e-mail. Twoje konto jest teraz aktywne. Możesz się zalogować.')
+        return redirect('login')
+        # return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 @login_required()
