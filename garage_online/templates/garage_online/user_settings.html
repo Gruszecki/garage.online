@@ -7,16 +7,40 @@
 {% block body %}
 
 <!--Button: change password-->
-<a href="{% url 'password_change' %}">Zmień hasło</a><br>
+<a href="{% url 'password_change' %}">Zmień hasło</a>
+<br><br>
+<!--TODO: Wybór koloru strony-->
 
-<!--Button: delete user-->
+<br><br><hr style="border-top: 1px dashed">
 <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger" name="delete_user">
-        Usuń konto
+<!--Button: delete user-->
+    <button
+            type="button"
+            style="width: 20%; background-color: #cc3357; color: white; border: none; padding: 5px 28px; font-size: 16px;"
+            data-bs-toggle="modal"
+            data-bs-target="#userDeleteConfirmationBox"
+    >
+        usuń konto
     </button>
+<!--Delete user: confirmation box-->
+    <div class="modal fade" id="userDeleteConfirmationBox" tabindex="-1" aria-labelledby="userDeleteConfirmationBoxLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="userDeleteConfirmationBoxLabel">Potwierdź usunięcie</h5>
+                      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="color: var(--background-color);"></button>
+                  </div>
+                  <div class="modal-body">
+                      Czy na pewno chcesz usunąć konto? Twoje dane nie będą dłużej przechowywane w bazie i zostaną trwale usunięte. Tej operacji nie da się cofnąć.
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="button" data-bs-dismiss="modal">zamknij</button>
+                      <button type="submit" class="button" name="delete_user" style="color: var(--background-color); background-color: var(--primary-color);">usuń konto</button>
+                  </div>
+              </div>
+          </div>
+    </div>
 </form>
-
-<!--TODO: Wybór koloru strony-->
 
 {% endblock %}

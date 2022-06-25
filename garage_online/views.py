@@ -30,7 +30,12 @@ def register(request):
     elif request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            # user.is_active = False
+            user.save()
+
+
+
             login(request, user)
             return redirect(dashboard)
 
@@ -555,13 +560,18 @@ def user_settings(request):
         )
     elif request.method == 'POST' and 'delete_user' in request.POST:
         all_bands_of_user = Band.objects.filter(user=request.user)
-        for band in all_bands_of_user:
-            if len(band.user.all()) > 1:
-                request.user.delete()
-                return redirect(all_bands)
-            else:
-                return redirect(user_settings)
-    else:
-        return redirect(dashboard)
+        if len(all_bands_of_user) == 0:
+            request.user.delete()
+            return redirect(all_bands)
+        else:
+            for band in all_bands_of_user:
+                if len(band.user.all()) > 1:
+                    request.user.delete()
+                    return redirect(all_bands)
+                else:
+                    messages.success(request, "Nie możesz usunąć konta, kiedy jesteś jedyną osobą posiadającą uprawnienia do zarządzania danym zespołem.")
+                    return redirect(user_settings)
+
+    return redirect(user_settings)
 
 

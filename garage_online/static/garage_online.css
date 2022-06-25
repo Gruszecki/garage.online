@@ -363,7 +363,7 @@ a.active {
     border: none;
 }
 
-#btn-login {
+.btn-register {
     color: var(--background-color);
     background-color: var(--primary-color);
     padding: 5px 28px;

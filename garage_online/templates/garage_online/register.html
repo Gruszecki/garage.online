@@ -5,16 +5,25 @@
 {% block body %}
 
 <div align="center">
-    <div class="card" style="width: 18rem;" align="left">
-        <div class="card-body">
-            <h5 class="card-title">Register</h5>
-            <form method="post">
-                {% csrf_token %}
-                {{ form|bootstrap }}
-                <br>
-                <button type="submit" class="btn btn-outline-dark">Register</button>
-            </form>
-        </div>
+    <div style="width: 32rem;" align="left">
+        <h5 class="card-title">Rejestracja</h5>
+        <form method="post" class="edit-form visible-form">
+            {% csrf_token %}
+            <br>
+            Nazwa użytkownika
+            {{ form.username }}
+            <br><br>
+            E-mail
+            {{ form.email }}
+            <br><br>
+            Hasło
+            {{ form.password1 }}
+            <br><br>
+            Powtórz hasło
+            {{ form.password2 }}
+            <br><br><br>
+            <button type="submit" class="btn-register">Register</button>
+        </form>
     </div>
     <br>
     <a href="{% url 'login' %}">Wróć na stronę logowania</a>

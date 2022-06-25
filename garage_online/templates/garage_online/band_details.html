@@ -56,7 +56,9 @@
             <br>
             <div>
                 {% if band.show_contact_email %}
-                    Kontakt: {{ band.contact_email }}<br>
+                    {% if band.contact_email|length > 0 %}
+                        Kontakt: {{ band.contact_email }}<br>
+                    {% endif %}
                 {% endif %}
                 Miejscowość: {{ band.city }}<br>
                 Aktywny: {% if band.is_active %} tak {% else %} nie {% endif %}<br>
