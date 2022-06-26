@@ -11,13 +11,27 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+from rest_framework import viewsets
+
 from .choices import get_filters
 from .forms import BandForm, SongForm, CustomUserCreationForm, SocialLinkForm
 from .models import Band, Song, SocialLink
+from .serializers import BandSerializer, SongSerializer
 from .tokens import account_activation_token
 
 import time
 import datetime
+
+
+# ViewSets
+class BandViewSet(viewsets.ModelViewSet):
+    queryset = Band.objects.all()
+    serializer_class = BandSerializer
+
+
+class SongViewSet(viewsets.ModelViewSet):
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
 
 
 # Create your views here.
@@ -609,5 +623,3 @@ def user_settings(request):
                     return redirect(user_settings)
 
     return redirect(user_settings)
-
-

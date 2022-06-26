@@ -22,7 +22,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
+from rest_framework import routers
+
+from garage_online.views import BandViewSet, SongViewSet
+
+
+router = routers.DefaultRouter()
+router.register('api/bands', BandViewSet)
+router.register('api/songs', SongViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('garage_online.urls'))
+    path('', include('garage_online.urls')),
+    path('', include(router.urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
