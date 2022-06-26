@@ -144,7 +144,9 @@
                                 Miejscowość: {{ band.city }}<br>
                                 Aktywny: {% if band.is_active %} tak {% else %} nie {% endif %}<br>
                                 Gatunek: {{ band.get_genre_display }}<br>
-                                Tagi: {{ band.tags }}<br>
+                                {% if band.tags|length > 0 %}
+                                    Tagi: {{ band.tags }}<br>
+                                {% endif %}
                                 <br>
                             </div>
                         </div>

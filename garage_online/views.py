@@ -74,10 +74,10 @@ def register(request):
                 return redirect('all_bands')
             else:
                 messages.success(request, "Podany adres e-mail znajduje się już w bazie.")
-                return redirect('all_bands')
+                return redirect('register')
 
         messages.success(request, "Coś poszło nie tak :\\")
-        return redirect(all_bands)
+        return redirect('register')
 
 
 def activate(request, uidb64, token):
@@ -94,32 +94,6 @@ def activate(request, uidb64, token):
         # return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
-
-
-@login_required()
-def new_band(request):
-    if request.method == 'GET':
-        return render(
-            request,
-            'garage_online/band.html',
-            {
-                'band_form': BandForm,
-                'is_new': True
-            }
-        )
-    elif request.method == 'POST':
-        form = BandForm(request.POST, request.FILES)
-        if form.is_valid():
-            band = form.save()
-            request.user.bands.add(band)
-        else:
-            print('Adding new band failed:', form.errors, sep='\n')
-            return redirect(dashboard)
-
-        if 'back_to_dashboard' in request.POST:
-            return redirect(dashboard)
-        elif 'go_to_songs' in request.POST:
-            return redirect(new_song, band.id, band.name)
 
 
 @login_required()
@@ -406,6 +380,7 @@ def user_bands(request):
                 band = new_band_form.save()
                 request.user.bands.add(band)
             else:
+
                 messages.success(request, f'Nie udało się zapisać zespołu.', fail_silently=True)
                 print('Nie udało się zapisać zespołu.')
                 print(new_band_form.errors)
