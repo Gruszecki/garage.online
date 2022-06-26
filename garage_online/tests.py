@@ -23,12 +23,12 @@ def test_user_register_form_valid():
 
 
 @pytest.mark.django_db
-def test_user_register_form_invalid_email_already_in_db():
+def test_user_register_form_invalid_username_not_unique():
     # Arrange
-    User.objects.create(email='wojciech.gruszecki@gmail.com')
+    User.objects.create(username='wojciech.gruszecki')
 
     form = CustomUserCreationForm({
-        'username': 'WojciechGruszecki',
+        'username': 'wojciech.gruszecki',
         'email': 'wojciech.gruszecki@gmail.com',
         'password1': 'Trudne#Hasło#692137420',
         'password2': 'Trudne#Hasło#692137420'
@@ -39,4 +39,24 @@ def test_user_register_form_invalid_email_already_in_db():
 
     # Assert
     assert result is False
-    assert form.errors['email'][0] == 'Error email'
+    assert form.errors['username'][0] == 'A user with that username already exists.'
+
+
+@pytest.mark.django_db
+def test_user_register_form_invalid_passwords_dont_match():
+    # Arrange
+    form = CustomUserCreationForm({
+        'username': 'wojciech.gruszecki',
+        'email': 'wojciech.gruszecki@gmail.com',
+        'password1': 'Trudne#Hasło#692137420',
+        'password2': 'Trudne#Hasło#692137421'
+    })
+
+    # Action
+    result = form.is_valid()
+
+    # Assert
+    assert result is False
+    assert form.errors['password2'][0] == 'The two password fields didn’t match.'
+
+
