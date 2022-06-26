@@ -51,7 +51,7 @@
         <div class="header-right">
             {% if user.is_authenticated %}
                 <div class="dropdown">
-                    <a href="{% url 'dashboard' %}">dashboard</a>
+                    <a style="color: var(--primary-color); cursor: default;">dashboard</a>
                     <div class="dropdown-content">
                         <a href="{% url 'user_settings' %}">konto</a><br>
                         <a href="{% url 'user_bands' %}">twoje zespoły</a><br>
