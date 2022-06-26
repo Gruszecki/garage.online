@@ -50,25 +50,31 @@ def register(request):
         )
     elif request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
+
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
+            user_email = form.cleaned_data.get('email')
+            if not User.objects.filter(email=user_email):
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
 
-            current_site = get_current_site(request)
-            mail_subject = 'Aktywacja konta w Garażu'
-            mail_message = render_to_string('garage_online/register_confirm.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(mail_subject, mail_message, to=[to_email])
-            email.send()
+                current_site = get_current_site(request)
+                mail_subject = 'Aktywacja konta w Garażu'
+                mail_message = render_to_string('garage_online/register_confirm.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(mail_subject, mail_message, to=[to_email])
+                email.send()
 
-            messages.success(request, 'Potwierdź, proszę, swój e-mail w celu dokończenia rejestracji.')
-            return redirect('all_bands')
+                messages.success(request, 'Potwierdź, proszę, swój e-mail w celu dokończenia rejestracji.')
+                return redirect('all_bands')
+            else:
+                messages.success(request, "Podany adres e-mail znajduje się już w bazie.")
+                return redirect('all_bands')
 
         messages.success(request, "Coś poszło nie tak :\\")
         return redirect(all_bands)
