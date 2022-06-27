@@ -21,7 +21,6 @@ from garage_online import views
 
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
-    path('dashboard/', views.dashboard, name='dashboard'),
     path('register/', views.register, name='register'),
     path('', views.all_bands, name='all_bands'),
     path('band/<int:id>/<str:name>', views.band_details, name='band_details'),
