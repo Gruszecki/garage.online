@@ -41,8 +41,8 @@
                 <div class="dropdown-inside-edit">
                     <button id="btn-edit-choice-{{ band.id }}-ozespole">zespół >></button>
                     <div class="dropdown-inside-edit-content" id="dropdown-inside-edit-content-{{ band.id }}" style="top: 0px;">
-                        <button class="btn-edit-band-choice" id="band-info-content-{{ band.id }}" onclick="editBandAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-edit-form-{{ band.id }}')">informacje</button>
-                        <button class="btn-edit-band-choice" id="band-links-content-{{ band.id }}" onclick="editLinksAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'band-links-form-{{ band.id }}')">linki</button>
+                        <button class="btn-edit-band-choice" id="band-info-content-{{ band.id }}" onclick="editSthAction(id, '{{ band.id }}', 'band-edit-form-{{ band.id }}')">informacje</button>
+                        <button class="btn-edit-band-choice" id="band-links-content-{{ band.id }}" onclick="editSthAction(id, '{{ band.id }}', 'band-links-form-{{ band.id }}')">linki</button>
                     </div>
                 </div>
 <!--Button: songs-->
@@ -52,17 +52,17 @@
                         {% for band_id, songs in band_songs.items %}
                             {% if band_id == band.id %}
                                 {% for song in songs %}
-                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-{{ song.id }}" onclick="editSongsAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band_id }}-{{ song.id }}')">{{ song.title }}</button>
+                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-{{ song.id }}" onclick="editSongsAction(id, '{{ band.id }}', 'song-edit-form-{{ band_id }}-{{ song.id }}')">{{ song.title }}</button>
                                 {% endfor %}
                                 {% if songs|length < 3 %}
-                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-0" onclick="editSongsAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'song-edit-form-{{ band.id }}-0')">nowy utwór</button>
+                                    <button class="btn-edit-band-choice" id="dropdown-songs-content-{{ band.id }}-0" onclick="editSongsAction(id, '{{ band.id }}', 'song-edit-form-{{ band.id }}-0')">nowy utwór</button>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
                     </div>
                 </div>
 <!--Button: privileges-->
-                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editPrivilegesAction(id, 'btn-edit-{{ band.id }}', 'dropdown-edit-content-{{ band.id }}', 'privileges-manage-form-{{ band.id }}')">uprawnienia</button><br></div>
+                <button class="btn-edit-band-choice" id="btn-edit-choice-{{ band.id }}-uprawnienia" onclick="editSthAction(id, '{{ band.id }}', 'privileges-manage-form-{{ band.id }}')">uprawnienia</button><br></div>
         </div>
     </div>
     {% endfor %}

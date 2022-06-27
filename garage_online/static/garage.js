@@ -62,16 +62,14 @@ function changeEditBtnName(choiceBtnId, editBtnId, dropdownId) {
     buttonEdit.innerText = textOfChoice;
 }
 
-function editBandAction(choiceBtnId, editBtnId, dropdownId, formId) {
+function editSthAction(choiceBtnId, bandId, formId) {
     hideAllForms();
-    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
+    changeEditBtnName(choiceBtnId, `btn-edit-${bandId}`, `dropdown-edit-content-${bandId}`);
     document.getElementById(formId).style.display = 'block';
 }
 
-function editSongsAction(choiceBtnId, editBtnId, dropdownId, formId) {
-    hideAllForms();
-    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
-    document.getElementById(formId).style.display = 'block';
+function editSongsAction(choiceBtnId, bandId, formId) {
+    editSthAction(choiceBtnId, bandId, formId)
 
     const deleteForms = document.getElementsByClassName("songDeleteFormClass");
 
@@ -80,24 +78,6 @@ function editSongsAction(choiceBtnId, editBtnId, dropdownId, formId) {
             deleteForms[i].style.display = "none";
         }
     }
-}
-
-function editPrivilegesAction(choiceBtnId, editBtnId, dropdownId, formId) {
-    hideAllForms();
-    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
-    document.getElementById(formId).style.display = 'block';
-}
-
-function editLinksAction(choiceBtnId, editBtnId, dropdownId, formId) {
-    hideAllForms();
-    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
-    document.getElementById(formId).style.display = 'block';
-}
-
-function editMainSongAction(choiceBtnId, editBtnId, dropdownId, formId) {
-    hideAllForms();
-    changeEditBtnName(choiceBtnId, editBtnId, dropdownId);
-    document.getElementById(formId).style.display = 'block';
 }
 
 function newBandAction(newBandForm) {
