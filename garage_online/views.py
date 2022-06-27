@@ -107,7 +107,6 @@ def parse_filters(request):
     }
 
     for name in request:
-        print(request[name], name)
         try:
             group_id, filter_id = request[name].split('-')
             if group_id in list(split_filters):
@@ -119,7 +118,6 @@ def parse_filters(request):
 
 
 def use_filters(bands, split_filters):
-    print(split_filters)
     active = set()
     not_active = set()
     with_songs = set()
@@ -207,8 +205,9 @@ def use_searching(bands, split_filters, phrase):
                 if phrase in song.title.lower():
                     searched_bands.add(band)
         if 'tag' in split_filters['searchFields']:
-            if phrase in band.tags.lower():
-                searched_bands.add(band)
+            if band.tags:
+                if phrase in band.tags.lower():
+                    searched_bands.add(band)
         if 'city' in split_filters['searchFields']:
             if phrase in band.city.lower():
                 searched_bands.add(band)
@@ -217,6 +216,8 @@ def use_searching(bands, split_filters, phrase):
 
 
 def use_sorting(bands, split_filters):
+    sorted_bands = []
+
     if len(split_filters['sortRadios']) == 0:
         sorted_bands = sorted(bands, key=lambda band: time.mktime(datetime.datetime.strptime(str(band.add_2db_date), "%Y-%m-%d").timetuple()), reverse=True)
     elif split_filters['sortRadios'][0] == 'newest':
@@ -248,6 +249,7 @@ def all_bands(request):
     if request.method == 'GET':
         pass
     elif request.method == 'POST':
+        print(request.POST)
         if 'set_filters' in request.POST:
             phrase = request.POST['search-place-canvas'].lower()
             bands = use_combined_filters(bands, split_filters, phrase)
