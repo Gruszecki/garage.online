@@ -23,7 +23,7 @@ class Band(models.Model):
     short_desc = models.TextField(max_length=150, null=False, blank=False)
     long_desc = models.TextField(null=False, blank=False)
     genre = models.PositiveSmallIntegerField(choices=choices.get_genres(), default=0)
-    image = models.ImageField(upload_to='', null=False, blank=False)
+    image = models.ImageField(upload_to='bands_photos', null=False, blank=False)
     country = models.CharField(max_length=2, choices=choices.get_countries(), default='PL')
     city = models.CharField(max_length=50, null=False, blank=False)
     is_active = models.BooleanField(default=True)
