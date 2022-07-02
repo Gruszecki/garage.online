@@ -27,4 +27,5 @@ urlpatterns = [
     path('user/bands', views.user_bands, name='user_bands'),
     path('settings', views.user_settings, name='user_settings'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+    # path('settings/style', view.global_color_set, name='global_color_set'),
 ]

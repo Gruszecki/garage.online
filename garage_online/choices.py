@@ -2,6 +2,17 @@ from country_list import countries_for_language
 import pycountry
 
 
+def get_default_colors():
+    primary_color = '#fcba03'
+    text_color = '#ffffff'
+    background_color = '#000000'
+
+    return [{
+        'primary_color': primary_color,
+        'text_color': text_color,
+        'background_color': background_color
+    }]
+
 def get_filters():
     # Keys cannot have dashes (-) in names because later they will be split by dashes
 

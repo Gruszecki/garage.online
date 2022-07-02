@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Band, Song, SocialLink
+from .models import Band, Song, SocialLink, GlobalColorSet
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -24,4 +24,10 @@ class SongForm(forms.ModelForm):
 class SocialLinkForm(forms.ModelForm):
     class Meta:
         model = SocialLink
-        fields  =['band_site', 'facebook', 'bandcamp', 'spotify', 'youtube', 'soundcloud', 'itunes', 'instagram']
+        fields  = ['band_site', 'facebook', 'bandcamp', 'spotify', 'youtube', 'soundcloud', 'itunes', 'instagram']
+
+
+class GlobalColorSetForm(forms.ModelForm):
+    class Meta:
+        model = GlobalColorSet
+        fields = ['primary_color', 'text_color', 'background_color']

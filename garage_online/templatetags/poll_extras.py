@@ -1,12 +1,20 @@
-from garage_online.choices import get_genres
 from django import template
+from garage_online.models import GlobalColorSet
+from garage_online.choices import get_default_colors
 
 register = template.Library()
 
 
-@register.inclusion_tag('results.html')
-def genres():
-    return {'genres': get_genres()}
+@register.inclusion_tag('global_colors.html', takes_context=True)
+def get_global_colors(context):
+    if context.request.user.is_authenticated:
+        global_colors = GlobalColorSet.objects.filter(user=context.request.user)
+        if global_colors:
+            pass
+        else:
+            global_colors = get_default_colors()
+    else:
+        global_colors = get_default_colors()
 
-# mydata = Members.objects.filter(firstname='Emil').values() | Members.objects.filter(firstname='Tobias').values()
-# plus do tego jeszcze set
+    return {'global_colors': global_colors}
+

@@ -1,3 +1,4 @@
+let root = document.documentElement;
 var filterButtons = document.getElementsByClassName("filter-button");
 
 for (const i of Array(filterButtons.length).keys()) {

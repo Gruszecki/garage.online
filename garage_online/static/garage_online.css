@@ -1,10 +1,11 @@
 :root {
 /*  --primary-color: #fcba03;  */
-    --primary-color: #33bacc;
+/*     --primary-color: #33bacc;
     --background-color: #000000;
+    --text-color: #ffffff;  */
     --background-medium-color: #202020;
     --background-light-color: #505050;
-    --text-color: #ffffff;
+
 
     --primary-width: 300px;
     --medium-width: 450px;
@@ -15,7 +16,7 @@
 
 body {
     padding: 2rem;
-    background-color: black;
+    background-color: var(--background-color);
     color: var(--text-color);
     margin-bottom: 75px;
 }
@@ -473,9 +474,14 @@ a.active {
 
 #btn-offcanvas {
     color: var(--background-color);
-    background-color:
-    var(--primary-color);
+    background-color: var(--primary-color);
     border: none;
+}
+
+.filter-button {
+    color: var(--primary-color);
+    background-color: var(--background-color);
+    border: 2px solid var(--primary-color);
 }
 
 /* Audio player */

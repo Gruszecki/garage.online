@@ -14,8 +14,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework import viewsets
 
 from .choices import get_filters
-from .forms import BandForm, SongForm, CustomUserCreationForm, SocialLinkForm
-from .models import Band, Song, SocialLink
+from .forms import BandForm, SongForm, CustomUserCreationForm, SocialLinkForm, GlobalColorSetForm
+from .models import Band, Song, SocialLink, GlobalColorSet
 from .serializers import BandSerializer, SongSerializer
 from .tokens import account_activation_token
 
@@ -51,6 +51,10 @@ def register(request):
                 user = form.save(commit=False)
                 user.is_active = False
                 user.save()
+
+                global_color_set = GlobalColorSet()
+                global_color_set.user = user
+                global_color_set.save()
 
                 current_site = get_current_site(request)
                 mail_subject = 'Aktywacja konta w Garażu'
