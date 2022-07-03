@@ -3,4 +3,4 @@ gunicorn
 psycopg2
 cloudinary
 django-cloudinary-storage
-decouple
+python-decouple
