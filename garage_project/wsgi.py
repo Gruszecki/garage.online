@@ -8,10 +8,8 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 """
 
 import os
-from dj_static import Cling
-
 from django.core.wsgi import get_wsgi_application
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'garage_project.settings')
 
+from dj_static import Cling
 application = Cling(get_wsgi_application())
