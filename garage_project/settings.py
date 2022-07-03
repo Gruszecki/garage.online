@@ -139,7 +139,7 @@ LOGIN_REDIRECT_URL = 'all_bands'
 LOGOUT_REDIRECT_URL = 'all_bands'
 
 # Media
-MEDIA_URL = 'https://github.com/Gruszecki/garage.online/tree/master/media/'
+MEDIA_URL = 'https://github.com/Gruszecki/garage.online/tree/master/'
 MEDIA_ROOT = 'media'
 
 # Email
