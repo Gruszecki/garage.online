@@ -43,8 +43,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrapform',
-    'rest_framework'
+    'rest_framework',
+    'cloudinary_storage',
+    'cloudinary',
 ]
+
+CLOUDINARY_STORAGE = {
+             'CLOUD_NAME': config('CLOUD_NAME'),
+             'API_KEY': config('API_KEY'),
+             'API_SECRET': config('API_SECRET')
+            }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -139,8 +147,10 @@ LOGIN_REDIRECT_URL = 'all_bands'
 LOGOUT_REDIRECT_URL = 'all_bands'
 
 # Media
-MEDIA_URL = 'https://github.com/Gruszecki/garage.online/tree/master/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
