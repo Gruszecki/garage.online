@@ -44,15 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrapform',
     'rest_framework',
-    'cloudinary_storage',
-    'cloudinary',
+    'storages'
 ]
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hnbdgsiwf',
-    'API_KEY': '291345379176121',
-    'API_SECRET': 'tclx0HmKPDyqHBCsPrpgbNN--X4'
-}
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -148,6 +148,7 @@ LOGOUT_REDIRECT_URL = 'all_bands'
 
 # Media
 MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media'
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
