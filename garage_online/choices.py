@@ -3,14 +3,18 @@ import pycountry
 
 
 def get_default_colors():
-    primary_color = '#fcba03'
+    primary_color = '#b5a578'
     text_color = '#ffffff'
     background_color = '#000000'
+    background_medium_color = '#202020'
+    background_light_color = '#505050'
 
     return [{
         'primary_color': primary_color,
         'text_color': text_color,
-        'background_color': background_color
+        'background_color': background_color,
+        'background_medium_color': background_medium_color,
+        'background_light_color': background_light_color
     }]
 
 def get_filters():

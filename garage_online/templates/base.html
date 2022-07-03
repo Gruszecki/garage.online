@@ -16,10 +16,12 @@
     <script src="{% static 'garage.js' %}"></script>
 
     <script>
-        [primary_color, text_color, background_color] = [{% get_global_colors %}];
+        [primary_color, text_color, background_color, background_medium_color, background_light_color] = [{% get_global_colors %}];
         root.style.setProperty('--primary-color', primary_color);
         root.style.setProperty('--text-color', text_color);
         root.style.setProperty('--background-color', background_color);
+        root.style.setProperty('--background-medium-color', background_medium_color);
+        root.style.setProperty('--background-light-color', background_light_color);
     </script>
 
     {% if messages %}

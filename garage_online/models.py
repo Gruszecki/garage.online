@@ -62,4 +62,5 @@ class GlobalColorSet(models.Model):
     primary_color = models.CharField(max_length=7, null=False, blank=False, default='#fcba03')
     text_color = models.CharField(max_length=7, null=False, blank=False, default='#ffffff')
     background_color = models.CharField(max_length=7, null=False, blank=False, default='#000000')
-
+    background_medium_color = models.CharField(max_length=7, null=False, blank=False, default='#202020')
+    background_light_color = models.CharField(max_length=7, null=False, blank=False, default='#505050')

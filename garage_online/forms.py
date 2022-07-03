@@ -30,4 +30,4 @@ class SocialLinkForm(forms.ModelForm):
 class GlobalColorSetForm(forms.ModelForm):
     class Meta:
         model = GlobalColorSet
-        fields = ['primary_color', 'text_color', 'background_color']
+        fields = ['primary_color', 'text_color', 'background_color', 'user']

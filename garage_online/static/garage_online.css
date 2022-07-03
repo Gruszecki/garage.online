@@ -2,9 +2,9 @@
 /*  --primary-color: #fcba03;  */
 /*     --primary-color: #33bacc;
     --background-color: #000000;
-    --text-color: #ffffff;  */
+    --text-color: #ffffff;
     --background-medium-color: #202020;
-    --background-light-color: #505050;
+    --background-light-color: #505050;  */
 
 
     --primary-width: 300px;
@@ -373,7 +373,7 @@ a.active {
     width: 100%
 }
 
-#btn-change-password {
+.btn-standard {
     width: 20%;
     background-color: var(--primary-color);
     color: var(--background-color);
@@ -381,6 +381,16 @@ a.active {
     padding: 5px 28px;
     font-size: 16px;
 }
+
+.btn-standard-invert {
+    width: 20%;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 5px 28px;
+    font-size: 16px;
+}
+
 
 /* Footer */
 .footer {

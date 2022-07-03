@@ -128,3 +128,38 @@ function copySearchInput() {
 
     canvasInput.value = mainInput.value;
 }
+
+window.addEventListener("load", startup_color_pickers, false);
+function startup_color_pickers() {
+    var primary_color = document.getElementById("primary_color_picker");
+    var text_color = document.getElementById("text_color_picker");
+    var background_color = document.getElementById("background_color_picker");
+    var background_medium_color = document.getElementById("background_medium_color_picker");
+    var background_light_color = document.getElementById("background_light_color_picker");
+
+    primary_color.addEventListener("input", changeColorSetPrimary, false);
+    text_color.addEventListener("input", changeColorSetText, false);
+    background_color.addEventListener("input", changeColorSetBackground, false);
+    background_medium_color.addEventListener("input", changeColorSetBackgroundMedium, false);
+    background_light_color.addEventListener("input", changeColorSetBackgroundLight, false);
+}
+
+function changeColorSetPrimary(event) {
+    root.style.setProperty('--primary-color', event.target.value);
+}
+
+function changeColorSetText(event) {
+    root.style.setProperty('--text-color', event.target.value);
+}
+
+function changeColorSetBackground(event) {
+    root.style.setProperty('--background-color', event.target.value);
+}
+
+function changeColorSetBackgroundMedium(event) {
+    root.style.setProperty('--background-medium-color', event.target.value);
+}
+
+function changeColorSetBackgroundLight(event) {
+    root.style.setProperty('--background-light-color', event.target.value);
+}

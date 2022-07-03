@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% load static %}
+
+{% block title %}Garage | ustawienia{% endblock %}
+
+{% block body %}
+
+
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-2">
+            Główny kolor
+        </div>
+        <div class="col-1">
+            <input type="color" id="primary_color_picker" name="primary_color_picker" value={{colors_set.0.primary_color}} >
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            Tekst
+        </div>
+        <div class="col-1">
+            <input type="color" id="text_color_picker" name="text_color_picker" value={{colors_set.0.text_color}}>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            Tło: strona
+        </div>
+        <div class="col-1">
+            <input type="color" id="background_color_picker" name="background_color_picker" value={{colors_set.0.background_color}} >
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            Tło: menu
+        </div>
+        <div class="col-1">
+            <input type="color" id="background_medium_color_picker" name="background_medium_color_picker" value={{colors_set.0.background_medium_color}} >
+        </div>
+        <div class="col">
+            <div class="dropdown-content" style="display: inline-block; width: 150px; pointer-events: none;">
+                <a href="{% url 'global_color_set' %}" >konto</a><br>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-2">
+            Tło: filtrowanie
+        </div>
+        <div class="col-1">
+            <input type="color" id="background_light_color_picker" name="background_light_color_picker" value={{colors_set.0.background_light_color}} >
+        </div>
+        <div class="col">
+            <button id="btn-filter" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas" onclick="copySearchInput()" style="display: inline-block; pointer-events: none;">
+                <i class="fa-solid fa-filter"></i>
+            </button>
+        </div>
+    </div>
+    <br><br>
+
+    <button type="submit" class="btn-standard" name="save-colors">zapisz</button><br>
+    <button type="submit" class="btn-standard-invert" name="reset-colors">resetuj</button><br>
+    <button type="submit" class="btn-standard-invert" name="default-colors">przywróć domyślne</button>
+</form>
+
+{% endblock %}

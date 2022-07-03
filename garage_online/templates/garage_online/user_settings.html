@@ -6,13 +6,17 @@
 
 {% block body %}
 
+Cześć {{ user.username }}!<br><br>
 <!--Button: change password-->
 <a href="{% url 'password_change' %}">
-    <button type="button" id="btn-change-password">Zmień hasło</button>
+    <button type="button" id="btn-change-password" class="btn-standard">zmień hasło</button>
 </a>
-
 <br><br>
-<!--TODO: Wybór koloru strony-->
+<!--Button: change colors-->
+<a href="{% url 'global_color_set' %}">
+    <button type="button" id="btn-global-color-change" class="btn-standard">dostosuj kolory</button>
+</a>
+<br><br>
 
 <br><br><hr style="border-top: 1px dashed">
 <form method="post">

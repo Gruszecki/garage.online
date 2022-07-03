@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from rest_framework import viewsets
 
-from .choices import get_filters
+from .choices import get_filters, get_default_colors
 from .forms import BandForm, SongForm, CustomUserCreationForm, SocialLinkForm, GlobalColorSetForm
 from .models import Band, Song, SocialLink, GlobalColorSet
 from .serializers import BandSerializer, SongSerializer
@@ -444,3 +444,43 @@ def user_settings(request):
                     return redirect(user_settings)
 
     return redirect(user_settings)
+
+
+@login_required
+def global_color_set(request):
+    colors_set = GlobalColorSet.objects.filter(user=request.user)
+
+    if not len(colors_set):
+        default_colors = get_default_colors()[0]
+        colors_set = GlobalColorSet()
+
+        colors_set.primary_color = default_colors['primary_color']
+        colors_set.text_color = default_colors['text_color']
+        colors_set.background_color = default_colors['background_color']
+        colors_set.user = request.user
+
+        colors_set.save()
+
+    if request.method == 'GET':
+        return render(request, 'garage_online/global_color_set.html', {'colors_set': colors_set})
+    elif request.method == 'POST':
+        if 'reset-colors' in request.POST:
+            pass
+        elif 'save-colors' in request.POST:
+            colors_set.update(primary_color=request.POST.get('primary_color_picker'))
+            colors_set.update(text_color=request.POST.get('text_color_picker'))
+            colors_set.update(background_color=request.POST.get('background_color_picker'))
+            colors_set.update(background_medium_color=request.POST.get('background_medium_color_picker'))
+            colors_set.update(background_light_color=request.POST.get('background_light_color_picker'))
+            colors_set[0].save()
+            messages.success(request, 'Zapisano pomyślnie.')
+        elif 'default-colors' in request.POST:
+            default_colors = get_default_colors()[0]
+            colors_set.update(primary_color=default_colors['primary_color'])
+            colors_set.update(text_color=default_colors['text_color'])
+            colors_set.update(background_color=default_colors['background_color'])
+            colors_set.update(background_medium_color=default_colors['background_medium_color'])
+            colors_set.update(background_light_color=default_colors['background_light_color'])
+            colors_set[0].save()
+
+        return render(request, 'garage_online/global_color_set.html', {'colors_set': colors_set})
