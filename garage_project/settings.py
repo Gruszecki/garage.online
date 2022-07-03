@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com', 'garageonline.herokuapp.com/*', 'https://garageonline.herokuapp.com/*']
+ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com']
 
 
 # Application definition
@@ -148,7 +148,6 @@ LOGOUT_REDIRECT_URL = 'all_bands'
 
 # Media
 MEDIA_URL = '/media/'
-MEDIA_ROOT = 'media'
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
