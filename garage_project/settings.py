@@ -150,8 +150,6 @@ LOGOUT_REDIRECT_URL = 'all_bands'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
