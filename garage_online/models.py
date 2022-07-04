@@ -38,10 +38,10 @@ class Band(models.Model):
     def save(self):
         super().save()
 
-        img = Image.open(self.image.path)
+        img = Image.open(self.image)
         new_size = (760, int(760*img.height/img.width))
         img.thumbnail(new_size)
-        img.save(self.image.path)
+        img.save(self.image)
 
 
 class Song(models.Model):
