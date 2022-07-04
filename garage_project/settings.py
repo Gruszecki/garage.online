@@ -148,7 +148,7 @@ LOGOUT_REDIRECT_URL = 'all_bands'
 
 # Media
 MEDIA_URL = '/media/'
-MEDIA_ROOT = 'media'
+# MEDIA_ROOT = 'media'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
