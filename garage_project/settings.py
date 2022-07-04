@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com']
+# ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com']
 
 
 # Application definition
@@ -53,6 +53,7 @@ AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -132,9 +133,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'garage_online/static')
-STATICFILES_DIRS = []
+STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'garage_online/static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# Media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -146,9 +151,6 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'all_bands'
 LOGOUT_REDIRECT_URL = 'all_bands'
 
-# Media
-MEDIA_URL = '/media/'
-# MEDIA_ROOT = 'media'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
