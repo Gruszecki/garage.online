@@ -12,7 +12,7 @@
     <div class="image-box-overlay">
 <!--Band image-->
         <img
-            src="/media/{{band.image}}"
+            src="{{band.image.url}}"
             class="band-photo-small"
             style="position: relative;"
             onmouseover="showIcons('icon play {{ band.id }}', 'icon info {{ band.id }}', 'image glass {{ band.id }}', 'name glass {{ band.id }}', 'description {{ band.id }}')"
@@ -42,7 +42,7 @@
                 {% if song.main_song %}
                     {% if song.band.id == band.id %}
                         style="cursor: pointer;"
-                        onclick="play('/media/{{ song.file }}')"
+                        onclick="play('{{ song.file.url }}')"
                     {% endif %}
                 {% endif %}
             {% endfor %}
@@ -95,7 +95,7 @@
                     <div class="row">
                         <div class="col-5">
                             <div align="center">
-                                <img src="/media/{{band.image}}" class="photo-band-info" style= onclick=""/>
+                                <img src="{{band.image.url}}" class="photo-band-info" style= onclick=""/>
                                 <br>
                                 <div class="social-links">
                                     {% if band.social_links.band_site|length %}
@@ -130,7 +130,7 @@
                                 {% if song.band.id == band.id %}
                                     <i
                                         class="fa-solid fa-circle-play fa-xl"
-                                        onclick="play('/media/{{ song.file }}')"
+                                        onclick="play('{{ song.file.url }}')"
                                         style="cursor: pointer;"
                                     ></i> {{ song.title }}<br>
                                 {% endif %}

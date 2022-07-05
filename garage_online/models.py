@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from garage_online import choices
-from PIL import Image
+from garage_online.utils import refactor_image, refactor_song_dir
 
 
 # Create your models here.
@@ -23,7 +23,7 @@ class Band(models.Model):
     short_desc = models.TextField(max_length=150, null=False, blank=False)
     long_desc = models.TextField(null=False, blank=False)
     genre = models.PositiveSmallIntegerField(choices=choices.get_genres(), default=0)
-    image = models.ImageField(upload_to='bands_photos', null=False, blank=False)
+    image = models.ImageField(upload_to='bands_photos', null=True, blank=False)
     country = models.CharField(max_length=2, choices=choices.get_countries(), default='PL')
     city = models.CharField(max_length=50, null=False, blank=False)
     is_active = models.BooleanField(default=True)
@@ -36,17 +36,18 @@ class Band(models.Model):
         return self.name
 
     def save(self):
+        image_holder = self.image
+        self.image = None
         super().save()
 
-        img = Image.open(self.image)
-        new_size = (760, int(760*img.height/img.width))
-        img.thumbnail(new_size)
-        img.save(self.image)
+        self.image = image_holder
+        refactor_image(self.image, self.name, self.id)
+        super().save()
 
 
 class Song(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False)
-    file = models.FileField(upload_to='songs', null=False, blank=False)
+    file = models.FileField(upload_to=refactor_song_dir, null=False, blank=False)
     has_lyrics = models.BooleanField(default=True)
     language = models.CharField(max_length=2, choices=choices.get_languages(), default='pl', null=True, blank=True)
     lyrics = models.TextField(null=True, blank=True)
