@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com']
+# ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com']
 
 
 # Application definition
@@ -153,11 +153,10 @@ LOGOUT_REDIRECT_URL = 'all_bands'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = config('GOOGLE_EMAIL')
-# EMAIL_HOST_PASSWORD = config('GOOGLE_KEY')
-EMAIL_HOST = os.environ['MAILGUN_SMTP_SERVER']
-EMAIL_HOST_USER = os.environ['MAILGUN_SMTP_LOGIN']
-EMAIL_HOST_PASSWORD = os.environ['MAILGUN_SMTP_PASSWORD']
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = config('MAILGUN_SMTP_LOGIN')
+EMAIL_HOST_PASSWORD = config('MAILGUN_SMTP_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+print(EMAIL_HOST)
