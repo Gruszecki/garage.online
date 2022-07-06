@@ -60,25 +60,25 @@ def test_user_register_form_invalid_passwords_dont_match():
     assert form.errors['password2'][0] == 'The two password fields didn’t match.'
 
 
-@pytest.mark.django_db
-def test_band_form_valid():
-    # Arrange
-    band = forms.BandForm({
-        'name': 'Nazwa',
-        'contact_email': 'test@gmail.com',
-        'show_contact-email': True,
-        'short_desc': 'Short',
-        'long_desc': 'Long',
-        'genre': 0,
-        'image': 'image.jpg',
-        'country': 'PL',
-        'city': 'Kraków',
-        'is_active': True,
-        'tags': 'tag, another tag'
-    })
-
-    # Action
-    result = band.is_valid()
-
-    # Assert
-    assert result
+# @pytest.mark.django_db
+# def test_band_form_valid():
+#     # Arrange
+#     band = forms.BandForm({
+#         'name': 'Nazwa',
+#         'contact_email': 'test@gmail.com',
+#         'show_contact-email': True,
+#         'short_desc': 'Short',
+#         'long_desc': 'Long',
+#         'genre': 0,
+#         'image': 'image.jpg',
+#         'country': 'PL',
+#         'city': 'Kraków',
+#         'is_active': True,
+#         'tags': 'tag, another tag'
+#     })
+#
+#     # Action
+#     result = band.is_valid()
+#
+#     # Assert
+#     assert result
