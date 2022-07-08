@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com']
+# ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com']
 
 
 # Application definition
@@ -158,3 +158,4 @@ EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
