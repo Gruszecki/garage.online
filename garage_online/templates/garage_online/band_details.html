@@ -45,7 +45,7 @@
                     {% if song.band.id == band.id %}
                         <i
                             class="fa-solid fa-circle-play fa-xl"
-                            onclick="play('/media/{{ song.file }}')"
+                            onclick="play('{{ song.file.url }}')"
                             style="cursor: pointer;"
                         ></i> {{ song.title }}<br>
                     {% endif %}
