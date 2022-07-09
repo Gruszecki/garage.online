@@ -43,4 +43,4 @@ def refactor_image(image, band_name, band_id):
 
 
 def refactor_song_dir(instance, filename):
-    return f'songs/{instance.band.id}_{instance.band.name}_-_{filename}'
+    return f'songs/{instance.band.id}_{instance.band.name}_-_{instance.title}'
