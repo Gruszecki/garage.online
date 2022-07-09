@@ -48,9 +48,9 @@ def register(request):
         if form.is_valid():
             user_email = form.cleaned_data.get('email')
             if not User.objects.filter(email=user_email):
-                user = form.save(commit=False)
-                user.is_active = True
-                user.save()
+                user = form.save(commit=True)
+                # user.is_active = False
+                # user.save()
 
                 global_color_set = GlobalColorSet()
                 global_color_set.user = user
