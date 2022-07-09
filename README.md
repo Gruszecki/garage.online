@@ -23,6 +23,7 @@ Functionalities:
 <br>
 
 TODO (random order):
+* layout for phones
 * playlists
 * favorites
 * custom player design
