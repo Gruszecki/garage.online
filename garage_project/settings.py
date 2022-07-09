@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com']
+ALLOWED_HOSTS = ['https://garageonline.herokuapp.com/', 'garageonline.herokuapp.com', 'garageonline.pl']
 
 
 # Application definition
