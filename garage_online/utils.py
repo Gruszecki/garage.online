@@ -1,9 +1,12 @@
 import os
+import time
+import datetime
 
 from django.core.files import File
 from pathlib import Path
 from PIL import Image
 from io import BytesIO
+
 
 image_types = {
     "jpg": "JPEG",

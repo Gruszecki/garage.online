@@ -20,9 +20,6 @@ from .serializers import BandSerializer, SongSerializer
 from .tokens import account_activation_token
 from .utils import parse_filters, use_filters, use_searching, use_sorting, use_combined_filters, lyrics_validation
 
-import time
-import datetime
-
 
 # ViewSets
 class BandViewSet(viewsets.ModelViewSet):
