@@ -59,9 +59,11 @@ class Song(models.Model):
 
 
 class GlobalColorSet(models.Model):
+    color_set = choices.get_default_colors()
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    primary_color = models.CharField(max_length=7, null=False, blank=False, default='#fcba03')
-    text_color = models.CharField(max_length=7, null=False, blank=False, default='#ffffff')
-    background_color = models.CharField(max_length=7, null=False, blank=False, default='#000000')
-    background_medium_color = models.CharField(max_length=7, null=False, blank=False, default='#202020')
-    background_light_color = models.CharField(max_length=7, null=False, blank=False, default='#505050')
+    primary_color = models.CharField(max_length=7, null=False, blank=False, default=color_set[0]['primary_color'])
+    text_color = models.CharField(max_length=7, null=False, blank=False, default=color_set[0]['text_color'])
+    background_color = models.CharField(max_length=7, null=False, blank=False, default=color_set[0]['background_color'])
+    background_medium_color = models.CharField(max_length=7, null=False, blank=False, default=color_set[0]['background_medium_color'])
+    background_light_color = models.CharField(max_length=7, null=False, blank=False, default=color_set[0]['background_light_color'])
