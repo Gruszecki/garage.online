@@ -63,6 +63,8 @@ def test_user_register_form_invalid_passwords_dont_match():
 # @pytest.mark.django_db
 # def test_band_form_valid():
 #     # Arrange
+#     user = User.objects.create(username='wojciech.gruszecki')
+#
 #     band = forms.BandForm({
 #         'name': 'Nazwa',
 #         'contact_email': 'test@gmail.com',
@@ -74,7 +76,8 @@ def test_user_register_form_invalid_passwords_dont_match():
 #         'country': 'PL',
 #         'city': 'Kraków',
 #         'is_active': True,
-#         'tags': 'tag, another tag'
+#         'tags': 'tag, another tag',
+#         'user': user
 #     })
 #
 #     # Action
