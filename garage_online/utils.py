@@ -7,6 +7,8 @@ from pathlib import Path
 from PIL import Image
 from io import BytesIO
 
+from .models import Band, Song, SocialLink, GlobalColorSet
+
 
 image_types = {
     "jpg": "JPEG",
