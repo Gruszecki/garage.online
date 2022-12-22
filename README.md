@@ -1,7 +1,7 @@
 # garageonline
 
 The application is available at:
-### https://garageonline.herokuapp.com/
+### ***
 <br>
 The app is destined for gathering not experienced yet bands to give them opportunity to show their music to public.
 
