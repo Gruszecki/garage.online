@@ -102,9 +102,6 @@ def band_details(request, id, name):
     return render(request, 'garage_online/band_details.html', {'band': band, 'songs': songs, 'links': links})
 
 
-
-
-
 def all_bands(request):
     bands = Band.objects.all()
     songs = Song.objects.all()
